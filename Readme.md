@@ -1,4 +1,4 @@
-# Alma OS 0.1
+# Alma OS α
 
 Alma OS is based on x64BareBones wich is a basic setup to develop operating systems for the Intel 64 bits architecture.
 
