@@ -18,6 +18,7 @@ Please read "Manual de Usuario.pdf" for the usage manual and "Informe.pdf" for m
 `make all`
 
 3) Clean & Build the Toolchain. From the project's directory main run: 
+
 `make all`
 
 4) Run the kernel. From the project's directory main run:
