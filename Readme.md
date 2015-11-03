@@ -6,28 +6,35 @@ The final goal of x64BareBones's project is to provide an entry point for a kern
 
 Please read "Manual de Usuario.pdf" for the usage manual and "Informe.pdf" for more information about KI.
 
-## Environment setup: 
-1) Install the following packages before building the Toolchain and Kernel:
+## Requisites
+
+### General
+
+This project needs the following packages:
 
 `nasm qemu gcc make`
 
-2) Build the Toolchain by executing the following commands on the x64BareBones project directory:
+### Mac OS
 
-`cd Toolchain`
+1) Install QEMU
 
-`make all`
+`brew install qemu`
 
-3) Clean & Build the Toolchain. From the project's directory main run: 
+2) Optional: Install NASM
 
-`make all`
+`brew install nasm`
 
-4) Run the kernel. From the project's directory main run:
+2) Optional: Install the newest version of MAKE
 
-`./run.sh`
+`brew install make`
 
-or simply run (cleans, makes all, and runs):
+## Usage
+
+From the project's directory run:
 
 `make run`
+
+Makes Toolchain, cleans everything, makes all, and runs
 
 ## Credits: 
 - x64BareBones (base project): 
