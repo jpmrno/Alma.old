@@ -39,12 +39,11 @@ SYS_GCC = gcc
 
 ifeq ($(shell uname), Darwin)
 	# Mac OS
-	CC_PATH = /Users/juanm/Coding/git/KI/CrossCompiler
   GCC = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-gcc
   GPP = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-g++
   LD = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-ld
   AR = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-ar
-	ifneq (, $(shell nasm -v | grep "[0][.][9]]"))
+	ifneq (, $(shell nasm -v | grep "[0][.][9]]")) #TODO: CHECK!
     ASM = $(CC_PATH)/nasm-2.10.07/nasm
 	else
 		ASM = nasm

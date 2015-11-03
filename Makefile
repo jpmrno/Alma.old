@@ -1,3 +1,5 @@
+export CC_PATH=$(PWD)/CrossCompiler
+
 include Makevars
 
 IMAGE = $(IMAGE_PATH)/$(SO_NAME).qcow2
@@ -21,7 +23,9 @@ $(USERLAND_PATH):
 $(IMAGE_PATH): $(TOOLCHAIN_PATH) $(BOOTLOADER_PATH) $(KERNEL_PATH) $(USERLAND_PATH)
 	$(MAKE) -C $(IMAGE_PATH) all
 
-clean:
+clean: cleanall
+
+cleanall:
 	$(MAKE) -C $(TOOLCHAIN_PATH) clean
 	$(MAKE) -C $(BOOTLOADER_PATH) clean
 	$(MAKE) -C $(KERNEL_PATH) clean
@@ -31,4 +35,4 @@ clean:
 run: clean all
 	$(QEMU) $(QEMU_FLAGS)
 
-.PHONY: $(TOOLCHAIN_PATH) $(BOOTLOADER_PATH) $(KERNEL_PATH) $(USERLAND_PATH) $(IMAGE_PATH) all clean
+.PHONY: $(TOOLCHAIN_PATH) $(BOOTLOADER_PATH) $(KERNEL_PATH) $(USERLAND_PATH) $(IMAGE_PATH) all cleanall clean
