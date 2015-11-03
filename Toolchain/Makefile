@@ -1,9 +1,11 @@
-all: modulePacker
+include ../Makevars
 
-modulePacker:
-	cd ModulePacker; make all
+DIRS = ModulePacker
+
+all:
+	$(foreach DIR, $(DIRS), $(MAKE) -C $(DIR) all;)
 
 clean:
-	cd ModulePacker; make clean
+	$(foreach DIR, $(DIRS), $(MAKE) -C $(DIR) clean;)
 
-.PHONY: modulePacker all clean
+.PHONY: all clean

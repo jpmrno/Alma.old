@@ -1,34 +1,42 @@
-include Makefile.inc
+include ../Makevars
 
-KERNEL=kernel.bin
-SRC=src
-DRIVERS=src/drivers
-SOURCES=$(wildcard *.c & $(SRC)/*.c & $(DRIVERS)/*.c)
-SOURCES_ASM=$(wildcard asm/*.asm)
-OBJECTS=$(SOURCES:.c=.o)
-OBJECTS_ASM=$(SOURCES_ASM:.asm=.o)
-LOADERSRC=loader.asm
+SRC_C = src
+SRC_DRIVERS = $(SRC_C)/drivers
+SRC_ASM = asm
+SRC_HEADERS = include
+DIRS = $(SRC_C) $(SRC_DRIVERS) $(SRC_ASM)
 
-LOADEROBJECT=$(LOADERSRC:.asm=.o)
-STATICLIBS=
+SOURCES_C = $(wildcard *.c & $(SRC_C)/*.c & $(SRC_DRIVERS)/*.c)
+SOURCES_ASM = $(wildcard $(SRC_ASM)/*.asm)
+SRC_LOADER = loader.asm
 
-all: clean $(KERNEL)
+OBJECTS_C = $(SOURCES_C:.c=.o)
+OBJECTS_ASM = $(SOURCES_ASM:.asm=.o)
+OBJECT_LOADER = $(SRC_LOADER:.asm=.o)
 
-$(KERNEL): $(LOADEROBJECT) $(OBJECTS) $(STATICLIBS) $(OBJECTS_ASM)
-	$(LD) $(LDFLAGS) -T kernel.ld -o $(KERNEL) $(LOADEROBJECT) $(OBJECTS) $(OBJECTS_ASM) $(STATICLIBS)
+STATICLIBS =
+
+GCC_FLAGS = -Wall -Wextra -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -Wall -ffreestanding -nostdlib -fno-common -std=c99
+#AR_FLAGS = rvs # ¿¿¿¿????
+ASM_FLAGS = -felf64
+LD_FLAGS = --warn-common -z max-page-size=0x1000
+
+all: $(KERNEL_NAME)
+
+$(KERNEL_NAME): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM) $(STATICLIBS)
+	$(LD) $(LD_FLAGS) -T kernel.ld -o $(KERNEL_NAME) $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM) $(STATICLIBS)
 
 %.o: %.c
-	$(GCC) $(GCCFLAGS) -I./include -c $< -o $@
+	$(GCC) $(GCC_FLAGS) -I $(SRC_HEADERS) -c $< -o $@
 
-%.o : %.asm
-	$(ASM) $(ASMFLAGS) $< -o $@
+%.o: %.asm
+	$(ASM) $(ASM_FLAGS) $< -o $@
 
-$(LOADEROBJECT):
-	$(ASM) $(ASMFLAGS) $(LOADERSRC) -o $(LOADEROBJECT)
+$(OBJECT_LOADER):
+	$(ASM) $(ASM_FLAGS) $(SRC_LOADER) -o $(OBJECT_LOADER)
 
 clean:
-	rm -rf asm/*.o *.o *.bin
-	rm -rf $(SRC)/*.o *.o *.bin
-	rm -rf $(DRIVERS)/*.o *.o *.bin
+	$(foreach DIR, $(DIRS), rm -rf $(DIR)/*.o;)
+	rm -rf *.o $(KERNEL_NAME)
 
 .PHONY: all clean

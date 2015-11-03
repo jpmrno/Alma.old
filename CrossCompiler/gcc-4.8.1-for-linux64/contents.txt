@@ -1,0 +1,25 @@
+The compiled-headers-glibc-linux64.tar.gz package has been build on linux
+uname -m:  x86_64
+uname -r:  3.2.0-51-generic
+uname -s:  Linux
+uname -v:  #77-Ubuntu SMP Wed Jul 24 20:18:19 UTC 2013
+gcc --version:  gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3 Copyright © 2011 Free Software Foundation, Inc. Ce logiciel est libre; voir les sources pour les conditions de copie. Il n'y a PAS GARANTIE; ni implicite pour le MARCHANDAGE ou pour un BUT PARTICULIER.
+It contains the following packages:
+  Linux headers from linux-3.0.28
+  glibc-2.14
+
+Cross-compilation on Mac OS X
+uname -m:  x86_64
+uname -r:  11.4.2
+uname -s:  Darwin
+uname -v:  Darwin Kernel Version 11.4.2: Thu Aug 23 16:25:48 PDT 2012; root:xnu-1699.32.7~1/RELEASE_X86_64
+sysctl -n hw.ncpu:  8
+sysctl -n machdep.cpu.brand_string:  Intel(R) Core(TM) i7 CPU 870 @ 2.93GHz
+gcc --version:  i686-apple-darwin11-llvm-gcc-4.2 (GCC) 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2336.9.00) Copyright (C) 2007 Free Software Foundation, Inc. This is free software; see the source for copying conditions. There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+The following packages have been cross-compiled:
+  binutils-2.23.2
+  gcc-4.8.1 (C and C++ compilers)
+
+Tool invocation
+C Compiler invocation:   /usr/local/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-gcc
+C++ Compiler invocation: /usr/local/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-g++

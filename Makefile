@@ -1,25 +1,34 @@
+include Makevars
 
-all:  bootloader kernel userland image
+IMAGE = $(IMAGE_PATH)/$(SO_NAME).qcow2
+QEMU = qemu-system-x86_64
+QEMU_FLAGS = -hda $(IMAGE) -m 512
 
-bootloader:
-	cd Bootloader; make all
+all: $(TOOLCHAIN_PATH) $(BOOTLOADER_PATH) $(KERNEL_PATH) $(USERLAND_PATH) $(IMAGE_PATH)
 
-kernel:
-	cd Kernel; make all
+$(TOOLCHAIN_PATH):
+	$(MAKE) -C $(TOOLCHAIN_PATH) all
 
-userland:
-	cd Userland; make all
+$(BOOTLOADER_PATH):
+	$(MAKE) -C $(BOOTLOADER_PATH) all
 
-image: kernel bootloader userland
-	cd Image; make all
+$(KERNEL_PATH):
+	$(MAKE) -C $(KERNEL_PATH) all
+
+$(USERLAND_PATH):
+	$(MAKE) -C $(USERLAND_PATH) all
+
+$(IMAGE_PATH): $(TOOLCHAIN_PATH) $(BOOTLOADER_PATH) $(KERNEL_PATH) $(USERLAND_PATH)
+	$(MAKE) -C $(IMAGE_PATH) all
 
 clean:
-	cd Bootloader; make clean
-	cd Image; make clean
-	cd Kernel; make clean
-	cd Userland; make clean
+	$(MAKE) -C $(TOOLCHAIN_PATH) clean
+	$(MAKE) -C $(BOOTLOADER_PATH) clean
+	$(MAKE) -C $(KERNEL_PATH) clean
+	$(MAKE) -C $(USERLAND_PATH) clean
+	$(MAKE) -C $(IMAGE_PATH) clean
 
 run: clean all
-	qemu-system-x86_64 -hda Image/x64BareBonesImage.qcow2 -m 512
+	$(QEMU) $(QEMU_FLAGS)
 
-.PHONY: bootloader image collections kernel userland all clean
+.PHONY: $(TOOLCHAIN_PATH) $(BOOTLOADER_PATH) $(KERNEL_PATH) $(USERLAND_PATH) $(IMAGE_PATH) all clean

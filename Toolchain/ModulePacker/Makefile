@@ -1,12 +1,13 @@
-MP=mp.bin
-SOURCES=$(wildcard *.c)
+include ../../Makevars
 
-all: $(MP)
+SOURCES = $(wildcard *.c)
 
-$(MP): $(SOURCES)
-	gcc $(SOURCES) -o $(MP)
+all: $(MODULE_PACKER_NAME)
+
+$(MODULE_PACKER_NAME): $(SOURCES)
+	$(SYS_GCC) $(SOURCES) -o ../$(MODULE_PACKER_NAME)
 
 clean:
-	rm -rf $(MP)
+	rm -f ../$(MODULE_PACKER_NAME)
 
 .PHONY: all clean

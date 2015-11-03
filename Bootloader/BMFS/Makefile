@@ -1,4 +1,9 @@
+include ../../Makevars
+
+GCC-FLAGS = -ansi -std=c99 -Wall -pedantic
+
 all:
-	gcc -ansi -std=c99 -Wall -pedantic -o bmfs.bin bmfs.c
+	$(SYS_GCC) $(GCC_FLAGS) bmfs.c -o ../$(FILESYSTEM_NAME)
+
 clean:
-	rm -f bmfs.bin
+	rm -f ../$(FILESYSTEM_NAME)

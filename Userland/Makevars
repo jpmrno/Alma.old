@@ -1,0 +1,6 @@
+MODULE_TYPE = bin
+
+GCC_FLAGS = -m64 -fno-exceptions -std=c99 -Wall -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc
+ASM_FLAGS = -felf64
+LD_FLAGS =
+#AR_FLAGS = rvs # ¿¿¿¿????

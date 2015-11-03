@@ -1,15 +1,11 @@
-include Makefile.inc
+include ../Makevars
 
-MODULE=shell
+MODULES = shell
 
-all: $(MODULE)
-
-$(MODULE):
-	cd $(MODULE); make
+all:
+	$(foreach MODULE, $(MODULES), $(MAKE) -C $(MODULE) all;)
 
 clean:
-	cd $(MODULE); make clean
-	rm -rf *.bin
+	$(foreach MODULE, $(MODULES), $(MAKE) -C $(MODULE) clean;)
 
-
-.PHONY: $(MODULE) all clean
+.PHONY: all clean

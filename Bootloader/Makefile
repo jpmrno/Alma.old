@@ -1,11 +1,11 @@
-all: bmfs pure64
+include ../Makevars
 
-bmfs:
-	cd BMFS; $(MAKE) all
-pure64:
-	cd Pure64; $(MAKE) all
+DIRS = BMFS Pure64
+
+all:
+	$(foreach DIR, $(DIRS), $(MAKE) -C $(DIR) all;)
+
 clean:
-	cd BMFS; $(MAKE) clean
-	cd Pure64; $(MAKE) clean
+	$(foreach DIR, $(DIRS), $(MAKE) -C $(DIR) clean;)
 
-.PHONY: all bmfs pure64 clean
+.PHONY: all clean

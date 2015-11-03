@@ -3,6 +3,23 @@
 Utility for accessing a disk or disk image formatted with BareMetal File System (BMFS).
 
 
+## Prerequisites
+
+GCC (C compiler) and Automake are required for building the BMFS disk utility.
+
+In Ubuntu this can be completed with the following command:
+
+	sudo apt-get install gcc automake
+
+
+## Building BMFS
+
+    autoreconf -fi
+    ./configure
+    make
+    sudo make install
+
+
 ## Creating a new, formatted disk image
 
     bmfs disk.image initialize 128M
@@ -33,12 +50,11 @@ In Linux/Unix/Mac OS X you can also format a physical drive by passing the corre
 Sample output:
 
 	C:\baremetal>utils\bmfs BMFS-256-flat.vmdk list
-	BMFS-256-flat.vmdk
 	Disk Size: 256 MiB
 	Name                            |            Size (B)|      Reserved (MiB)
 	==========================================================================
 	test.app                                           31                    2
-	Another file.app                                    1                    2
+	AnotherFile.app                                     1                    2
 	helloc.app                                        800                    2
 
 

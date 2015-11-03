@@ -1,0 +1,61 @@
+###### GENERAL ######
+SO_NAME = KI
+###### ^^^^^^^ ######
+
+###### BOOTLOADER ######
+BOOTLOADER_PATH = Bootloader
+FILESYSTEM_NAME = bmfs.bin
+FILESYSTEM_MBR_NAME = bmfs_mbr.sys
+BOOTLOADER_NAME = pure64.sys
+BOOTLOADER_PXESTART_NAME = pxestart.sys
+FILESYSTEM = $(BOOTLOADER_PATH)/$(FILESYSTEM_NAME)
+FILESYSTEM_MBR = $(BOOTLOADER_PATH)/$(FILESYSTEM_MBR_NAME)
+BOOTLOADER = $(BOOTLOADER_PATH)/$(BOOTLOADER_NAME)
+###### ^^^^^^^^^^ ######
+
+###### TOOLCHAIN ######
+TOOLCHAIN_PATH = Toolchain
+MODULE_PACKER_NAME = packer.bin
+MODULE_PACKER = $(TOOLCHAIN_PATH)/$(MODULE_PACKER_NAME)
+###### ^^^^^^^^^ ######
+
+###### KERNEL ######
+KERNEL_PATH = Kernel
+KERNEL_NAME = kernel.bin
+KERNEL_UNPACKED = $(KERNEL_PATH)/$(KERNEL_NAME)
+###### ^^^^^^ ######
+
+###### USERLAND ######
+USERLAND_PATH = Userland
+###### ^^^^^^^^ ######
+
+###### IMAGE ######
+IMAGE_PATH = Image
+###### ^^^^^ ######
+
+###### VARS ######
+SYS_GCC = gcc
+
+ifeq ($(shell uname), Darwin)
+	# Mac OS
+	CC_PATH = /Users/juanm/Downloads/KI/CrossCompiler
+  GCC = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-gcc
+  GPP = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-g++
+  LD = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-ld
+  AR = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-ar
+  ASM = nasm
+  ifeq (, $(shell which gmake))
+    MAKE = make
+  else
+    MAKE = gmake
+  endif
+else
+	# Linux
+  GCC = gcc
+  GPP =g++
+  LD = ld
+  AR = ar
+  ASM = nasm
+  MAKE =  make
+endif
+###### ^^^^ ######
