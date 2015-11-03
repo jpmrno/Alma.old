@@ -20,6 +20,6 @@ clean:
 	rm -rf *.sys
 	rm -f ../$(BOOTLOADER_PXESTART_NAME)
 	rm -f ../$(FILESYSTEM_MBR_NAME)
-	rm -f ../../$(BOOTLOADER_NAME)
+	rm -f ../$(BOOTLOADER_NAME)
 
 .PHONY: all clean
