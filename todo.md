@@ -11,7 +11,6 @@
 	- video_background_set(position, background)
 	- video_cursor_set(position)
 	- video_cursor_get()
-	- video_cursor_enabled(boolean)
 
 - Terminal:
 	- terminal_write(terminal, char)
@@ -22,17 +21,35 @@
 	- ... idem background
 	- referencia al struct terminal actual, verifica cuando se llama a sus funciones si es la actual tmb imprime en pantalla
 	- paginacion (cuantas lineas? doble de alto?)
+	- terminal_cursor_enabled(boolean)
+	- barra de titulo (arriba) / barra de info (abajo)
 
 - Terminal struct:
-	- cursor
+	- cursor_position
+	- cursor_enabled
 	- style (o color & background)
 	- screen[25][80]
 	- styles[25][80]
 
 - Manager:
-	- terminalStruct[]
+	- terminalStruct[NUMERO DE TERMINALES VIRTUALES]
 	- terminalActive (numero del vector)
-	- quien maneja el screensaver y el cambio de terminales
+	- maneja el screensaver y el cambio de terminales
+	- F1, F2, ..., FN para cambiar entre terminales
 
 - Lib
-	- write, print, etc con la terminal activa
+	- write, print, etc con la terminal activa (o terminal de systema a la #1?)
+
+- Screensaver customizable:
+	- clear pantalla, disable cursor, escribir texo y ver si loopea
+	- correr funciones? (me parece q no)
+
+- WALLOS o wallOS?
+
+- Sonido
+	- Musica al iniciar
+	- Teclado/piano
+
+- Compartir las librerias de C entre Kernel y User? O tener una para cada uno? O compartir algunas?
+
+- Makefile todas las subcarpetas de src de una, idem con asm y include
