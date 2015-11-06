@@ -47,6 +47,11 @@ int screensaver_time(int seconds)
 	return _int80((uint64_t) seconds, 0, 0, 0, 0, 0, SYS_SCREENSAVER_TIME);
 }
 
+int screensaver_set(int enabled, void (* action)(void), int seconds, int loop) 
+{
+	return _int80((uint64_t) enabled, (uint64_t) action, (uint64_t) seconds, (uint64_t) loop, 0, 0, SYS_SCREENSAVER);
+}
+
 // int screensaver_text(char * text)
 // {
 // 	return _int80((uint64_t) text, 0, 0, 0, 0, 0, SYS_SCREENSAVER_TEXT);

@@ -145,4 +145,10 @@ void setColor(uint8_t color);
  */
 void setBackground(uint8_t background);
 
+/**
+ * // TODO: 
+ * @param enabled [description]
+ */
+void showCursor(int enabled)
+
 #endif

@@ -123,7 +123,7 @@ _pic_master_mask:
 
     xor rax, rax ; To ensure rax register will be empty
     mov rax, rdi
-    out	21h,al
+    out	21h, al
 
     mov rsp, rbp
     pop rbp

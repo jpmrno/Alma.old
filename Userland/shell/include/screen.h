@@ -58,4 +58,6 @@ void enableScreenSaver();
  */
 void disableScreenSaver();
 
+int settScreenSaver(int enabled, void (* action)(void), int seconds, int loop);
+
 #endif

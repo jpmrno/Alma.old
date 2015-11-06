@@ -13,15 +13,15 @@ extern uint8_t endOfKernel;
 
 static const uint64_t PageSize = 0x1000;
 
-static void * const shellAddress = (void*)0x400000;
+static void * const shellAddress = (void *) 0x400000;
 
 typedef int (*EntryPoint)();
 
 void * getStackBase() {
-	return (void*)(
+	return (void *)(
 		(uint64_t)&endOfKernel
-		+ PageSize * 8				//The size of the stack itself, 32KiB
-		- sizeof(uint64_t)			//Begin at the top of the stack
+		+ PageSize * 8				// The size of the stack itself, 32KiB
+		- sizeof(uint64_t)			// Begin at the top of the stack
 	);
 }
 
@@ -56,25 +56,25 @@ int main() {
 	/*************************************************************************/
 	print("\tDisabling interrupts... ");
 	_cli();
-	_pic_master_mask((uint8_t)0xFF);
+	_pic_master_mask((uint8_t) 0xFF);
 	print("[Done]\n");
 
 	print("\tLoading drivers... \n");
 
 	print("\t\tLoading Timer Tick... ");
-	setup_IDT_entry(0x20,(qword)&_timer_tick_interrupt, ACS_INT);
+	setup_IDT_entry(0x20, (qword) &_timer_tick_interrupt, ACS_INT);
 	print("[Done]\n");
 
 	print("\t\tLoading Keyboard... ");
-	setup_IDT_entry(0x21,(qword)&_keyboard_interrupt, ACS_INT);
+	setup_IDT_entry(0x21, (qword) &_keyboard_interrupt, ACS_INT);
 	print("[Done]\n");
 
 	print("\t\tLoading Systemcall... ");
-	setup_IDT_entry(0x80,(qword)&_syscall_interrupt, ACS_INT);
+	setup_IDT_entry(0x80, (qword) &_syscall_interrupt, ACS_INT);
 	print("[Done]\n");
 	
 	print("\tEnabling interrupts... ");
-	_pic_master_mask((uint8_t)0xFC);
+	_pic_master_mask((uint8_t) 0xFC);
 	_sti();
 	print("[Done]\n\n");
 	/*************************************************************************/

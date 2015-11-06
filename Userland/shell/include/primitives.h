@@ -14,6 +14,8 @@ enum syscalls {
 	SYS_SCREENSAVER_ENABLE = 7, SYS_SCREENSAVER_TIME = 8
 };
 
+#define SYS_SCREENSAVER 9
+
 /**
  * Write SDTOUT syscall
  * Attempts to write up to length bytes from the buffer pointed bufffer to 
@@ -85,5 +87,7 @@ int screensaver_enabled(unsigned int boolean);
  * @return         OK if process could be completed, error code if otherwise
  */
 int screensaver_time(int seconds);
+
+int screensaver_set(int enabled, void (* action)(void), int seconds, int loop);
 
 #endif

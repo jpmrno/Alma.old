@@ -1,5 +1,9 @@
 #include <keyboard.h>
 
+// TODO: Errors.h
+#define COULD_NOT_PERFORM_OPERATION 1
+#define INVALID_KEY 2
+
 #define KEYBOARDS	2
 #define KEYS_ENTRIES 91
 #define KEYS_ALTERNATIVES 3

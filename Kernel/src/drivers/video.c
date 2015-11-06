@@ -55,6 +55,31 @@ static void updateCursor() {
 }
 
 
+int setCursor(unsigned int position) {
+	if(position >= (VIDEO_ROWS * VIDEO_COLUMNS * 2)) {
+		return ERROR_POSITION_INVALID;
+	}
+	
+	cursor = position;
+	updateCursor();
+	return OK;
+}
+
+
+unsigned int getCursor() {
+	return cursor;
+}
+
+
+void showCursor(int enabled) {
+	if(enabled) {
+		updateCursor();
+	} else {
+		_cursor_set(VIDEO_ROWS * VIDEO_COLUMNS * 2);
+	}
+}
+
+
 void initVideo() {
 	clearAll();
 	cursor = 0;
@@ -112,22 +137,6 @@ uint8_t getStyleOf(unsigned int position) {
 	}
 	
 	return video[position * 2 + 1];
-}
-
-
-int setCursor(unsigned int position) {
-	if(position >= (VIDEO_ROWS * VIDEO_COLUMNS * 2)) {
-		return ERROR_POSITION_INVALID;
-	}
-	
-	cursor = position;
-	updateCursor();
-	return OK;
-}
-
-
-unsigned int getCursor() {
-	return cursor;
 }
 
 

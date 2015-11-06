@@ -1,5 +1,3 @@
-export CC_PATH=$(PWD)/CrossCompiler
-
 include Makevars
 
 IMAGE = $(IMAGE_PATH)/$(SO_NAME).qcow2

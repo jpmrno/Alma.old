@@ -1,18 +1,22 @@
 #include <manager.h>
 #include <keyboard.h>
 #include <terminal.h>
+#include <syscalls.h>
 
-#define DEFAULT_SCREENSAVER " ..|.. "
+typedef void (* tScreenSaver) (void);
 
 #define CONVERT_TO_TIMER_TICK_CYCLES(x) (((x) * 1000) / 55)
+
+static int keyboardPrintToScreen_enabled = FALSE;
+static int keyboardPrintToScreen_backup = FALSE;
+static int terminalWriteInUsage = FALSE;
 
 static uint64_t screenSaver_counterLimit = CONVERT_TO_TIMER_TICK_CYCLES(30);
 static uint64_t screenSaver_counter = 0;
 static int screenSaver_active = FALSE;
-static int screenSaver_enabled = TRUE;
-static int keyboardPrintToScreen_enabled = FALSE;
-static int keyboardPrintToScreen_backup = FALSE;
-static int terminalWriteInUsage = FALSE;
+static int screenSaver_enabled = FALSE;
+static int screenSaver_loop = FALSE;
+static tScreenSaver screenSaver_run;
 
 /**
  * Recieves a key pointer and decides what action to perform, 
@@ -23,24 +27,18 @@ static int terminalWriteInUsage = FALSE;
  * @param key - the key to decide which action to perform
  */
 void manager_keyReceived(key_t *key) {
-	if (key->type == PRINTABLE)
-	{
-		if (key->value == '\b')
-		{
+	if (key->type == PRINTABLE) {
+		if (key->value == '\b') {
 			// If the key cannot be erased, nothing is done for now.
 			keyboard_eraseLastCharacter();
-		}
-		else 
-		{
-			if (!screenSaver_active)
-			{
+		} else {
+			if (!screenSaver_active) {
 				// If the key cannot be buffered, nothing is done for now.
 				keyboard_buffer(key);
 			}
 		}
 
-		if (keyboardPrintToScreen_enabled)
-		{
+		if (keyboardPrintToScreen_enabled) {
 			printChar(key->value);
 		}
 	}
@@ -50,8 +48,7 @@ void manager_keyReceived(key_t *key) {
 		screenSaver_stop();
 		keyboardPrintToScreen_enabled = keyboardPrintToScreen_backup;
 	} else {
-		if (key->type == FUNCTIONAL && key->value == TAB)
-		{
+		if (key->type == FUNCTIONAL && key->value == TAB) {
 			keyboard_changeKeyboard();
 		}
 	}
@@ -67,27 +64,29 @@ void manager_keyReceived(key_t *key) {
  * at: manager.h
  */
 void manager_timerTickInterrupt() {
-	if (screenSaver_enabled == FALSE) {
+	if (!screenSaver_enabled) {
 		return;
 	}
 
 	if(!screenSaver_active) {
 		if(screenSaver_counter < screenSaver_counterLimit) {
 			screenSaver_counter++;
-		} else if (!terminalWriteInUsage) {
+		} else if(!terminalWriteInUsage) {
 			screenSaver_counter = 0;
 			screenSaver_active = TRUE;
 			keyboardPrintToScreen_backup = keyboardPrintToScreen_enabled;
 			keyboardPrintToScreen_enabled = FALSE;
 			screenSaver_start();
+			screenSaver_run();
 		}
 	} else {
-		print(DEFAULT_SCREENSAVER); // TODO: Cambiar para cambiar screensavers
+		if(screenSaver_loop) {
+			screenSaver_run();
+		}
 	}
 }
 
-int manager_readSTDIN(char *buffer, unsigned int count)
-{
+int manager_readSTDIN(char *buffer, unsigned int count) {
 	int i = 0;
 
 	keyboardPrintToScreen_enabled = TRUE;
@@ -95,8 +94,7 @@ int manager_readSTDIN(char *buffer, unsigned int count)
 
 	while (!keyboard_canRead());
 
-	while (i<count && keyboard_canRead())
-	{
+	while (i<count && keyboard_canRead()) {
 		buffer[i++] = keyboard_getChar();
 	}
 
@@ -148,8 +146,22 @@ int manager_setScreenSaverEnabled(int enabled) {
 	return OK;
 }
 
-int manager_setScreenSaverTime(uint16_t seconds)
-{
+int manager_setScreenSaverTime(uint16_t seconds) {
 	screenSaver_counterLimit = CONVERT_TO_TIMER_TICK_CYCLES(seconds);
+	return OK;
+}
+
+int manager_setScreenSaver(int enabled, char * text, int seconds, int loop) {
+	if(enabled) {
+		if(seconds < SCREENSAVER_TIME_MIN) {
+			return ERROR_SCREENSAVER_TIME;
+		}
+		screenSaver_text = text;
+		screenSaver_counterLimit = CONVERT_TO_TIMER_TICK_CYCLES(seconds);
+		screenSaver_loop = loop ? TRUE : FALSE;
+	}
+	screenSaver_enabled = enabled ? TRUE : FALSE;
+	screenSaver_counter = 0; // TODO: Porque??
+
 	return OK;
 }

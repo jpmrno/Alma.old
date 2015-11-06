@@ -2,6 +2,9 @@
 #include <rtc.h>
 #include <cmos.h>
 
+// TODO: Errors.h
+#define INVALID_TIME 1
+
 #define BINARY_TO_BCD(x)        ((((x) / 10) << 4) + ((x) % 10))
 #define BCD_TO_BINARY(x)       ((x) & 0x0F) + (((x) / 16) * 10)
 #define HOUR_REMOVE_PM_INFORMATION(x)    ((x) & 0x7F)

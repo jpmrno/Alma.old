@@ -66,4 +66,6 @@ int manager_setScreenSaverEnabled(int enabled);
  */
 int manager_setScreenSaverTime(uint16_t seconds);
 
+int manager_setScreenSaver(int enabled, void (* action)(void), int seconds, int loop);
+
 #endif
