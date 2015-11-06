@@ -51,8 +51,8 @@ void disableScreenSaver() {
 	screensaver_enabled(FALSE);
 }
 
-int settScreenSaver(int enabled, void (* action)(void), int seconds, int loop) {
-	return screensaver_set(enabled, action, seconds, loop);
+int settScreenSaver(int enabled, char * text, int seconds, int loop) {
+	return screensaver_set(enabled, text, seconds, loop);
 }
 
 // int setScreenSaverText(char * string) { // For future implementation

@@ -16,7 +16,7 @@ static uint64_t screenSaver_counter = 0;
 static int screenSaver_active = FALSE;
 static int screenSaver_enabled = FALSE;
 static int screenSaver_loop = FALSE;
-static tScreenSaver screenSaver_run;
+static char * screenSaver_text;
 
 /**
  * Recieves a key pointer and decides what action to perform, 
@@ -77,11 +77,11 @@ void manager_timerTickInterrupt() {
 			keyboardPrintToScreen_backup = keyboardPrintToScreen_enabled;
 			keyboardPrintToScreen_enabled = FALSE;
 			screenSaver_start();
-			screenSaver_run();
+			print(screenSaver_text);
 		}
 	} else {
 		if(screenSaver_loop) {
-			screenSaver_run();
+			print(screenSaver_text);
 		}
 	}
 }

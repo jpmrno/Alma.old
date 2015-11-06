@@ -88,6 +88,6 @@ int screensaver_enabled(unsigned int boolean);
  */
 int screensaver_time(int seconds);
 
-int screensaver_set(int enabled, void (* action)(void), int seconds, int loop);
+int screensaver_set(int enabled, char * text, int seconds, int loop);
 
 #endif

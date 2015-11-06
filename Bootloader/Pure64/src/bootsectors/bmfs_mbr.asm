@@ -16,7 +16,7 @@ org 0x7C00
 entry:
 	cli				; Disable interrupts
 ;	xchg bx, bx			; Bochs magic debug
-	xor ax, ax
+	xor eax, eax
 	mov ss, ax
 	mov es, ax
 	mov ds, ax

@@ -71,15 +71,6 @@ unsigned int getCursor() {
 }
 
 
-void showCursor(int enabled) {
-	if(enabled) {
-		updateCursor();
-	} else {
-		_cursor_set(VIDEO_ROWS * VIDEO_COLUMNS * 2);
-	}
-}
-
-
 void initVideo() {
 	clearAll();
 	cursor = 0;

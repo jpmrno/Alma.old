@@ -36,11 +36,15 @@ From the project's directory run:
 
 Makes Toolchain, cleans everything, makes all, and runs
 
-## Credits: 
+## Credits:
+
+- WALLOS β (kernel modifications): 
+	- Author: Juan Moreno
+
+- WALLOS α (kernel modifications): 
+	- Author: Matías Nicolás Comercio Vázquez 
+	- Author: Juan Moreno
+
 - x64BareBones (base project): 
 	- Author: Rodrigo Rearden (RowDaBoat) 
 	- Collaborator: Augusto Nizzo McIntosh
-
-- WALLOS (kernel modifications): 
-	- Author: Matías Nicolás Comercio Vázquez 
-	- Author: Juan Moreno

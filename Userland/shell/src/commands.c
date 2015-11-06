@@ -135,10 +135,6 @@ static int scmd_time_set() {
 	return OK;
 }
 
-void actioname(void) {
-	printf(" HI!\n SUP!");
-}
-
 /**
  * Enables the screen saver
  * @return         OK if process could be completed
@@ -150,7 +146,7 @@ static int scmd_screensaver_enable() {
 	}
 
 	//enableScreenSaver();
-	settScreenSaver(1, actioname, 5, 0);
+	settScreenSaver(1, " ..|.. ", 5, 1);
 	return OK;
 }
 

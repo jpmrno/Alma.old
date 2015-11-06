@@ -36,20 +36,14 @@ start:
 	mov esp, 0x8000			; Set a known free location for the stack
 
 ap_modify:
-	jmp start16			; This command will be overwritten with 'NOP's before the AP's are started
-	nop				; The 'jmp' is only 3 bytes
+	jmp 0x0000:start16			; This command will be overwritten with 'NOP's before the AP's are started
 
 %include "init/smp_ap.asm"		; AP's will start execution at 0x8000 and fall through to this code
 
-
-;db '_16_'				; Debug
 align 16
 
 USE16
 start16:
-	jmp 0x0000:clearcs
-
-clearcs:
 
 ; Configure serial port
 	xor dx, dx			; First serial port
@@ -130,9 +124,7 @@ dw 0xFFFF, 0x0000, 0x9A00, 0x00CF	; 32-bit code descriptor
 dw 0xFFFF, 0x0000, 0x9200, 0x00CF	; 32-bit data descriptor
 gdt32_end:
 
-;db '_32_'				; Debug
 align 16
-
 
 ; =============================================================================
 ; 32-bit mode
@@ -258,9 +250,7 @@ pd_again:				; Create a 2 MiB page
 
 	jmp SYS64_CODE_SEL:start64	; Jump to 64-bit mode
 
-;db '_64_'				; Debug
 align 16
-
 
 ; =============================================================================
 ; 64-bit mode
@@ -312,13 +302,14 @@ clearcs64:
 	mov al, '2'
 	mov [0x000B809E], al
 
-; Patch Pure64 AP code			; The AP's will be told to start execution at 0x8000
+; Patch Pure64 AP code		; The AP's will be told to start execution at 0x8000
 	mov edi, ap_modify		; We need to remove the BSP Jump call to get the AP's
 	mov eax, 0x90909090		; to fall through to the AP Init code
 	stosd
+	stosb					; Write 5 bytes in total to overwrite the 'far jump'
 
 ; Build the rest of the page tables (4GiB+)
-	mov rcx, 0x0000000000000000
+	xor ecx, ecx			; Clear the counter
 	mov rax, 0x000000010000008F
 	mov rdi, 0x0000000000014000
 buildem:
@@ -596,14 +587,10 @@ nextIOAPIC:
 	call os_print_string
 
 ; Debug
-	mov rdi, 0x000B8092		; Clear the debug messages
-	mov ax, 0x0720
-	mov cx, 7
-clearnext:
-	stosw
-	sub cx, 1
-	cmp cx, 0
-	jne clearnext
+	mov rdi, 0x000B8090		; Clear the debug messages in the top-right corner
+	mov rax, 0x0720072007200720
+	stosq
+	stosq				; Write a total of 8 characters (2 bytes each)
 
 ; Clear all registers (skip the stack pointer)
 	xor rax, rax
@@ -622,8 +609,45 @@ clearnext:
 	xor r14, r14
 	xor r15, r15
 
-	jmp 0x0000000000100000		; Jump to the kernel
+	;jmp 0x0000000000100000		; Jump to the kernel
 
+; --------------------------------------------------
+; -------------------------------------------------- // TODO: Check
+; --------------------------------------------------
+; Check binary that was loaded and execute
+; Raw binary and PE supported
+; To-Do - ELF
+
+; PE loader header check
+	mov eax, [0x10003c]		; Get the e_lfanew value which is the address of the PE header (32bit).
+	mov cx, [eax + 0x100004]	; The machine type.
+	cmp cx, 0x8664			; Check to make sure the machine type is x64.
+	jne normal_start		; If it isn't equal jump to the normal starting address. (Comment out to ignore result.)
+	mov ebx, [eax + 0x100000]	; The PE header signature is here.
+	cmp ebx, 0x00004550		; Compare the PE header signature to make sure it matches. (little endian)
+	jne normal_start		; If it isn't equal jump to the normal starting address.
+
+; PE loader starting address (RVA) parsing
+	add eax, 0x100028		; Add size of PE header (24 bytes) and offset to
+					; AddressOfEntryPoint (16 bytes) to image base 0x100000
+	mov ebx, [eax]			; AddressOfEntryPoint added to ImageBase to get entry point address
+	add eax, 0x08			; Add the offset to get the ImageBase
+	add ebx, [eax]			; Add ImageBase to AddressOfEntryPoint (ebx)
+
+	xor eax, eax			; Clear rax and rcx; rbx has the jump location so don't clear it.
+	xor ecx, ecx
+
+pe_start:
+	jmp rbx				; rbx has the compute RVA for the jmp
+
+normal_start:
+	xor eax, eax			; Clear registers used earlier
+	xor ebx, ebx
+	xor ecx, ecx
+	jmp 0x0000000000100000
+; --------------------------------------------------
+; --------------------------------------------------
+; --------------------------------------------------
 
 %include "init/acpi.asm"
 %include "init/cpu.asm"
