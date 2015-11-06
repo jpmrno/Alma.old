@@ -55,3 +55,5 @@
 - Makefile todas las subcarpetas de src de una, idem con asm y include
 
 - Errores syscalls compartidos entre kernel y user (kernal ya usa common, falta user)
+
+- Manager controla RTC?
