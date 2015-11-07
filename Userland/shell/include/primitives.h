@@ -4,10 +4,6 @@
 #include <stdint.h>
 #include <time.h>
 
-enum fileDescriptors {
-	STDIN = 0, STDOUT = 1, STDERR = 2
-};
-
 enum syscalls {
 	SYS_READ = 0, SYS_WRITE = 1, SYS_TERMINAL_CLEAR = 2, SYS_TERMINAL_SET = 3, 
 	SYS_TERMINAL_COLOR = 4, SYS_TIME_READ = 5, SYS_TIME_WRITE = 6, 
