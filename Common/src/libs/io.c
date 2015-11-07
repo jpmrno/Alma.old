@@ -1,10 +1,12 @@
-#include <limits.h>
-#include <libc.h>
+#include <io.h>
 #include <primitives.h>
+#include <limits.h>
 
 #define CONVERTER_BUFFER_SIZE 128
 
-#define CHAR_TO_INT(x)	((x)-'0')
+#define BASE_BINARY 2
+#define BASE_HEXADECIMAL 16
+#define BASE_DECIMAL 10
 
 // Convert buffer
 static char buffer[CONVERTER_BUFFER_SIZE] = {0};
@@ -112,10 +114,10 @@ uint64_t printf(char * fmt, ...) {
 					putInt(va_arg(arg, int));
 					break;
 				case 'x':
-					putInBase(va_arg(arg, unsigned int), 16);
+					putInBase(va_arg(arg, unsigned int), BASE_HEXADECIMAL);
 					break;
 				case 'b':
-					putInBase(va_arg(arg, unsigned int), 2);
+					putInBase(va_arg(arg, unsigned int), BASE_BINARY);
 					break;
 				case '%':
 					putChar(symbol);
@@ -140,47 +142,5 @@ uint64_t putString(char * string) {
 }
 
 uint64_t putInt(int num) {
-	return putInBase(num, 10);
-}
-
-int stringToNum(char * s, unsigned int * num) {	
-	int length = 1;
-	if (*s == 0 || *s == '\n') {
-		*num = 0;
-		return length;
-	}
-
-	int i = CHAR_TO_INT(*s);
-	if (i < 0 || i > 9)
-		return ERROR_NUMBER_NOT_POSITIVE;
-
-	length = stringToNum(s+1,num);
-	if (length == ERROR_NUMBER_NOT_POSITIVE)
-		return ERROR_NUMBER_NOT_POSITIVE;
-
-	(*num) = (*num) + i*length;
-	return length*10;
-}
-
-int strcmp(const char * s1, const char * s2) {
-    while(*s1 && (*s1 == *s2))
-        s1++,s2++;
-    return *(const unsigned char *) s1 - *(const unsigned char *) s2;
-}
-
-void strcpy(char * dest, const char * source) {
-	int i = 0;
-
-    while ((dest[i] = source[i]) != '\0')
-    	i++;
-}
-
-void * memset(void * destiation, int32_t c, uint64_t length) {
-	uint8_t chr = (uint8_t)c;
-	char * dst = (char*)destiation;
-
-	while(length--)
-		dst[length] = chr;
-
-	return destiation;
+	return putInBase(num, BASE_DECIMAL);
 }

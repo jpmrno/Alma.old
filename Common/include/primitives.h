@@ -1,16 +1,8 @@
 #ifndef _SYS_CALLERS_H_
 #define _SYS_CALLERS_H_
 
-#include <stdint.h>
-#include <time.h>
-
-enum syscalls {
-	SYS_READ = 0, SYS_WRITE = 1, SYS_TERMINAL_CLEAR = 2, SYS_TERMINAL_SET = 3, 
-	SYS_TERMINAL_COLOR = 4, SYS_TIME_READ = 5, SYS_TIME_WRITE = 6, 
-	SYS_SCREENSAVER_ENABLE = 7, SYS_SCREENSAVER_TIME = 8
-};
-
-#define SYS_SCREENSAVER 9
+#include <define.h>
+#include <syscalls.h>
 
 /**
  * Write SDTOUT syscall
@@ -70,6 +62,16 @@ int time_read(systemTime_t * t);
 int time_write(systemTime_t * t);
 
 /**
+ * // TODO: Docs
+ * @param  enabled [description]
+ * @param  text    [description]
+ * @param  seconds [description]
+ * @param  loop    [description]
+ * @return         [description]
+ */
+int screensaver_set(int enabled, char * text, int seconds, int loop);
+
+/**
  * Enables or disables the screen saver
  * @param  boolean >0 enables, otherwise disable
  * @return         OK if process could be completed
@@ -83,7 +85,5 @@ int screensaver_enabled(unsigned int boolean);
  * @return         OK if process could be completed, error code if otherwise
  */
 int screensaver_time(int seconds);
-
-int screensaver_set(int enabled, char * text, int seconds, int loop);
 
 #endif

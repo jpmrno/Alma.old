@@ -1,10 +1,10 @@
 #ifndef _COMMANDS_H_
 #define _COMMANDS_H_
 
-#include "define.h"
-#include "shell.h"
-#include "libc.h"
-#include "time.h"
+#include <define.h>
+#include <shell.h>
+#include <io.h>
+#include <time.h>
 
 // Commands vector size
 #define CMDS_SIZE 10

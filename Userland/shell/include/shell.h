@@ -1,9 +1,9 @@
 #ifndef _SHELL_H_
 #define _SHELL_H_
 
-#include "define.h"
-#include "libc.h"
-#include "commands.h"
+#include <define.h>
+#include <io.h>
+#include <commands.h>
 
 #define MAX_BUFFER_LENGTH 128
 #define MAX_USER_NAME (10 + 1)

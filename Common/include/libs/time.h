@@ -1,19 +1,10 @@
-#ifndef _TIME_T_H_
-#define _TIME_T_H_
+#ifndef _LIB_TIME_H_
+#define _LIB_TIME_H_
 
-#include <stdint.h>
-#include "define.h"
+#include <define.h>
+#include <systime.h>
 
-#define TIME_INVALID -1
-
-typedef struct {
-	uint8_t second;
-	uint8_t minute;
-	uint8_t hour;
-	uint8_t day;
-	uint8_t month;
-	uint16_t year;
-} systemTime_t;
+#define TIME_INVALID -1 // TODO: Sync systime.h with kernel and time.h
 
 /**
  * Reads the date and time from the RTC, and stores the data at t
@@ -21,7 +12,7 @@ typedef struct {
  * @return   	OK if process could be completed
  *              !OK otherwise
  */
-int setSystemTime(systemTime_t * t);
+int setSystemTime(tSystemTime * t);
 
 /**
  * Writes the data of the given t at the RTC
@@ -29,14 +20,14 @@ int setSystemTime(systemTime_t * t);
  * @return   	OK if process could be completed
  *              !OK otherwise
  */
-int getSystemTime(systemTime_t * t);
+int getSystemTime(tSystemTime * t);
 
 /**
  * Analizes if the time (t) is a valid one
  * @param  t  	the time
  * @return   	TRUE if time is valid or FALSE otherwise
  */
-int isValidTime(systemTime_t * t);
+int isValidTime(tSystemTime * t);
 
 /**
  * Analizes if the year is leap

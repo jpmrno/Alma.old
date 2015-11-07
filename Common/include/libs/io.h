@@ -1,10 +1,8 @@
-#ifndef _LIB_C_H_
-#define _LIB_C_H_
+#ifndef _LIB_IO_H_
+#define _LIB_IO_H_
 
-#include "define.h"
-#include <stdint.h>
-#include <stdarg.h>
-#include "time.h"
+#include <define.h>
+#include <sysio.h>
 
 #define ERROR_NUMBER_NOT_POSITIVE -1
 
@@ -70,37 +68,5 @@ uint64_t putString(char * string);
  * @return	the number of characters of the representation if the number written
  */
 uint64_t putInt(int num);
-
-/**
- * Converts a string into a number only if the number is possitive
- * @param  s   the string
- * @param  num the return value for the number
- * @return     the length of the number or <0 if error occurred
- */
-int stringToNum(char *s, unsigned int *num);
-
-/**
- * Compares 2 null terminated strings
- * @param  s1 a string
- * @param  s2 a string
- * @return    >0 if s1 is bigger, 0 if equal, <0 if smaller
- */
-int strcmp(const char * s1, const char * s2);
-
-/**
- * Copys the source string into destination
- * @param dest   a string
- * @param source a string
- */
-void strcpy(char * dest, const char * source);
-
-/**
- * // TODO:
- * @param  destiny [description]
- * @param  c       [description]
- * @param  length  [description]
- * @return         [description]
- */
-void * memset(void * destiny, int32_t c, uint64_t length);
 
 #endif

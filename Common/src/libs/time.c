@@ -1,15 +1,15 @@
 #include <time.h>
 #include <primitives.h>
 
-int setSystemTime(systemTime_t * t) {
+int setSystemTime(tSystime * t) {
 	return isValidTime(t) ? time_write(t) : TIME_INVALID;
 }
 
-int getSystemTime(systemTime_t * t) {
+int getSystemTime(tSystemTime * t) {
 	return time_read(t);
 }
 
-int isValidTime(systemTime_t * t) {
+int isValidTime(tSystemTime * t) {
 	static int days[][13]= {
 		{0,31,28,31,30,31,30,31,31,30,31,30,31},
 		{0,31,29,31,30,31,30,31,31,30,31,30,31}

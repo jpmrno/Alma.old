@@ -5,17 +5,14 @@
 
 #define NULL ((void *) 0)
 
-#define TRUE  1
+#define TRUE 1
 #define FALSE !TRUE
 
-enum generalErrors {
-	NO_ERROR = 0, ERROR
-};
-
+#define NO_ERROR = 0 // TODO: Remove
 #define OK NO_ERROR
+#define ERROR 1 // TODO: O -1? O !OK? ..?
 
-enum fileDescriptors {
-	STDIN = 0, STDOUT = 1, STDERR = 2
-};
+// TODO: Useful??
+#define ERROR_OCCURRED(x) ((x) < OK)
 
 #endif

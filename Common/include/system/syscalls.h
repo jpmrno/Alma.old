@@ -1,5 +1,10 @@
-#ifndef _SYSCALLS_H_
-#define _SYSCALLS_H_
+#ifndef _SYS_CALLS_H_
+#define _SYS_CALLS_H_
+
+// TODO: Necesarios?
+#include <systime.h>
+#include <sysio.h>
+#include <sysscreen.h>
 
 enum syscalls_call {
 	SYS_READ = 0,
@@ -13,14 +18,5 @@ enum syscalls_call {
 	SYS_SCREENSAVER_TIME = 8,
 	SYS_SCREENSAVER = 9
 };
-
-// WRITE-READ
-#define ERROR_FILEDESCRIPTOR 1
-// ^^ WRITE-READ ^^
-
-// SCREEN SAVER
-#define SCREENSAVER_TIME_MIN 5
-#define ERROR_SCREENSAVER_TIME 1
-// ^^ SCREEN SAVER ^^
 
 #endif
