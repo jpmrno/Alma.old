@@ -1,44 +1,33 @@
 include ../../Makevars
 include ../Makevars
-
-# Change name for new module
-MODULE_NAME = shell
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^
+include Makevars
 
 MODULE = ../$(MODULE_NAME).$(MODULE_TYPE)
 
-SRC_C = src
-SRC_ASM = asm
-SRC_HEADERS = include
-DIRS = $(SRC_C) $(SRC_ASM)
-
-SOURCES_C = $(wildcard $(SRC_C)/*.c)
-SOURCES_ASM = $(wildcard $(SRC_ASM)/*.asm)
-SRC_LOADER = $(MODULE_NAME).c
+SOURCES_C = $(wildcard $(SRC_C)/*.c & $(SRC_C)/**/*.c)
+SOURCES_ASM = $(wildcard $(SRC_ASM)/*.asm & $(SRC_ASM)/**/*.asm)
 
 OBJECTS_C = $(SOURCES_C:.c=.o)
 OBJECTS_ASM = $(SOURCES_ASM:.asm=.o)
-OBJECT_LOADER = $(SRC_LOADER:.c=.o)
+OBJECT_LOADER = $(SOURCE_LOADER:.c=.o)
 
-STATICLIBS =
+HEADERS = $(foreach HEADER,$(SRC_HEADERS),-I $(HEADER))
+
+# TODO: Verify & Improve
+LIBS = $($(wildcard ../$(COMMON_SRC_ASM)/*.asm):.asm=.o) $($(wildcard ../$(COMMON_SRC_C)/*.c):.c=.o)
 
 all: $(MODULE)
 
-$(MODULE): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
-	$(LD) $(LD_FLAGS) -T $(MODULE_NAME).ld -o $(MODULE) $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
+$(MODULE): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM) $(LIBS)
+	$(LD) $(LD_FLAGS) -T $(MODULE_NAME).ld -o $(MODULE) $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM) $(LIBS)
 
 %.o: %.c
-	$(GCC) $(GCC_FLAGS) -I $(SRC_HEADERS) -c $< -o $@
+	$(GCC) $(GCC_FLAGS) $(HEADERS) -c $< -o $@
 
 %.o: %.asm
 	$(ASM) $(ASM_FLAGS) $< -o $@
 
-$(OBJECT_LOADER):
-	$(GCC) -c $(GCC_FLAGS) $(SRC_LOADER) -o $(OBJECT_LOADER)
-
 clean:
-	$(foreach DIR, $(DIRS), rm -rf $(DIR)/*.o;)
-	rm -rf *.o
-	rm -f $(MODULE)
+	rm -f $(MODULE) $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
 
 .PHONY: all clean
