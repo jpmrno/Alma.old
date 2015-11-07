@@ -12,7 +12,7 @@ Please read "Manual de Usuario.pdf" for the usage manual and "Informe.pdf" for m
 
 This project needs the following packages:
 
-`nasm qemu gcc make`
+`nasm qemu gcc binutils make`
 
 ### Mac OS
 
@@ -20,7 +20,7 @@ This project needs the following packages:
 
 `brew install qemu`
 
-2) Optional: Install NASM
+2) Install NASM
 
 `brew install nasm`
 
