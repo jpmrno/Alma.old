@@ -1,4 +1,4 @@
-# WALLOS α
+# ![WALLOS Logo](/Docs/logo.png)
 
 WALLOS is based on x64BareBones wich is a basic setup to develop operating systems for the Intel 64 bits architecture.
 
