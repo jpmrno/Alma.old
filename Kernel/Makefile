@@ -1,4 +1,3 @@
-include ../Makevars
 include Makevars
 
 SOURCES_C = $(wildcard *.c & $(SRC_C)/*.c & $(SRC_C)/**/*.c)

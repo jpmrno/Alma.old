@@ -1,10 +1,12 @@
+include ../Makevars
+
 SRC_C = src
 SRC_ASM = asm
 SRC_HEADERS = include ../$(COMMON_HEADERS)
 
 SOURCE_LOADER = loader.asm
 
-GCC_FLAGS = -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -ffreestanding -nostdlib -fno-common -std=c99
+GCC_FLAGS = $(GCC_WARNINGS) -m64 -fno-exceptions -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc -mno-red-zone -ffreestanding -nostdlib -fno-common -std=c99
 #AR_FLAGS = rvs # ¿¿¿¿????
 ASM_FLAGS = -felf64
 LD_FLAGS = --warn-common -z max-page-size=0x1000
