@@ -1,6 +1,6 @@
 include ../Makevars
 
-DIRS = BMFS Pure64
+DIRS = $(wildcard */.)
 
 all:
 	$(foreach DIR, $(DIRS), $(MAKE) -C $(DIR) all;)
