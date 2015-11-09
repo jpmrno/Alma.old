@@ -4,24 +4,24 @@ IMAGE = $(IMAGE_PATH)/$(SO_NAME).qcow2
 QEMU = qemu-system-x86_64
 QEMU_FLAGS = -hda $(IMAGE) -m 512
 
-all: $(TOOLCHAIN_PATH) $(BOOTLOADER_PATH) $(COMMONS_PATH) $(KERNEL_PATH) $(USERLAND_PATH) $(IMAGE_PATH)
+all: toolchain bootloader common kernel userland image
 
-$(TOOLCHAIN_PATH):
+toolchain:
 	$(MAKE) -C $(TOOLCHAIN_PATH) all
 
-$(BOOTLOADER_PATH):
+bootloader:
 	$(MAKE) -C $(BOOTLOADER_PATH) all
 
-$(COMMONS_PATH):
+common:
 	$(MAKE) -C $(COMMONS_PATH) all
 
-$(KERNEL_PATH): $(COMMONS_PATH)
+kernel: common
 	$(MAKE) -C $(KERNEL_PATH) all
 
-$(USERLAND_PATH): $(COMMONS_PATH)
+userland: common
 	$(MAKE) -C $(USERLAND_PATH) all
 
-$(IMAGE_PATH): $(TOOLCHAIN_PATH) $(BOOTLOADER_PATH) $(KERNEL_PATH) $(USERLAND_PATH)
+image: toolchain bootloader kernel userland
 	$(MAKE) -C $(IMAGE_PATH) all
 
 clean: cleanall
@@ -37,4 +37,4 @@ cleanall:
 run: clean all
 	$(QEMU) $(QEMU_FLAGS)
 
-.PHONY: $(TOOLCHAIN_PATH) $(BOOTLOADER_PATH) $(COMMONS_PATH) $(KERNEL_PATH) $(USERLAND_PATH) $(IMAGE_PATH) all cleanall clean
+.PHONY: toolchain bootloader common kernel userland image all cleanall clean
