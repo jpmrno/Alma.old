@@ -1,3 +1,5 @@
+#include <strings.h>
+
 #define CHAR_TO_INT(x)	((x)-'0')
 
 int strcmp(const char * s1, const char * s2) {

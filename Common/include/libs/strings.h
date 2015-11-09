@@ -1,5 +1,7 @@
-#ifndef _LIB_STRING_H_
-#define _LIB_STRING_H_
+#ifndef _LIB_STRINGS_H_
+#define _LIB_STRINGS_H_
+
+#define ERROR_NUMBER_NOT_POSITIVE -1
 
 /**
  * Compares 2 null terminated strings

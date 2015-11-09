@@ -1,11 +1,41 @@
 ###### GENERAL ######
-SO_NAME = KI
-
-COMMON_PATH = Common
-COMMON_HEADERS = $(COMMON_PATH)/include
-COMMON_SRC_C = $(COMMON_PATH))/src
-COMMON_SRC_ASM = $(COMMON_PATH)/asm
+SO_NAME = wallOS
 ###### ^^^^^^^ ######
+
+###### VARS ######
+# Global
+SYS_GCC = gcc
+
+# Per system
+ifeq ($(shell uname), Darwin)
+  CC_PATH = /usr/local
+  # Mac OS
+  GCC = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-gcc
+  GPP = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-g++
+  LD = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-ld
+  AR = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-ar
+  ASM = nasm
+  ifneq (, $(shell which gmake))
+    MAKE = gmake
+  endif
+else
+  # Linux
+  GCC = gcc
+  GPP = g++
+  LD = ld
+  AR = ar
+  ASM = nasm
+endif
+
+GCC_WARNINGS = -Wall -Wextra -pedantic
+#GCC_WARNINGS = -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs -Winline -Wno-long-long -Wuninitialized -Wconversion -Wstrict-prototypes
+###### ^^^^ ######
+
+###### TOOLCHAIN ######
+TOOLCHAIN_PATH = Toolchain
+MODULE_PACKER_NAME = packer.bin
+MODULE_PACKER = $(TOOLCHAIN_PATH)/$(MODULE_PACKER_NAME)
+###### ^^^^^^^^^ ######
 
 ###### BOOTLOADER ######
 BOOTLOADER_PATH = Bootloader
@@ -18,11 +48,16 @@ FILESYSTEM_MBR = $(BOOTLOADER_PATH)/$(FILESYSTEM_MBR_NAME)
 BOOTLOADER = $(BOOTLOADER_PATH)/$(BOOTLOADER_NAME)
 ###### ^^^^^^^^^^ ######
 
-###### TOOLCHAIN ######
-TOOLCHAIN_PATH = Toolchain
-MODULE_PACKER_NAME = packer.bin
-MODULE_PACKER = $(TOOLCHAIN_PATH)/$(MODULE_PACKER_NAME)
-###### ^^^^^^^^^ ######
+###### IMAGE ######
+IMAGE_PATH = Image
+###### ^^^^^ ######
+
+###### COMMONS ######
+COMMONS_PATH = Common
+COMMONS_HEADERS = $(COMMONS_PATH)/include
+COMMONS_SRC_C = $(COMMONS_PATH)/src
+COMMONS_SRC_ASM = $(COMMONS_PATH)/asm
+###### ^^^^^^^ ######
 
 ###### KERNEL ######
 KERNEL_PATH = Kernel
@@ -33,35 +68,3 @@ KERNEL = $(KERNEL_PATH)/$(KERNEL_NAME)
 ###### USERLAND ######
 USERLAND_PATH = Userland
 ###### ^^^^^^^^ ######
-
-###### IMAGE ######
-IMAGE_PATH = Image
-###### ^^^^^ ######
-
-###### VARS ######
-# Global
-SYS_GCC = gcc
-
-ifeq ($(shell uname), Darwin)
-  CC_PATH = /usr/local
-	# Mac OS
-  GCC = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-gcc
-  GPP = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-g++
-  LD = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-ld
-  AR = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-ar
-	ASM = nasm
-  ifneq (, $(shell which gmake))
-    MAKE = gmake
-  endif
-else
-	# Linux
-  GCC = gcc
-  GPP =g++
-  LD = ld
-  AR = ar
-  ASM = nasm
-endif
-
-GCC_WARNINGS = -Wall -Wextra -pedantic
-#GCC_WARNINGS = -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs -Winline -Wno-long-long -Wuninitialized -Wconversion -Wstrict-prototypes
-###### ^^^^ ######

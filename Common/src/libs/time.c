@@ -1,7 +1,7 @@
 #include <time.h>
 #include <primitives.h>
 
-int setSystemTime(tSystime * t) {
+int setSystemTime(tSystemTime * t) {
 	return isValidTime(t) ? time_write(t) : TIME_INVALID;
 }
 

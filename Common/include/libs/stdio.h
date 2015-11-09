@@ -1,10 +1,8 @@
-#ifndef _LIB_IO_H_
-#define _LIB_IO_H_
+#ifndef _LIB_STDIO_H_
+#define _LIB_STDIO_H_
 
 #include <define.h>
 #include <sysio.h>
-
-#define ERROR_NUMBER_NOT_POSITIVE -1
 
 #define EOF -1
 

@@ -8,7 +8,7 @@
 #define TRUE 1
 #define FALSE !TRUE
 
-#define NO_ERROR = 0 // TODO: Remove
+#define NO_ERROR 0 // TODO: Remove
 #define OK NO_ERROR
 #define ERROR 1 // TODO: O -1? O !OK? ..?
 

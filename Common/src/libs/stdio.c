@@ -1,14 +1,14 @@
-#include <io.h>
+#include <stdio.h>
+#include <stdarg.h>
 #include <primitives.h>
 #include <limits.h>
-
-#define CONVERTER_BUFFER_SIZE 128
 
 #define BASE_BINARY 2
 #define BASE_HEXADECIMAL 16
 #define BASE_DECIMAL 10
 
 // Convert buffer
+#define CONVERTER_BUFFER_SIZE 128
 static char buffer[CONVERTER_BUFFER_SIZE] = {0};
 
 /**
@@ -29,40 +29,6 @@ static uint64_t putInBase(uint64_t value, uint32_t base);
  * @return        # of digits of the number
  */
 static unsigned int uintToBase(uint64_t value, char * buffer, uint32_t base);
-
-static uint64_t putInBase(uint64_t value, uint32_t base) {
-	int ret = uintToBase(value, buffer, base);
-	return write(buffer, ret);
-}
-
-static unsigned int uintToBase(uint64_t value, char * buffer, uint32_t base) {
-	char *p = buffer;
-	char *p1, *p2;
-	uint32_t digits = 0;
-
-	//Calculate characters for each digit
-	do {
-		uint32_t remainder = value % base;
-		*p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
-		digits++;
-	} while (value /= base);
-
-	// Terminate string in buffer.
-	*p = 0;
-
-	//Reverse string in buffer.
-	p1 = buffer;
-	p2 = p - 1;
-	while (p1 < p2) {
-		char tmp = *p1;
-		*p1 = *p2;
-		*p2 = tmp;
-		p1++;
-		p2--;
-	}
-
-	return digits;
-}
 
 int getchar() {
 	char c;
@@ -143,4 +109,38 @@ uint64_t putString(char * string) {
 
 uint64_t putInt(int num) {
 	return putInBase(num, BASE_DECIMAL);
+}
+
+static uint64_t putInBase(uint64_t value, uint32_t base) {
+	int ret = uintToBase(value, buffer, base);
+	return write(buffer, ret);
+}
+
+static unsigned int uintToBase(uint64_t value, char * buffer, uint32_t base) {
+	char *p = buffer;
+	char *p1, *p2;
+	uint32_t digits = 0;
+
+	//Calculate characters for each digit
+	do {
+		uint32_t remainder = value % base;
+		*p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
+		digits++;
+	} while (value /= base);
+
+	// Terminate string in buffer.
+	*p = 0;
+
+	//Reverse string in buffer.
+	p1 = buffer;
+	p2 = p - 1;
+	while (p1 < p2) {
+		char tmp = *p1;
+		*p1 = *p2;
+		*p2 = tmp;
+		p1++;
+		p2--;
+	}
+
+	return digits;
 }

@@ -51,7 +51,7 @@ int terminal_color(unsigned int text, unsigned char color);
  * @return   	OK if process could be completed
  *              !OK otherwise
  */
-int time_read(systemTime_t * t);
+int time_read(tSystemTime * t);
 
 /**
  * Writes the data of the given t at the RTC
@@ -59,7 +59,7 @@ int time_read(systemTime_t * t);
  * @return   	OK if process could be completed
  *              !OK otherwise
  */
-int time_write(systemTime_t * t);
+int time_write(tSystemTime * t);
 
 /**
  * // TODO: Docs
