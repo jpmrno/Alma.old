@@ -1,10 +1,10 @@
-# ![wallOS Logo](/Docs/logo.png)
+# ![Zhoue Logo](/Docs/logo.png)
 
-wallOS is based on x64BareBones wich is a basic setup to develop operating systems for the Intel 64 bits architecture.
+Zhoue is based on x64BareBones wich is a basic setup to develop operating systems for the Intel 64 bits architecture.
 
 The final goal of x64BareBones's project is to provide an entry point for a kernel and the possibility to load extra binary modules separated from the main kernel.
 
-Please read "Manual de Usuario.pdf" for the usage manual and "Informe.pdf" for more information about wallOS.
+Please read "Manual de Usuario.pdf" for the usage manual and "Informe.pdf" for more information about Zhoue.
 
 ## Requisites
 
@@ -38,10 +38,10 @@ Makes Toolchain, cleans everything, makes all, and runs
 
 ## Credits:
 
-- wallOS β (kernel modifications): 
+- Zhoue β (kernel modifications): 
 	- Author: Juan Moreno
 
-- wallOS α (kernel modifications): 
+- Zhoue α (kernel modifications): 
 	- Author: Matías Nicolás Comercio Vázquez 
 	- Author: Juan Moreno
 
