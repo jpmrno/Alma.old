@@ -1,4 +1,4 @@
-# ![Zhoue Logo](/Docs/logoX2.png)
+# ![Zhoue Logo](/Docs/logo.png)
 
 Zhoue is based on x64BareBones wich is a basic setup to develop operating systems for the Intel 64 bits architecture.
 
