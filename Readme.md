@@ -16,6 +16,10 @@ This project needs the following packages:
 
 ### Mac OS
 
+0) Requisite: Install BREW (http://brew.sh)
+
+`ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+
 1) Install QEMU
 
 `brew install qemu`
