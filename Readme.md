@@ -28,7 +28,7 @@ This project needs the following packages:
 
 `brew install nasm`
 
-2) Optional: Install the newest version of MAKE
+3) Optional: Install the newest version of MAKE
 
 `brew install make`
 
