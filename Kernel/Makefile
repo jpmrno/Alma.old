@@ -1,3 +1,4 @@
+include ../Makevars
 include Makevars
 
 SOURCES_C = $(wildcard *.c & $(SRC_C)/*.c & $(SRC_C)/**/*.c)
@@ -7,10 +8,13 @@ OBJECTS_C = $(SOURCES_C:.c=.o)
 OBJECTS_ASM = $(SOURCES_ASM:.asm=.o)
 OBJECT_LOADER = $(SOURCE_LOADER:.asm=.o)
 
+LIBS = $(wildcard ../$(COMMONS_SRC_C)/*.o & ../$(COMMONS_SRC_C)/**/*.o)
+LIBS += $(wildcard ../$(COMMONS_SRC_ASM)/*.o & ../$(COMMONS_SRC_ASM)/**/*.o)
+
+SRC_HEADERS += $(wildcard ../$(COMMONS_HEADERS) & ../$(COMMONS_HEADERS)/*/.)
 HEADERS = $(foreach HEADER,$(SRC_HEADERS),-I $(HEADER))
 
-# TODO: Verify & Improve
-LIBS = $($(wildcard ../$(COMMON_SRC_ASM)/*.asm):.asm=.o) $($(wildcard ../$(COMMON_SRC_C)/*.c):.c=.o)
+GCC_FLAGS += $(GCC_WARNINGS)
 
 all: $(KERNEL_NAME)
 

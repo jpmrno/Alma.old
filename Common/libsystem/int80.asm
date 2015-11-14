@@ -12,11 +12,11 @@ _int80:
 	pushfq
 
 	xor rax, rax
-	mov rax, [rbp+16] ; first stack argument == SYS_NUM
+	mov rax, [rbp+16] 		; first stack argument == syscall number
 	
 	int 0x80
 
 	popfq
 	mov rsp, rbp
 	pop rbp
-	ret ; rax tiene el valor de retorno
+	ret 					; rax has return value

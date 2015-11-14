@@ -1,6 +1,7 @@
 #ifndef _INT_80_H_
 #define _INT_80_H_
-#include <stdint.h>
+
+#include <define.h>
 
 /**
  * Syscall caller or wrapper

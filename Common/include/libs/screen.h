@@ -1,19 +1,8 @@
-#ifndef _SCREEN_H_
-#define _SCREEN_H_
+#ifndef _LIB_SCREEN_H_
+#define _LIB_SCREEN_H_
 
 #include <define.h>
-
-#define MIN_SCREENSAVER_TIME 5
-
-#define ERROR_SCREENSAVER_TIME -1
-
-#define MIN_TERMINAL 1
-#define MAX_TERMINAL 2
-#define MIN_COLOR 0x0
-#define MAX_COLOR 0xF
-
-#define ERROR_INVALID_TERMINAL -2
-#define ERROR_INVALID_COLOR -3
+#include <sysscreen.h>
 
 /**
  * Clears the terminal screen

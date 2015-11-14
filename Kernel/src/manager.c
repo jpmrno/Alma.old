@@ -3,8 +3,6 @@
 #include <terminal.h>
 #include <syscalls.h>
 
-typedef void (* tScreenSaver) (void);
-
 #define CONVERT_TO_TIMER_TICK_CYCLES(x) (((x) * 1000) / 55)
 
 static int keyboardPrintToScreen_enabled = FALSE;
