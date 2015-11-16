@@ -16,9 +16,7 @@ This project needs the following packages:
 
 ### Mac OS
 
-0. *Requisite:* Install BREW 
-
-http://brew.sh
+**Requisite:** Install BREW (http://brew.sh)
 
 1. Install QEMU
 
