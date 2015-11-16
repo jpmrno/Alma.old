@@ -38,7 +38,7 @@ From the project's directory run:
 
 *Makes Toolchain, cleans everything, makes all, and runs*
 
-## Credits:
+## Credits
 
 - Zhoue β (project structure & kernel modifications): 
 	- Author: Juan Moreno
