@@ -18,15 +18,15 @@ This project needs the following packages:
 
 **Requisite:** Install BREW (http://brew.sh)
 
-1. Install QEMU
+1) Install QEMU
 
 `brew install qemu`
 
-2. Install NASM
+2) Install NASM
 
 `brew install nasm`
 
-3. *Optional:* Install the newest version of MAKE
+3) *Optional:* Install the newest version of MAKE
 
 `brew install make`
 
