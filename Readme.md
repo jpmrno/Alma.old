@@ -16,19 +16,19 @@ This project needs the following packages:
 
 ### Mac OS
 
-0) Requisite: Install BREW (http://brew.sh)
+0. *Requisite:* Install BREW 
 
-`ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+http://brew.sh
 
-1) Install QEMU
+1. Install QEMU
 
 `brew install qemu`
 
-2) Install NASM
+2. Install NASM
 
 `brew install nasm`
 
-3) Optional: Install the newest version of MAKE
+3. *Optional:* Install the newest version of MAKE
 
 `brew install make`
 
@@ -38,14 +38,14 @@ From the project's directory run:
 
 `make run`
 
-Makes Toolchain, cleans everything, makes all, and runs
+*Makes Toolchain, cleans everything, makes all, and runs*
 
 ## Credits:
 
-- Zhoue β (kernel modifications): 
+- Zhoue β (project structure & kernel modifications): 
 	- Author: Juan Moreno
 
-- Zhoue α (kernel modifications): 
+- Zhoue α (kernel implementation): 
 	- Author: Matías Nicolás Comercio Vázquez 
 	- Author: Juan Moreno
 
