@@ -15,9 +15,7 @@ typedef struct {
 } array_t;
 
 
-
-
-int write_size(FILE *target, char *filename);
+void write_size(FILE *target, char *filename);
 
 int write_file(FILE *target, FILE *source);
 

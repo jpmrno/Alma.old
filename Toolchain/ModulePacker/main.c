@@ -3,11 +3,13 @@
 #include <stdint.h>
 #include <sys/stat.h>
 #include <stdlib.h>
-#include "modulePacker.h"
+#include <modulePacker.h>
+
+int buildImage(array_t fileArray);
 
 int main(int argc, char *argv[]) {
 
-	printf("x64BareBones Module Packer (C) v0.1\n");
+	printf("x64BareBones Module Packer (C) v0.1.1\n");
 
 	if(argc < 2) {
 		printf("usage: \n");
@@ -76,7 +78,7 @@ int checkFiles(array_t fileArray) {
 
 }
 
-int write_size(FILE *target, char *filename) {
+void write_size(FILE *target, char *filename) {
 	struct stat st;
 	stat(filename, &st);
 	uint32_t size = st.st_size;
