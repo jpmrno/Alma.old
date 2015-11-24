@@ -9,3 +9,6 @@
 
 # Object files
 *.o
+
+# Library files
+*.a
