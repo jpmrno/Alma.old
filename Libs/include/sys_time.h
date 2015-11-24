@@ -1,7 +1,7 @@
 #ifndef _SYS_TIME_H_
 #define _SYS_TIME_H_
 
-// TODO: Errors
+#define SYSTEM_TIME_INVALID -1
 
 typedef struct {
 	uint8_t second;

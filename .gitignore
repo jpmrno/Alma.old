@@ -1,14 +1,14 @@
-# Binary Files
+# Binary files
 *.bin
 *.sys
-
-# The images
-*.img
-*.qcow2
-*.vmdk
 
 # Object files
 *.o
 
 # Library files
 *.a
+
+# Images
+*.img
+*.qcow2
+*.vmdk

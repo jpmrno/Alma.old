@@ -4,8 +4,6 @@
 #include <define.h>
 #include <sys_time.h>
 
-#define TIME_INVALID -1 // TODO: Sync systime.h with kernel and time.h
-
 /**
  * Reads the date and time from the RTC, and stores the data at t
  * @param  t 	time

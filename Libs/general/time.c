@@ -2,7 +2,7 @@
 #include <primitives.h>
 
 int setSystemTime(tSystemTime * t) {
-	return isValidTime(t) ? time_write(t) : TIME_INVALID;
+	return isValidTime(t) ? time_write(t) : SYSTEM_TIME_INVALID;
 }
 
 int getSystemTime(tSystemTime * t) {

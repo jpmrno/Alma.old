@@ -68,15 +68,14 @@ static int scmd_help_command() {
  */
 static int scmd_time_get() {
 	int ret;
-	systemTime_t t;
+	tSystemTime t;
 
 	if (hasMoreArgs) {
 		return ERROR_ARGUMENTS_EXCESS;
 	}
 
 	ret = getSystemTime(&t); 
-	printf("%d-%d-%d\t%d:%d:%d\n", 	t.day, t.month, t.year, t.hour, 
-													t.minute, t.second);
+	printf("%d-%d-%d\t%d:%d:%d\n", 	t.day, t.month, t.year, t.hour, t.minute, t.second);
 	return ret;
 }
 
@@ -87,14 +86,13 @@ static int scmd_time_get() {
  *              !OK otherwise
  */
 static int scmd_time_set() {
-	systemTime_t t;
+	tSystemTime t;
 	char arg[MAX_TIME_NUM_LENGTH];
 	int ret = 0;
 	unsigned int convertedNum;
 	int args[TIME_T_FIELDS] = {0};
 
-	char *missings[] = {"day", "month", "year", "hour", 
-													"minute", "second"};
+	char *missings[] = {"day", "month", "year", "hour", "minute", "second"};
 	int i; 
 	for (i = 0 ; i < TIME_T_FIELDS ; i++) {
 		if (!hasMoreArgs) {
@@ -107,7 +105,7 @@ static int scmd_time_set() {
 			return ERROR_ARGUMENTS_MISSING;
 		}
 
-		ret = stringToNum(arg, &convertedNum);
+		ret = strint(arg, &convertedNum);
 		if (ret == ERROR_NUMBER_NOT_POSITIVE) {
 		   printf("\t<time> Wrong argument: %s: Not a positive number.\n",arg);
 		   return ERROR_ARGUMENTS_INVALID;
@@ -127,9 +125,8 @@ static int scmd_time_set() {
 	t.second = args[5];
 
 	ret = setSystemTime(&t);
-	if (ret == TIME_INVALID) {
-		printf("\t<time> Wrong arguments: Not a valid Time.\n"
-			"\t(note: year should be between 1980 & 2250).\n");
+	if (ret == SYSTEM_TIME_INVALID) {
+		printf("\t<time> Wrong arguments: Not a valid Time.\n\t(note: year should be between 1980 & 2250).\n");
 		return ERROR_ARGUMENTS_INVALID;
 	}
 
@@ -197,16 +194,16 @@ static int scmd_screensaver_time() {
 		return ERROR_ARGUMENTS_MISSING;
 	}
 
-	ret = stringToNum(arg, &seconds);
+	ret = strint(arg, &seconds);
 	if (ret == ERROR_NUMBER_NOT_POSITIVE) {
 		printf("\t<screensaver time>: Wrong argument: %s: "
 			"Not a positive number.\n", arg);
 		return ERROR_ARGUMENTS_INVALID;
 	}
 
-	if(setScreenSaverTime(seconds) == ERROR_SCREENSAVER_TIME) {
+	if(setScreenSaverTime(seconds) == SYSTEM_ERROR_SCREENSAVER_TIME) {
 		printf("\t<screensaver time>: Time invalid "
-			"(min. time = %d seconds).\n", MIN_SCREENSAVER_TIME);
+			"(min. time = %d seconds).\n", SYSTEM_SCREENSAVER_TIME_MIN);
 		return ERROR_ARGUMENTS_INVALID;
 	}
 
@@ -243,8 +240,7 @@ static int scmd_terminal_set() {
 	getWord(arg, MAX_TERMINAL_NUM_LENGTH);
 
 	if(!completelyReadWord) {
-		printf("\t<terminal> Number too long (min. terminal = %d - "
-			"max. terminal = %d).\n", MIN_TERMINAL, MAX_TERMINAL);
+		printf("\t<terminal> Number too long (min. terminal = %d - max. terminal = %d).\n", 0, SYSTEM_TERMINAL_MAX);
 		return ERROR_ARGUMENTS_INVALID;
 	}
 
@@ -256,17 +252,15 @@ static int scmd_terminal_set() {
 		return ERROR_ARGUMENTS_MISSING;
 	}
 
-	ret = stringToNum(arg, &index);
+	ret = strint(arg, &index);
 	if (ret == ERROR_NUMBER_NOT_POSITIVE) {
-		printf("\t<terminal> Wrong argument: %s: Not a positive number.\n", 
-																		arg);
+		printf("\t<terminal> Wrong argument: %s: Not a positive number.\n", arg);
 		return ERROR_ARGUMENTS_INVALID;
 	}
 
 	ret = setTerminal(index);
-	if(ret == ERROR_INVALID_TERMINAL) {
-		printf("\t<terminal> Invalid terminal (min. terminal = %d - "
-			"max. terminal = %d).\n", MIN_TERMINAL, MAX_TERMINAL);
+	if(ret == SYSTEM_ERROR_TERMINAL_INVALID) {
+		printf("\t<terminal> Invalid terminal (min. terminal = %d - max. terminal = %d).\n", 0, SYSTEM_TERMINAL_MAX);
 		return ERROR_ARGUMENTS_INVALID;
 	}
 
@@ -291,8 +285,7 @@ static int scmd_terminal_color(int textBoolean) {
 	getWord(arg, MAX_COLOR_LENGTH);
 
 	if(!completelyReadWord) {
-		printf("\t<terminal> Number too long (min. color = %d - "
-			"max. color = %d).\n", MIN_COLOR, MAX_COLOR);
+		printf("\t<terminal> Number too long (min. color = %d - max. color = %d).\n", SYSTEM_TERMINAL_COLOR_MIN, SYSTEM_TERMINAL_COLOR_MAX);
 		return ERROR_ARGUMENTS_INVALID;
 	}
 
@@ -304,10 +297,9 @@ static int scmd_terminal_color(int textBoolean) {
 		return ERROR_ARGUMENTS_MISSING;
 	}
 
-	ret = stringToNum(arg, &color);
+	ret = strint(arg, &color);
 	if (ret == ERROR_NUMBER_NOT_POSITIVE) {
-		printf("\t<terminal> Wrong argument: %s: Not a positive number.\n",
-																		 arg);
+		printf("\t<terminal> Wrong argument: %s: Not a positive number.\n", arg);
 		return ERROR_ARGUMENTS_INVALID;
 	}
 
@@ -317,9 +309,8 @@ static int scmd_terminal_color(int textBoolean) {
 		ret = setTerminalBackgroundColor(color);
 	}
 
-	if(ret == ERROR_INVALID_COLOR) {
-		printf("\t<terminal> Number too long (min. color = %d - "
-			"max. color = %d).\n", MIN_COLOR, MAX_COLOR);
+	if(ret == SYSTEM_ERROR_TERMINAL_COLOR_INVALID) {
+		printf("\t<terminal> Number too long (min. color = %d - max. color = %d).\n", SYSTEM_TERMINAL_COLOR_MIN, SYSTEM_TERMINAL_COLOR_MAX);
 		return ERROR_ARGUMENTS_INVALID;
 	}
 

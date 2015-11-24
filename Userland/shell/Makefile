@@ -18,10 +18,10 @@ DEPS = $(foreach LIB_DEP,$(LIB_DEPS),-l$(LIB_DEP))
 all: $(MODULE)
 
 $(MODULE): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
-	$(LD) $(LD_FLAGS) -T $(MODULE_NAME).ld -o $@ $^ -L../$(LIBS_PATH) $(DEPS)
+	$(LD) $(LD_FLAGS) -T $(MODULE_NAME).ld -o $@ $^ -L../../$(LIBS_PATH) $(DEPS)
 
 %.o: %.c
-	$(GCC) $(GCC_FLAGS) $(HEADERS) -c $< -o $@ -L../$(LIBS_PATH) $(DEPS)
+	$(GCC) $(GCC_FLAGS) $(HEADERS) -c $< -o $@ -L../../$(LIBS_PATH) $(DEPS)
 
 %.o: %.asm
 	$(ASM) $(ASM_FLAGS) $< -o $@
