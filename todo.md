@@ -44,8 +44,6 @@
 	- clear pantalla, disable cursor, escribir texo y ver si loopea
 	- correr funciones? (me parece q no)
 
-- WALLOS o wallOS?
-
 - Sonido
 	- Musica al iniciar
 	- Teclado/piano
