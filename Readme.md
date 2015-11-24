@@ -16,25 +16,25 @@ This project needs the following packages: `nasm qemu gcc binutils make`
 
 0) Requisite: Install BREW (http://brew.sh)
 
-	`ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 1) Install QEMU
 
-	`brew install qemu`
+	brew install qemu
 
 2) Install NASM
 
-	`brew install nasm`
+	brew install nasm
 
 3) *Optional:* Install the newest version of MAKE
 
-	`brew install make`
+	brew install make
 
 ## Usage
 
 From the project's directory run:
 
-	`make run`
+	make run
 
 ## Credits
 
