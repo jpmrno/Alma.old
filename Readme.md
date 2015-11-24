@@ -14,7 +14,7 @@ This project needs the following packages: `nasm qemu gcc binutils make`
 
 ### Mac OS
 
-0) Requisite: Install BREW (http://brew.sh)
+0) *Requisite:* Install BREW (http://brew.sh)
 
 	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
