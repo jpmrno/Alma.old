@@ -6,7 +6,7 @@
 
 #define BUFFER_SIZE 128
 
-#define OUTPUT_FILE "packedKernel.bin"
+#define OUTPUT_FILE "system.bin"
 
 
 typedef struct {

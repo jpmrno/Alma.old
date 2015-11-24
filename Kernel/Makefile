@@ -19,7 +19,7 @@ GCC_FLAGS += $(GCC_WARNINGS)
 all: $(KERNEL_NAME)
 
 $(KERNEL_NAME): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM) $(LIBS)
-	$(LD) $(LD_FLAGS) -T kernel.ld -o $@ $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM) $(LIBS)
+	$(LD) $(LD_FLAGS) -T kernel.ld -o $@ $^
 
 %.o: %.c
 	$(GCC) $(GCC_FLAGS) $(HEADERS) -c $< -o $@

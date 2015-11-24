@@ -24,9 +24,7 @@ userland: common
 image: toolchain bootloader kernel userland
 	$(MAKE) -C $(IMAGE_PATH) all
 
-clean: cleanall
-
-cleanall:
+clean:
 	$(MAKE) -C $(TOOLCHAIN_PATH) clean
 	$(MAKE) -C $(BOOTLOADER_PATH) clean
 	$(MAKE) -C $(COMMONS_PATH) clean
@@ -34,7 +32,7 @@ cleanall:
 	$(MAKE) -C $(USERLAND_PATH) clean
 	$(MAKE) -C $(IMAGE_PATH) clean
 
-run: clean all
+run: all
 	$(QEMU) $(QEMU_FLAGS)
 
-.PHONY: toolchain bootloader common kernel userland image all cleanall clean
+.PHONY: all toolchain bootloader common kernel userland image clean

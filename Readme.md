@@ -10,33 +10,41 @@ Please read "Manual de Usuario.pdf" for the usage manual and "Informe.pdf" for m
 
 ### General
 
-This project needs the following packages:
-
-`nasm qemu gcc binutils make`
+This project needs the following packages: `nasm qemu gcc binutils make`
 
 ### Mac OS
 
+<<<<<<< Updated upstream
 **Requisite:** Install BREW (http://brew.sh)
+=======
+0) Requisite: Install BREW (http://brew.sh)
+
+	`ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+>>>>>>> Stashed changes
 
 1) Install QEMU
 
-`brew install qemu`
+	`brew install qemu`
 
 2) Install NASM
 
-`brew install nasm`
+	`brew install nasm`
 
 3) *Optional:* Install the newest version of MAKE
 
-`brew install make`
+	`brew install make`
 
 ## Usage
 
 From the project's directory run:
 
+<<<<<<< Updated upstream
 `make run`
 
 *Makes Toolchain, cleans everything, makes all, and runs*
+=======
+	`make run`
+>>>>>>> Stashed changes
 
 ## Credits
 

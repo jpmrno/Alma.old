@@ -19,7 +19,7 @@ LIBS = $($(wildcard ../$(COMMON_SRC_ASM)/*.asm):.asm=.o) $($(wildcard ../$(COMMO
 all: $(MODULE)
 
 $(MODULE): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM) $(LIBS)
-	$(LD) $(LD_FLAGS) -T $(MODULE_NAME).ld -o $(MODULE) $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM) $(LIBS)
+	$(LD) $(LD_FLAGS) -T $(MODULE_NAME).ld -o $@ $^
 
 %.o: %.c
 	$(GCC) $(GCC_FLAGS) $(HEADERS) -c $< -o $@
