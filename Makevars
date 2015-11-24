@@ -52,12 +52,10 @@ BOOTLOADER = $(BOOTLOADER_PATH)/$(BOOTLOADER_NAME)
 IMAGE_PATH = Image
 ###### ^^^^^ ######
 
-###### COMMONS ######
-COMMONS_PATH = Common
-COMMONS_HEADERS = $(COMMONS_PATH)/include
-COMMONS_SRC_C = $(COMMONS_PATH)/src
-COMMONS_SRC_ASM = $(COMMONS_PATH)/asm
-###### ^^^^^^^ ######
+###### LIBS ######
+LIBS_PATH = Libs
+LIBS_HEADERS = $(LIBS_PATH)/include
+###### ^^^^ ######
 
 ###### KERNEL ######
 KERNEL_PATH = Kernel

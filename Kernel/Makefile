@@ -8,26 +8,24 @@ OBJECTS_C = $(SOURCES_C:.c=.o)
 OBJECTS_ASM = $(SOURCES_ASM:.asm=.o)
 OBJECT_LOADER = $(SOURCE_LOADER:.asm=.o)
 
-LIBS = $(wildcard ../$(COMMONS_SRC_C)/*.o & ../$(COMMONS_SRC_C)/**/*.o)
-LIBS += $(wildcard ../$(COMMONS_SRC_ASM)/*.o & ../$(COMMONS_SRC_ASM)/**/*.o)
-
-SRC_HEADERS += $(wildcard ../$(COMMONS_HEADERS) & ../$(COMMONS_HEADERS)/*/.)
+SRC_HEADERS += ../$(LIBS_HEADERS)
 HEADERS = $(foreach HEADER,$(SRC_HEADERS),-I $(HEADER))
+DEPS = $(foreach LIB_DEP,$(LIB_DEPS),-l$(LIB_DEP))
 
 GCC_FLAGS += $(GCC_WARNINGS)
 
-all: $(KERNEL_NAME)
+all: ../$(KERNEL)
 
-$(KERNEL_NAME): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM) $(LIBS)
-	$(LD) $(LD_FLAGS) -T kernel.ld -o $@ $^
+../$(KERNEL): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
+	$(LD) $(LD_FLAGS) -T kernel.ld -o $@ $^ -L../$(LIBS_PATH) $(DEPS)
 
 %.o: %.c
-	$(GCC) $(GCC_FLAGS) $(HEADERS) -c $< -o $@
+	$(GCC) $(GCC_FLAGS) $(HEADERS) -c $< -o $@ -L../$(LIBS_PATH) $(DEPS)
 
 %.o: %.asm
 	$(ASM) $(ASM_FLAGS) $< -o $@
 
 clean:
-	rm -f $(KERNEL_NAME) $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
+	rm -f ../$(KERNEL) $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
 
 .PHONY: all clean

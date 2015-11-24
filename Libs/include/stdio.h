@@ -2,7 +2,7 @@
 #define _LIB_STDIO_H_
 
 #include <define.h>
-#include <sysio.h>
+#include <sys_io.h>
 
 #define EOF -1
 

@@ -2,7 +2,7 @@
 #define _LIB_TIME_H_
 
 #include <define.h>
-#include <systime.h>
+#include <sys_time.h>
 
 #define TIME_INVALID -1 // TODO: Sync systime.h with kernel and time.h
 

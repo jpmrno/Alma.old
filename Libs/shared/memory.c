@@ -1,7 +1,14 @@
-#include <libc.h>
 #include <memory.h>
 
-// TODO: Integrate in common libs
+void * memset(void * destination, int32_t c, uint64_t length) {
+	uint8_t chr = (uint8_t)c;
+	char * dst = (char*)destination;
+
+	while(length--)
+		dst[length] = chr;
+
+	return destination;
+}
 
 void * memcpy(void * destination, const void * source, uint64_t length) {
 	/*
@@ -38,8 +45,4 @@ void * memcpy(void * destination, const void * source, uint64_t length) {
 	}
 
 	return destination;
-}
-
-void clearBSS(void * bssAddress, uint64_t bssSize) {
-	memset(bssAddress, 0, bssSize);
 }

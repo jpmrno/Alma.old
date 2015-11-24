@@ -182,25 +182,25 @@ static uint64_t set_screen_saver_wrapper(uint64_t rdi, uint64_t rsi, uint64_t rd
 
 uint64_t (*syscallHandler(unsigned int dest)) (uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8, uint64_t r9) {
 	switch(dest) {
-		case SYS_READ:
+		case SYSTEM_CALL_READ:
 			return read_wrapper;
-		case SYS_WRITE:
+		case SYSTEM_CALL_WRITE:
 			return write_wrapper;
-		case SYS_TERMINAL_CLEAR:
+		case SYSTEM_CALL_TERMINAL_CLEAR:
 			return terminal_clear_wrapper;
-		case SYS_TERMINAL_SET:
+		case SYSTEM_CALL_TERMINAL_SET:
 			return terminal_set_wrapper;
-		case SYS_TERMINAL_COLOR:
+		case SYSTEM_CALL_TERMINAL_COLOR:
 			return terminal_color_wrapper;
-		case SYS_TIME_READ: 
+		case SYSTEM_CALL_TIME_READ: 
 			return read_rtc_wrapper;
-		case SYS_TIME_WRITE:
+		case SYSTEM_CALL_TIME_WRITE:
 			return write_rtc_wrapper;
-		case SYS_SCREENSAVER_ENABLE:
+		case SYSTEM_CALL_SCREENSAVER_ENABLE:
 			return set_screen_saver_enabled_wrapper;
-		case SYS_SCREENSAVER_TIME:
+		case SYSTEM_CALL_SCREENSAVER_TIME:
 			return set_screen_saver_time_wrapper;
-		case SYS_SCREENSAVER:
+		case SYSTEM_CALL_SCREENSAVER:
 			return set_screen_saver_wrapper;
 		default:
 			break;
@@ -226,7 +226,7 @@ static int read(int fd, char *buffer, unsigned int count) {
 			break;
 	}
 
-	return ERROR_FILEDESCRIPTOR;
+	return SYSTEM_ERROR_FILEDESCRIPTOR;
 }
 
 static uint64_t write_wrapper(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8, uint64_t r9) {
@@ -246,7 +246,7 @@ static int write(int fd, char *str, unsigned int count) {
 			break;
 	}
 
-	return ERROR_FILEDESCRIPTOR;
+	return SYSTEM_ERROR_FILEDESCRIPTOR;
 }
 
 static uint64_t terminal_clear_wrapper(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8, uint64_t r9) {

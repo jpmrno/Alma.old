@@ -1,4 +1,7 @@
-#include "include/shell.h"
+#include <shell.h>
+#include <stdio.h>
+#include <commands.h>
+#include <memory.h>
 
 // Module setup
 extern char bss;

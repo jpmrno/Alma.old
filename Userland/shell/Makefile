@@ -11,18 +11,17 @@ OBJECTS_C = $(SOURCES_C:.c=.o)
 OBJECTS_ASM = $(SOURCES_ASM:.asm=.o)
 OBJECT_LOADER = $(SOURCE_LOADER:.c=.o)
 
+SRC_HEADERS += ../../$(LIBS_HEADERS)
 HEADERS = $(foreach HEADER,$(SRC_HEADERS),-I $(HEADER))
-
-# TODO: Verify & Improve
-LIBS = $($(wildcard ../$(COMMON_SRC_ASM)/*.asm):.asm=.o) $($(wildcard ../$(COMMON_SRC_C)/*.c):.c=.o)
+DEPS = $(foreach LIB_DEP,$(LIB_DEPS),-l$(LIB_DEP))
 
 all: $(MODULE)
 
-$(MODULE): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM) $(LIBS)
-	$(LD) $(LD_FLAGS) -T $(MODULE_NAME).ld -o $@ $^
+$(MODULE): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
+	$(LD) $(LD_FLAGS) -T $(MODULE_NAME).ld -o $@ $^ -L../$(LIBS_PATH) $(DEPS)
 
 %.o: %.c
-	$(GCC) $(GCC_FLAGS) $(HEADERS) -c $< -o $@
+	$(GCC) $(GCC_FLAGS) $(HEADERS) -c $< -o $@ -L../$(LIBS_PATH) $(DEPS)
 
 %.o: %.asm
 	$(ASM) $(ASM_FLAGS) $< -o $@

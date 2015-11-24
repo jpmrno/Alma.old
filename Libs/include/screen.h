@@ -2,7 +2,7 @@
 #define _LIB_SCREEN_H_
 
 #include <define.h>
-#include <sysscreen.h>
+#include <sys_screen.h>
 
 /**
  * Clears the terminal screen

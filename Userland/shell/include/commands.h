@@ -3,7 +3,7 @@
 
 #include <define.h>
 #include <shell.h>
-#include <io.h>
+#include <stdio.h>
 #include <time.h>
 
 // Commands vector size

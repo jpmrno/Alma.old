@@ -2,7 +2,7 @@
 #define _SYSCALL_HANDLERS_H_
 
 #include <define.h>
-#include <syscalls.h>
+#include <sys_calls.h>
 
 /**
  * Chooses a function according to the given 'dest' number.

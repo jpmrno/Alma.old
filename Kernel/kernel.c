@@ -1,8 +1,8 @@
-#include <libc.h>
 #include <interrupt.h>
 #include <idtManager.h>
 #include <moduleLoader.h>
 #include <terminal.h>
+#include <memory.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -30,7 +30,7 @@ void * initializeKernelBinary() {
 		shellAddress
 	};
 	loadModules(&endOfKernelBinary, moduleAddresses);
-	clearBSS(&bss, &endOfKernel - &bss);
+	memset(&bss, 0, &endOfKernel - &bss); // Clear BSS
 	
 	initTerminal();
 	print("[x64BareBones]\n");

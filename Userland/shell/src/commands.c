@@ -1,6 +1,7 @@
 #include <commands.h>
 #include <time.h>
 #include <screen.h>
+#include <strings.h>
 #include <help.h>
 
 #define BACKGROUND 0

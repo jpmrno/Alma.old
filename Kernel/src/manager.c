@@ -1,7 +1,7 @@
 #include <manager.h>
 #include <keyboard.h>
 #include <terminal.h>
-#include <syscalls.h>
+#include <sys_calls.h>
 
 #define CONVERT_TO_TIMER_TICK_CYCLES(x) (((x) * 1000) / 55)
 
@@ -151,8 +151,8 @@ int manager_setScreenSaverTime(uint16_t seconds) {
 
 int manager_setScreenSaver(int enabled, char * text, int seconds, int loop) {
 	if(enabled) {
-		if(seconds < SCREENSAVER_TIME_MIN) {
-			return ERROR_SCREENSAVER_TIME;
+		if(seconds < SYSTEM_SCREENSAVER_TIME_MIN) {
+			return SYSTEM_ERROR_SCREENSAVER_TIME;
 		}
 		screenSaver_text = text;
 		screenSaver_counterLimit = CONVERT_TO_TIMER_TICK_CYCLES(seconds);

@@ -2,9 +2,9 @@
 #define _SYS_CALLS_H_
 
 // TODO: Necesarios?
-#include <systime.h>
-#include <sysio.h>
-#include <sysscreen.h>
+#include <sys_time.h>
+#include <sys_io.h>
+#include <sys_screen.h>
 
 enum syscalls_call {
 	SYSTEM_CALL_READ = 0,
