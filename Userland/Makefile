@@ -1,6 +1,6 @@
 include ../Makevars
 
-MODULES = shell
+MODULES = $(wildcard */.)
 
 all:
 	$(foreach MODULE, $(MODULES), $(MAKE) -C $(MODULE) all;)

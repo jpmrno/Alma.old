@@ -1,12 +1,7 @@
 include ../Makevars
+include Makevars
 
-SYSTEM_PACKED = system.bin
 USERLAND_FILES = $(wildcard ../$(USERLAND_PATH)/*.bin)
-
-VMDK = $(SO_NAME).vmdk
-QCOW2 = $(SO_NAME).qcow2
-IMG = $(SO_NAME).img
-IMG_SIZE = 6291456
 
 QEMU_CONVERT = qemu-img convert -f raw
 

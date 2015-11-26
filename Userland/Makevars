@@ -1,6 +1,7 @@
 MODULE_TYPE = bin
 
-GCC_FLAGS = $(GCC_WARNINGS) -m64 -fno-exceptions -std=c99 -ffreestanding -nostdlib -fno-common -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc
-ASM_FLAGS = -felf64
-LD_FLAGS =
-#AR_FLAGS = rvs # ¿¿¿¿????
+LIB_DEPS = shared general system
+
+GCC_FLAGS = $(GCC_WARNINGS) $(GCC_FLAGS_G)
+ASM_FLAGS = $(ASM_FLAGS_G)
+LD_FLAGS = $(LD_FLAGS_G)

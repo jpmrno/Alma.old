@@ -1,6 +1,8 @@
 include ../Makevars
 include Makevars
 
+KERNEL_FILE = ../$(KERNEL)
+
 SOURCES_C = $(wildcard *.c & $(SRC_C)/*.c & $(SRC_C)/**/*.c)
 SOURCES_ASM = $(wildcard $(SRC_ASM)/*.asm & $(SRC_ASM)/**/*.asm)
 
@@ -12,12 +14,10 @@ SRC_HEADERS += ../$(LIBS_HEADERS)
 HEADERS = $(foreach HEADER,$(SRC_HEADERS),-I $(HEADER))
 DEPS = $(foreach LIB_DEP,$(LIB_DEPS),-l$(LIB_DEP))
 
-GCC_FLAGS += $(GCC_WARNINGS)
+all: $(KERNEL_FILE)
 
-all: ../$(KERNEL)
-
-../$(KERNEL): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
-	$(LD) $(LD_FLAGS) -T kernel.ld -o $@ $^ -L../$(LIBS_PATH) $(DEPS)
+$(KERNEL_FILE): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
+	$(LD) $(LD_FLAGS) -T $(SOURCE_LD) -o $@ $^ -L../$(LIBS_PATH) $(DEPS)
 
 %.o: %.c
 	$(GCC) $(GCC_FLAGS) $(HEADERS) -c $< -o $@ -L../$(LIBS_PATH) $(DEPS)
@@ -26,6 +26,6 @@ all: ../$(KERNEL)
 	$(ASM) $(ASM_FLAGS) $< -o $@
 
 clean:
-	rm -f ../$(KERNEL) $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
+	rm -f $(KERNEL_FILE) $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
 
 .PHONY: all clean

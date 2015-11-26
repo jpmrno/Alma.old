@@ -1,13 +1,14 @@
 include ../../Makevars
+include Makevars
 
-GCC_FLAGS = -ansi -std=c99 -Wall -pedantic
+FILESYSTEM_FILE = ../$(FILESYSTEM_NAME)
 
-all: ../$(FILESYSTEM_NAME)
+all: $(FILESYSTEM_FILE)
 
-../$(FILESYSTEM_NAME):
-	$(SYS_GCC) $(GCC_FLAGS) bmfs.c -o $@
+$(FILESYSTEM_FILE):
+	$(SYS_GCC) $(GCC_FLAGS) $(SOURCE_FILESYSTEM) -o $@
 
 clean:
-	rm -f ../$(FILESYSTEM_NAME)
+	rm -f $(FILESYSTEM_FILE)
 
 .PHONY: all clean

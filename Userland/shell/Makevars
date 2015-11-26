@@ -7,5 +7,4 @@ SRC_ASM = asm
 SRC_HEADERS = include
 
 SOURCE_LOADER = $(MODULE_NAME).c
-
-LIB_DEPS = shared general system
+SOURCE_LD = $(MODULE_NAME).ld
