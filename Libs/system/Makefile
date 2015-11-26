@@ -1,12 +1,6 @@
 include ../../Makevars
 include ../Makevars
-
-LIB_NAME = system
-LIB_DEPS = shared
-
-SRC_C = .
-SRC_ASM = .
-SRC_HEADERS = .
+include Makevars
 
 LIB = ../lib$(LIB_NAME).a
 DEPS = $(foreach LIB_DEP,$(LIB_DEPS),-l$(LIB_DEP))

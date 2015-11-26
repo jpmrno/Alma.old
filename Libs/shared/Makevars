@@ -1,0 +1,6 @@
+LIB_NAME = shared
+LIB_DEPS =
+
+SRC_C = .
+SRC_ASM = .
+SRC_HEADERS = .

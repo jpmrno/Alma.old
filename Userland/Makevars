@@ -1,6 +1,6 @@
 MODULE_TYPE = bin
 
-LIB_DEPS = shared general system
+LIB_DEPS = shared api system
 
 GCC_FLAGS = $(GCC_WARNINGS) $(GCC_FLAGS_G)
 ASM_FLAGS = $(ASM_FLAGS_G)
