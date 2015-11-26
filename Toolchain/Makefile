@@ -1,6 +1,6 @@
 include ../Makevars
 
-DIRS = ModulePacker
+DIRS = $(wildcard */.)
 
 all:
 	$(foreach DIR, $(DIRS), $(MAKE) -C $(DIR) all;)
