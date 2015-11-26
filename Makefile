@@ -1,9 +1,5 @@
 include Makevars
 
-IMAGE = $(IMAGE_PATH)/$(SO_NAME).qcow2
-QEMU = qemu-system-x86_64
-QEMU_FLAGS = -m 512
-
 all: toolchain bootloader libs kernel userland image
 
 toolchain:
@@ -33,6 +29,6 @@ clean:
 	$(MAKE) -C $(IMAGE_PATH) clean
 
 run: all
-	$(QEMU) -hda $(IMAGE) $(QEMU_FLAGS)
+	$(QEMU) -hda $(SOURCE_IMAGE) $(QEMU_FLAGS)
 
 .PHONY: all toolchain bootloader libs kernel userland image clean

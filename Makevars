@@ -27,6 +27,9 @@ else
   ASM = nasm
 endif
 
+QEMU = qemu-system-x86_64
+QEMU_FLAGS = -m 512
+
 GCC_WARNINGS = -Wall -Wextra -pedantic
 #GCC_WARNINGS = -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs -Winline -Wno-long-long -Wuninitialized -Wconversion -Wstrict-prototypes
 
@@ -56,6 +59,7 @@ BOOTLOADER = $(BOOTLOADER_PATH)/$(BOOTLOADER_NAME)
 
 ###### IMAGE ######
 IMAGE_PATH = Image
+SOURCE_IMAGE = $(IMAGE_PATH)/$(SO_NAME).qcow2
 ###### ^^^^^ ######
 
 ###### LIBS ######
