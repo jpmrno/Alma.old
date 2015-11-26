@@ -6,7 +6,7 @@ The final goal of x64BareBones's project is to provide an entry point for a kern
 
 Please read "Manual de Usuario.pdf" for the usage manual and "Informe.pdf" for more information about Zhoue.
 
-This project was made for our Computer Architecture subject at ITBA University (Buenos Aires, Argentina).
+This project was made for our Computer Architecture subject of the ITBA University (at Buenos Aires, Argentina).
 
 ## Requisites
 
