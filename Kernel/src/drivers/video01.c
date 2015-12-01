@@ -39,6 +39,8 @@ void video_cursor_init() {
 }
 
 void video_clear() {
+	int i;
+	
 	for(i = 0; i < SYSTEM_VIDEO_SIZE; i++) {
 		video[i].character = ' ';
 		video[i].style = SYSTEM_VIDEO_STYLE_DEFAULT;
@@ -127,7 +129,7 @@ int video_color_put(unsigned int position, vstyle_t color) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
 
-	style = video_style_get(position);
+	vstyle_t style = video_style_get(position);
 	video_style_put(position, STYLE_GET_BG(style) +  STYLE_GET_COLOR(color));
 
 	return OK;
@@ -146,7 +148,7 @@ int video_bg_put(unsigned int position, vstyle_t bg) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
 
-	style = video_style_get(position);
+	vstyle_t style = video_style_get(position);
 	video_style_put(position, STYLE_GET_COLOR(style) +  (STYLE_GET_COLOR(bg) << COLOR_SIZE));
 
 	return OK;
