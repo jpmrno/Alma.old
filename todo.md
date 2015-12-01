@@ -1,6 +1,7 @@
 #TODO:
 
-- Video driver:
+[x] Video driver:
+
 	- video_put(position, char, style) o video_put(position, char, color, bg)
 	- video_get(position)
 	- video_style_get(position)
