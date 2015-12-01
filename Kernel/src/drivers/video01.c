@@ -101,7 +101,7 @@ char video_get(unsigned int position) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
 
-	return video[position].character; // TODO: Lo puede modificar???
+	return video[position].character;
 }
 
 int video_style_put(unsigned int position, vstyle_t style) {
@@ -119,7 +119,7 @@ int video_style_get(unsigned int position) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
 
-	return video[position].style; // TODO: Lo puede modificar???
+	return video[position].style;
 }
 
 int video_color_put(unsigned int position, vstyle_t color) {
