@@ -7,6 +7,10 @@ typedef struct {
     uint8_t character;
     uint8_t style;
 } tSystemVideo;
+
+#define COLOR_SIZE 4
+#define STYLE_GET_COLOR(x) ((x) & 0x0F) 
+#define STYLE_GET_BG(x) ((x) & 0xF0)
 // DEFINES
 
 // ASM FUNCTIONS
@@ -124,7 +128,9 @@ int video_color_put(unsigned int position, vstyle_t color) {
 	}
 
 	style = video_style_get(position);
-	video_style_put(position, (style & 0xF0) +  (color & 0x0F));
+	video_style_put(position, STYLE_GET_BG(style) +  STYLE_GET_COLOR(color));
+
+	return OK;
 }
 
 int video_color_get(unsigned int position) {
@@ -132,7 +138,7 @@ int video_color_get(unsigned int position) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
 
-	return video_style_get(position) & 0x0F;
+	return STYLE_GET_COLOR(video_style_get(position));
 }
 
 int video_bg_put(unsigned int position, vstyle_t bg) {
@@ -141,7 +147,9 @@ int video_bg_put(unsigned int position, vstyle_t bg) {
 	}
 
 	style = video_style_get(position);
-	video_style_put(position, (style & 0x0F) +  ((bg & 0x0F) << 4));
+	video_style_put(position, STYLE_GET_COLOR(style) +  (STYLE_GET_COLOR(bg) << COLOR_SIZE));
+
+	return OK;
 }
 
 int video_bg_get(unsigned int position) {
@@ -149,5 +157,5 @@ int video_bg_get(unsigned int position) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
 
-	return (video_style_get(position) & 0xF0) >> 4;
+	return STYLE_GET_BG(video_style_get(position)) >> COLOR_SIZE;
 }
