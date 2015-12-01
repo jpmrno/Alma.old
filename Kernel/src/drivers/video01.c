@@ -3,8 +3,10 @@
 // DEFINES
 #define VIDEO_DIR 0xB8000
 
-#define CHAR_POSITION(x) ((x) * 2)
-#define STYLE_POSITION(x) ((x) * 2 + 1)
+typedef struct {
+    uint8_t character;
+    uint8_t style;
+} tSystemVideo;
 // DEFINES
 
 // ASM FUNCTIONS
@@ -17,7 +19,7 @@ static void video_cursor_init();
 // LOCAL FUNCTIONS
 
 // VARIABLES
-static char * video = (char *) VIDEO_DIR;
+static tSystemVideo * video = (tSystemVideo *) VIDEO_DIR;
 static int cursor = 0;
 static int cursor_shown = TRUE;
 // VARIABLES
@@ -34,8 +36,8 @@ void video_cursor_init() {
 
 void video_clear() {
 	for(i = 0; i < SYSTEM_VIDEO_SIZE; i++) {
-		video[CHAR_POSITION(i)] = ' ';
-		video[STYLE_POSITION(i)] = SYSTEM_VIDEO_STYLE_DEFAULT;
+		video[i].character = ' ';
+		video[i].style = SYSTEM_VIDEO_STYLE_DEFAULT;
 	}
 
 	video_cursor_set(0);
@@ -59,7 +61,7 @@ int video_cursor_set(unsigned int position) {
 	cursor = position;
 
 	if(cursor_shown) {
-		_video_cursor_set(CHAR_POSITION(cursor));
+		_video_cursor_set(cursor);
 	}
 
 	return OK;
@@ -74,7 +76,7 @@ int video_put(unsigned int position, char character) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
 
-	video[CHAR_POSITION(position)] = character;
+	video[position].character = character;
 
 	return OK;
 }
@@ -84,8 +86,8 @@ int video_putWithStyle(unsigned int position, char character, vstyle_t style) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
 
-	video[CHAR_POSITION(position)] = character;
-	video[STYLE_POSITION(position)] = style;
+	video[position].character = character;
+	video[position].style = style;
 
 	return OK;
 }
@@ -95,7 +97,7 @@ char video_get(unsigned int position) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
 
-	return video[CHAR_POSITION(position)];
+	return video[position].character; // TODO: Lo puede modificar???
 }
 
 int video_style_put(unsigned int position, vstyle_t style) {
@@ -103,7 +105,7 @@ int video_style_put(unsigned int position, vstyle_t style) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
 
-	video[STYLE_POSITION(position)] = style;
+	video[position].style = style;
 
 	return OK;
 }
@@ -113,7 +115,7 @@ int video_style_get(unsigned int position) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
 
-	return video[STYLE_POSITION(position)];
+	return video[position].style; // TODO: Lo puede modificar???
 }
 
 int video_color_put(unsigned int position, vstyle_t color) {
