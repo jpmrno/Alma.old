@@ -21,6 +21,12 @@ image: toolchain bootloader kernel userland
 	$(MAKE) -C $(IMAGE_PATH) all
 
 clean:
+	$(MAKE) -C $(LIBS_PATH) clean
+	$(MAKE) -C $(KERNEL_PATH) clean
+	$(MAKE) -C $(USERLAND_PATH) clean
+	$(MAKE) -C $(IMAGE_PATH) clean
+
+cleanall:
 	$(MAKE) -C $(TOOLCHAIN_PATH) clean
 	$(MAKE) -C $(BOOTLOADER_PATH) clean
 	$(MAKE) -C $(LIBS_PATH) clean
@@ -28,7 +34,7 @@ clean:
 	$(MAKE) -C $(USERLAND_PATH) clean
 	$(MAKE) -C $(IMAGE_PATH) clean
 
-run: all
+run: clean all
 	$(QEMU) -hda $(SOURCE_IMAGE) $(QEMU_FLAGS)
 
 .PHONY: all toolchain bootloader libs kernel userland image clean

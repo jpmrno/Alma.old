@@ -1,4 +1,5 @@
 GLOBAL _cpu_vendor
+GLOBAL _port_write_byte
 
 section .text
 
@@ -67,6 +68,26 @@ _cpu_vendor:
 
 	pop rbx
 
+	mov rsp, rbp
+	pop rbp
+	ret
+
+; TODO: Doc & _port_read_byte
+align 16
+_port_write_byte:
+	push rbp
+	mov rbp, rsp
+	pushfq
+	push rax
+	push rdx
+
+	mov rax, rsi
+	mov rdx, rdi
+	out dx, al
+
+	pop rdx
+	pop rax
+	popfq
 	mov rsp, rbp
 	pop rbp
 	ret

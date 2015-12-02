@@ -3,6 +3,7 @@
 #include <moduleLoader.h>
 #include <terminal.h>
 #include <memory.h>
+#include <video01.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -32,7 +33,7 @@ void * initializeKernelBinary() {
 	loadModules(&endOfKernelBinary, moduleAddresses);
 	memset(&bss, 0, &endOfKernel - &bss); // Clear BSS
 	
-	initTerminal();
+	//initTerminal();
 	print("[x64BareBones]\n");
 	print("\tInitializing kernel's binary... \n");
 	print("\t\ttext: 0x");
@@ -81,7 +82,9 @@ int main() {
 	/*************************************************************************/
 	
 	clearScreen();
-	((EntryPoint) shellAddress)();
+	//((EntryPoint) shellAddress)();
+
+	video_init();
 
 	return 0;
 }

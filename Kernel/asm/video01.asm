@@ -1,5 +1,4 @@
 GLOBAL _video_cursor_set
-GLOBAL _video_cursor_init
 
 section .data
 	VGA_ADDRESS equ 3D4h
@@ -56,34 +55,5 @@ _video_cursor_set:
 	popfq
 
 	mov rsp,rbp				; Stack frame restorage
-	pop rbp
-	ret
-
-;--------------------------------------------------------------
-; Enables the cursor and sets its shape to squared            -
-;--------------------------------------------------------------
-align 16
-_video_cursor_init:
-	push rbp
-	mov rbp, rsp
-	pushfq
-	push rax
-	push rcx
-	push rdx
-
-	; Enable cursor and set square shape
-	mov al, 0Ah 				; Cursor start location
-	mov dx, 3d4h	 			; VGA port 3D4h
-	out dx, al					; Send to VGA hardware
-
-	mov al, 0h
-	mov dx, 3d5h		 		; VGA port 3D5h
-	out dx, al		 	    	; Send to VGA hardware
-
-	pop rdx
-	pop rcx
-	pop rax
-	popfq
-	mov rsp,rbp
 	pop rbp
 	ret

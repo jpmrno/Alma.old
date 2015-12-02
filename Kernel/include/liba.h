@@ -10,4 +10,9 @@
  */
 char * cpuVendor(char * result);
 
+/**
+ * TODO: Doc
+ */
+void _port_write_byte(uint8_t port, uint8_t data);
+
 #endif
