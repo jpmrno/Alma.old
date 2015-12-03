@@ -73,7 +73,7 @@ _cpu_vendor:
 	pop rbp
 	ret
 
-; TODO: Doc & _port_read
+; TODO: Doc
 align 16
 _port_write_byte:
 	pushaq					; Backup everything
@@ -91,7 +91,7 @@ _port_write_byte:
 	ret
 
 align 16
-_port_read_byte: ; TODO: Test
+_port_read_byte: ; TODO: Test & Doc
 	pushfq					; Backup everything
 	push rdx
 

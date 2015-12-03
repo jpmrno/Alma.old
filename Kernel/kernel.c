@@ -33,8 +33,7 @@ void * initializeKernelBinary() {
 	loadModules(&endOfKernelBinary, moduleAddresses);
 	memset(&bss, 0, &endOfKernel - &bss); // Clear BSS
 	
-	//initTerminal();
-	video_init();
+	initTerminal();
 	print("[x64BareBones]\n");
 	print("\tInitializing kernel's binary... \n");
 	print("\t\ttext: 0x");
@@ -82,10 +81,8 @@ int main() {
 	/*************************************************************************/
 	/*************************************************************************/
 	
-	//clearScreen();
-	//((EntryPoint) shellAddress)();
-	
-	video_cursor_shape(SYSTEM_VIDEO_CURSOR_SHAPE_DOT);
+	clearScreen();
+	((EntryPoint) shellAddress)();
 
 	return 0;
 }

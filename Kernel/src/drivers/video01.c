@@ -1,6 +1,5 @@
 #include <video01.h>
 #include <liba.h>
-#include <terminal.h>
 
 // DEFINES
 #define VIDEO_DIR 0xB8000
@@ -11,6 +10,8 @@
 // Cursor Registers
 #define INDEX_CURSOR_START_REGISTER 0x0A
 #define INDEX_CURSOR_END_REGISTER 0x0B
+#define INDEX_CURSOR_LOCATION_HIGH_REGISTER 0x0E
+#define INDEX_CURSOR_LOCATION_LOW_REGISTER 0x0F
 // ^^^ Cursor Registers ^^^
 
 // Cursor Shapes
@@ -25,33 +26,31 @@
 #define CURSOR_SHAPE_DOT_END 0x1F
 // ^^^ Cursor Shapes ^^^
 
-#define COLOR_SIZE 4
-#define COLOR_TO_BG(x) ((x) << COLOR_SIZE)
-#define BG_TO_COLOR(x) ((x) >> COLOR_SIZE)
+#define COLOR_TO_BG(x) ((x) << COLOR_BITS)
+#define BG_TO_COLOR(x) ((x) >> COLOR_BITS)
 
-#define BYTE_FIRST_4BITS(x) ((x) & 0x0F0)
-#define BYTE_LAST_4BITS(x) ((x) & 0x0F)
+#define BYTE_FIRST_HALF(x) ((x) & 0x0F0)
+#define BYTE_LAST_HALF(x) ((x) & 0x0F)
+#define WORD_FIRST_HALF(x) ((x) & 0x0FF00)
+#define WORD_LAST_HALF(x) ((x) & 0x0FF)
 #define BYTE_LAST_5BITS(x) ((x) & 0x01F)
 
 typedef struct {
     uint8_t character;
     uint8_t style;
 } tSystemVideo;
-// DEFINES
-
-// ASM FUNCTIONS
-void _video_cursor_set(unsigned int position); // TODO: Static?
-// ASM FUNCTIONS
+// ^^^ DEFINES ^^^
  
 // LOCAL FUNCTIONS
 static void video_cursor_shape_changer(uint8_t start, uint8_t end);
-// LOCAL FUNCTIONS
+static void video_cursor_setter(unsigned int position);
+// ^^^ LOCAL FUNCTIONS ^^^
 
 // VARIABLES
 static tSystemVideo * video = (tSystemVideo *) VIDEO_DIR;
 static int cursor = 0;
 static int cursor_shown = TRUE;
-// VARIABLES
+// ^^^ VARIABLES ^^^
 
 void video_init() {
 	cursor_shown = TRUE;
@@ -67,20 +66,20 @@ void video_clear() {
 		video[i].style = SYSTEM_VIDEO_STYLE_DEFAULT;
 	}
 
-	video_cursor_set(0);
+	video_cursor_put(0);
 }
 
 void video_cursor_show(int boolean) {
 	if(boolean) {
 		cursor_shown = TRUE;
-		video_cursor_set(cursor);
+		video_cursor_put(cursor);
 	} else {
 		cursor_shown = FALSE;
-		_video_cursor_set(SYSTEM_VIDEO_SIZE);
+		video_cursor_setter(SYSTEM_VIDEO_SIZE);
 	}
 }
 
-int video_cursor_set(unsigned int position) {
+int video_cursor_put(unsigned int position) {
 	if(position >= SYSTEM_VIDEO_SIZE) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
@@ -88,7 +87,7 @@ int video_cursor_set(unsigned int position) {
 	cursor = position;
 
 	if(cursor_shown) {
-		_video_cursor_set(cursor);
+		video_cursor_setter(cursor);
 	}
 
 	return OK;
@@ -96,6 +95,13 @@ int video_cursor_set(unsigned int position) {
 
 int video_cursor_get() {
 	return cursor;
+}
+
+void video_cursor_setter(unsigned int position) {
+	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_LOCATION_HIGH_REGISTER);
+	_port_write_byte(PORT_VIDEO_DATA, WORD_FIRST_BYTE(cursor) >> 8); // High part
+	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_LOCATION_LOW_REGISTER);
+	_port_write_byte(PORT_VIDEO_DATA, WORD_LAST_BYTE(cursor)); // Low part
 }
 
 int video_cursor_shape(tSysVideoCursorShape shape) {
@@ -186,7 +192,7 @@ int video_color_put(unsigned int position, tSysVideoStyle color) {
 	}
 
 	tSysVideoStyle style = video_style_get(position);
-	video_style_put(position, BYTE_FIRST_4BITS(style) +  BYTE_LAST_4BITS(color));
+	video_style_put(position, BYTE_FIRST_HALF(style) +  BYTE_LAST_HALF(color));
 
 	return OK;
 }
@@ -196,7 +202,7 @@ int video_color_get(unsigned int position) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
 
-	return BYTE_LAST_4BITS(video_style_get(position));
+	return BYTE_LAST_HALF(video_style_get(position));
 }
 
 int video_bg_put(unsigned int position, tSysVideoStyle bg) {
@@ -205,7 +211,7 @@ int video_bg_put(unsigned int position, tSysVideoStyle bg) {
 	}
 
 	tSysVideoStyle style = video_style_get(position);
-	video_style_put(position, BYTE_LAST_4BITS(style) +  COLOR_TO_BG(BYTE_LAST_4BITS(bg)));
+	video_style_put(position, BYTE_LAST_HALF(style) +  COLOR_TO_BG(BYTE_LAST_HALF(bg)));
 
 	return OK;
 }
@@ -215,5 +221,5 @@ int video_bg_get(unsigned int position) {
 		return SYSTEM_ERROR_VIDEO_CURSOR_INVALID;
 	}
 
-	return BG_TO_COLOR(BYTE_FIRST_4BITS(video_style_get(position)));
+	return BG_TO_COLOR(BYTE_FIRST_HALF(video_style_get(position)));
 }

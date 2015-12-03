@@ -22,7 +22,7 @@ void video_init();
 void video_clear();
 
 void video_cursor_show(int boolean);
-int video_cursor_set(unsigned int position);
+int video_cursor_put(unsigned int position);
 int video_cursor_get();
 
 int video_cursor_shape(tSysVideoCursorShape shape);
