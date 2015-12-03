@@ -63,7 +63,7 @@ void video_clear() {
 	
 	for(i = 0; i < SYSTEM_VIDEO_SIZE; i++) {
 		video[i].character = ' ';
-		video[i].style = SYSTEM_VIDEO_STYLE_DEFAULT;
+		video[i].style = STYLE_DEFAULT;
 	}
 
 	video_cursor_put(0);
@@ -99,9 +99,9 @@ int video_cursor_get() {
 
 void video_cursor_setter(unsigned int position) {
 	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_LOCATION_HIGH_REGISTER);
-	_port_write_byte(PORT_VIDEO_DATA, WORD_FIRST_BYTE(cursor) >> 8); // High part
+	_port_write_byte(PORT_VIDEO_DATA, WORD_FIRST_HALF(cursor) >> 8); // High part
 	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_LOCATION_LOW_REGISTER);
-	_port_write_byte(PORT_VIDEO_DATA, WORD_LAST_BYTE(cursor)); // Low part
+	_port_write_byte(PORT_VIDEO_DATA, WORD_LAST_HALF(cursor)); // Low part
 }
 
 int video_cursor_shape(tSysVideoCursorShape shape) {

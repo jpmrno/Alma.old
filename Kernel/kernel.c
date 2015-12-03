@@ -3,7 +3,6 @@
 #include <moduleLoader.h>
 #include <terminal.h>
 #include <memory.h>
-#include <video01.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
