@@ -1,11 +1,12 @@
 #include <video01.h>
 #include <liba.h>
+#include <terminal.h>
 
 // DEFINES
 #define VIDEO_DIR 0xB8000
 
-#define PORT_VIDEO_INDEX 0x3d4
-#define PORT_VIDEO_DATA 0x3d5
+#define PORT_VIDEO_INDEX 0x3D4
+#define PORT_VIDEO_DATA 0x3D5
 
 // Cursor Registers
 #define INDEX_CURSOR_START_REGISTER 0x0A
@@ -25,9 +26,9 @@
 #define COLOR_TO_BG(x) ((x) << COLOR_SIZE)
 #define BG_TO_COLOR(x) ((x) >> COLOR_SIZE)
 
-#define BYTE_FIRST_4BITS(x) ((x) & 0xF0)
+#define BYTE_FIRST_4BITS(x) ((x) & 0x0F0)
 #define BYTE_LAST_4BITS(x) ((x) & 0x0F)
-#define BYTE_LAST_5BITS(x) ((x) & 0x1F)
+#define BYTE_LAST_5BITS(x) ((x) & 0x01F)
 
 typedef struct {
     uint8_t character;
@@ -121,7 +122,6 @@ void video_cursor_shape_changer(uint8_t start, uint8_t end) {
 	// -------------------------------------------------------------------------------
 	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_START_REGISTER);
 	_port_write_byte(PORT_VIDEO_DATA, BYTE_LAST_5BITS(start)); // Top most line
-
 	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_END_REGISTER);
 	_port_write_byte(PORT_VIDEO_DATA, BYTE_LAST_5BITS(end)); // Bottom most line
 }
