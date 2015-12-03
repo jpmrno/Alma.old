@@ -84,6 +84,8 @@ int main() {
 	
 	//clearScreen();
 	//((EntryPoint) shellAddress)();
+	
+	video_cursor_shape(SYSTEM_VIDEO_CURSOR_SHAPE_DOT);
 
 	return 0;
 }

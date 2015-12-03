@@ -20,6 +20,9 @@
 // Underscore
 #define CURSOR_SHAPE_UNDERSCORE_START 0x0E
 #define CURSOR_SHAPE_UNDERSCORE_END 0x1F
+// Dot
+#define CURSOR_SHAPE_DOT_START 0x07
+#define CURSOR_SHAPE_DOT_END 0x1F
 // ^^^ Cursor Shapes ^^^
 
 #define COLOR_SIZE 4
@@ -106,6 +109,10 @@ int video_cursor_shape(tSysVideoCursorShape shape) {
 		case SYSTEM_VIDEO_CURSOR_SHAPE_UNDERSCORE:
 			start = CURSOR_SHAPE_UNDERSCORE_START;
 			end = CURSOR_SHAPE_UNDERSCORE_END;
+			break;
+		case SYSTEM_VIDEO_CURSOR_SHAPE_DOT:
+			start = CURSOR_SHAPE_DOT_START;
+			end = CURSOR_SHAPE_DOT_END;
 			break;
 		default:
 			return SYSTEM_ERROR_VIDEO_SHAPE_INVALID;
