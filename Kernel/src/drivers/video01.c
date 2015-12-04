@@ -26,7 +26,7 @@
 #define CURSOR_SHAPE_DOT_END 0x1F
 // ^^^ Cursor Shapes ^^^
 
-#define WORD_FIRST_HALF(x) ((x) & 0x0FF00)
+#define WORD_FIRST_HALF(x) (((x) & 0x0FF00) >> 8)
 #define WORD_LAST_HALF(x) ((x) & 0x0FF)
 #define GET_LAST_5BITS(x) ((x) & 0x01F)
 
@@ -37,7 +37,16 @@ typedef struct {
 // ^^^ DEFINES ^^^
  
 // LOCAL FUNCTIONS
+/**
+ * TODO: Docs
+ * @param start [description]
+ * @param end   [description]
+ */
 static void video_cursor_shape_changer(uint8_t start, uint8_t end);
+
+/**
+ * TODO: Docs
+ */
 void video_cursor_setter();
 // ^^^ LOCAL FUNCTIONS ^^^
 
@@ -92,13 +101,6 @@ int video_cursor_get() {
 	return cursor;
 }
 
-void video_cursor_setter() {
-	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_LOCATION_HIGH_REGISTER);
-	_port_write_byte(PORT_VIDEO_DATA, WORD_FIRST_HALF(cursor) >> 8); // High part
-	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_LOCATION_LOW_REGISTER);
-	_port_write_byte(PORT_VIDEO_DATA, WORD_LAST_HALF(cursor)); // Low part
-}
-
 int video_cursor_shape(tSysVideoCursorShape shape) {
 	uint8_t start, end;
 
@@ -122,16 +124,6 @@ int video_cursor_shape(tSysVideoCursorShape shape) {
 	video_cursor_shape_changer(start, end);
 
 	return OK;
-}
-
-void video_cursor_shape_changer(uint8_t start, uint8_t end) {
-	// -------------------------------------------------------------------------------
-	// If Cursor Scan Line End < Cursor Scan Line Start, cursor will not be displayed!
-	// -------------------------------------------------------------------------------
-	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_START_REGISTER);
-	_port_write_byte(PORT_VIDEO_DATA, GET_LAST_5BITS(start)); // Top most line
-	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_END_REGISTER);
-	_port_write_byte(PORT_VIDEO_DATA, GET_LAST_5BITS(end)); // Bottom most line
 }
 
 int video_put(unsigned int position, char character) {
@@ -241,4 +233,21 @@ void video_bg_all(tSysVideoStyle bg) {
 	for(i = 0; i < _VIDEO_SIZE; i++) {
 		video[i].style = _VIDEO_STYLER_BG(video[i].style, bg);
 	}
+}
+
+static void video_cursor_setter() {
+	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_LOCATION_HIGH_REGISTER);
+	_port_write_byte(PORT_VIDEO_DATA, WORD_FIRST_HALF(cursor)); // High part
+	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_LOCATION_LOW_REGISTER);
+	_port_write_byte(PORT_VIDEO_DATA, WORD_LAST_HALF(cursor)); // Low part
+}
+
+static void video_cursor_shape_changer(uint8_t start, uint8_t end) {
+	// -------------------------------------------------------------------------------
+	// If Cursor Scan Line End < Cursor Scan Line Start, cursor will not be displayed!
+	// -------------------------------------------------------------------------------
+	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_START_REGISTER);
+	_port_write_byte(PORT_VIDEO_DATA, GET_LAST_5BITS(start)); // Top most line
+	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_END_REGISTER);
+	_port_write_byte(PORT_VIDEO_DATA, GET_LAST_5BITS(end)); // Bottom most line
 }

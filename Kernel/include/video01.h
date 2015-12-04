@@ -11,6 +11,8 @@
 #define _ERROR_VIDEO_CURSOR_INVALID -1
 #define _ERROR_VIDEO_SHAPE_INVALID -2
 
+// TODO: Docs
+
 typedef uint8_t tSysVideoStyle;
 
 typedef enum {
