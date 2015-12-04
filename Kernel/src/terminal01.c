@@ -115,26 +115,22 @@ void terminal_delete(terminal_st * terminal) {
 
 }
 
-char* itoa(int i, char b[]) {
-    char const digit[] = "0123456789";
-    char * p = b;
-    int shifter;
+void terminal_show(terminal_st * terminal) {
+	int i;
 
-    if(i < 0) {
-        * p++ = '-';
-        i *= -1;
-    }
+	// Send to video
+	for(i = 0; i < _VIDEO_SIZE; i++) {
+		pixel_st pixel = terminal->screen[i];
+		video_putWithStyle(i, pixel.character, pixel.style);
+	}
 
-    shifter = i;
+	video_cursor_put(terminal->cursor);
+	video_cursor_show(terminal->cursor_shown);
+	video_cursor_shape(terminal->cursor_shape);
+	terminal_actual = terminal;
+}
 
-    do { //Move to where representation ends
-        ++p;
-        shifter = shifter / 10;
-    } while(shifter);
-    * p = '\0';
-    do { //Move back, inserting digits as u go
-        * --p = digit[i % 10];
-        i = i / 10;
-    } while(i);
-    return b;
+void terminal_hide() {
+	video_clear();
+	video_cursor_enable(FALSE);
 }
