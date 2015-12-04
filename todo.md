@@ -2,6 +2,8 @@
 
 - Change tSysVideoStyle type name
 
+- Change screen_t type name
+
 - Terminal:
 	- terminal_write(terminal, char)
 	- terminal_print(terminal, char *)

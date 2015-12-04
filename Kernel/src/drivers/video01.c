@@ -29,11 +29,6 @@
 #define WORD_FIRST_HALF(x) (((x) & 0x0FF00) >> 8)
 #define WORD_LAST_HALF(x) ((x) & 0x0FF)
 #define GET_LAST_5BITS(x) ((x) & 0x01F)
-
-typedef struct {
-    uint8_t character;
-    uint8_t style;
-} screen_t;
 // ^^^ DEFINES ^^^
  
 // LOCAL FUNCTIONS
