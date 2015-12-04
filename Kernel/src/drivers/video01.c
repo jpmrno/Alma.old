@@ -42,7 +42,7 @@ static void video_cursor_shape_changer(uint8_t start, uint8_t end);
 /**
  * TODO: Docs
  */
-void video_cursor_setter();
+static void video_cursor_setter();
 // ^^^ LOCAL FUNCTIONS ^^^
 
 // VARIABLES
