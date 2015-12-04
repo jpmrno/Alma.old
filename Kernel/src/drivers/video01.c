@@ -80,7 +80,7 @@ void video_cursor_show(int boolean) {
 
 int video_cursor_put(unsigned int position) {
 	if(position >= _VIDEO_SIZE) {
-		return _ERROR_VIDEO_CURSOR_INVALID;
+		return _VIDEO_ERROR_CURSOR_INVALID;
 	}
 	
 	cursor = position;
@@ -113,7 +113,7 @@ int video_cursor_shape(tSysVideoCursorShape shape) {
 			end = CURSOR_SHAPE_DOT_END;
 			break;
 		default:
-			return _ERROR_VIDEO_SHAPE_INVALID;
+			return _VIDEO_ERROR_CURSOR_SHAPE_INVALID;
 	}
 
 	video_cursor_shape_changer(start, end);
@@ -123,7 +123,7 @@ int video_cursor_shape(tSysVideoCursorShape shape) {
 
 int video_put(unsigned int position, char character) {
 	if(position >= _VIDEO_SIZE) {
-		return _ERROR_VIDEO_CURSOR_INVALID;
+		return _VIDEO_ERROR_CURSOR_INVALID;
 	}
 
 	video[position].character = character;
@@ -133,7 +133,7 @@ int video_put(unsigned int position, char character) {
 
 int video_putWithStyle(unsigned int position, char character, tSysVideoStyle style) {
 	if(position >= _VIDEO_SIZE) {
-		return _ERROR_VIDEO_CURSOR_INVALID;
+		return _VIDEO_ERROR_CURSOR_INVALID;
 	}
 
 	video[position].character = character;
@@ -144,7 +144,7 @@ int video_putWithStyle(unsigned int position, char character, tSysVideoStyle sty
 
 char video_get(unsigned int position) {
 	if(position >= _VIDEO_SIZE) {
-		return _ERROR_VIDEO_CURSOR_INVALID;
+		return _VIDEO_ERROR_CURSOR_INVALID;
 	}
 
 	return video[position].character;
@@ -152,7 +152,7 @@ char video_get(unsigned int position) {
 
 int video_style_put(unsigned int position, tSysVideoStyle style) {
 	if(position >= _VIDEO_SIZE) {
-		return _ERROR_VIDEO_CURSOR_INVALID;
+		return _VIDEO_ERROR_CURSOR_INVALID;
 	}
 
 	video[position].style = style;
@@ -162,23 +162,33 @@ int video_style_put(unsigned int position, tSysVideoStyle style) {
 
 int video_style_get(unsigned int position) {
 	if(position >= _VIDEO_SIZE) {
-		return _ERROR_VIDEO_CURSOR_INVALID;
+		return _VIDEO_ERROR_CURSOR_INVALID;
 	}
 
 	return video[position].style;
 }
 
 void video_style_all(tSysVideoStyle style) {
+	video_style_range(0, _VIDEO_SIZE - 1, style);
+}
+
+int video_style_range(unsigned int from, unsigned int to, tSysVideoStyle style) {
 	int i;
+
+	if(from > to || from >= _VIDEO_SIZE || to >= _VIDEO_SIZE) {
+		return _VIDEO_ERROR_RANGE_INVALID;
+	}
 	
-	for(i = 0; i < _VIDEO_SIZE; i++) {
+	for(i = from; i <= to; i++) {
 		video[i].style = style;
 	}
+
+	return OK;
 }
 
 int video_color_put(unsigned int position, tSysVideoStyle color) {
 	if(position >= _VIDEO_SIZE) {
-		return _ERROR_VIDEO_CURSOR_INVALID;
+		return _VIDEO_ERROR_CURSOR_INVALID;
 	}
 
 	tSysVideoStyle style = video_style_get(position);
@@ -189,23 +199,33 @@ int video_color_put(unsigned int position, tSysVideoStyle color) {
 
 int video_color_get(unsigned int position) {
 	if(position >= _VIDEO_SIZE) {
-		return _ERROR_VIDEO_CURSOR_INVALID;
+		return _VIDEO_ERROR_CURSOR_INVALID;
 	}
 
 	return _VIDEO_COLOR_GETTER(video_style_get(position));
 }
 
 void video_color_all(tSysVideoStyle color) {
+	video_color_range(0, _VIDEO_SIZE -1, color);
+}
+
+int video_color_range(unsigned int from, unsigned int to, tSysVideoStyle color) {
 	int i;
+
+	if(from > to || from >= _VIDEO_SIZE || to >= _VIDEO_SIZE) {
+		return _VIDEO_ERROR_RANGE_INVALID;
+	}
 	
-	for(i = 0; i < _VIDEO_SIZE; i++) {
+	for(i = from; i <= to; i++) {
 		video[i].style = _VIDEO_STYLER_COLOR(video[i].style, color);
 	}
+
+	return OK;
 }
 
 int video_bg_put(unsigned int position, tSysVideoStyle bg) {
 	if(position >= _VIDEO_SIZE) {
-		return _ERROR_VIDEO_CURSOR_INVALID;
+		return _VIDEO_ERROR_CURSOR_INVALID;
 	}
 
 	tSysVideoStyle style = video_style_get(position);
@@ -216,18 +236,28 @@ int video_bg_put(unsigned int position, tSysVideoStyle bg) {
 
 int video_bg_get(unsigned int position) {
 	if(position >= _VIDEO_SIZE) {
-		return _ERROR_VIDEO_CURSOR_INVALID;
+		return _VIDEO_ERROR_CURSOR_INVALID;
 	}
 
 	return _VIDEO_BG_TO_COLOR(video_style_get(position));
 }
 
 void video_bg_all(tSysVideoStyle bg) {
+	video_bg_range(0, _VIDEO_SIZE - 1, bg);
+}
+
+int video_bg_range(unsigned int from, unsigned int to, tSysVideoStyle bg) {
 	int i;
+
+	if(from > to || from >= _VIDEO_SIZE || to >= _VIDEO_SIZE) {
+		return _VIDEO_ERROR_RANGE_INVALID;
+	}
 	
-	for(i = 0; i < _VIDEO_SIZE; i++) {
+	for(i = from; i <= to; i++) {
 		video[i].style = _VIDEO_STYLER_BG(video[i].style, bg);
 	}
+
+	return OK;
 }
 
 static void video_cursor_setter() {
