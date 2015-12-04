@@ -1,12 +1,14 @@
 #ifndef _VIDEO_DRIVER_H_
 #define _VIDEO_DRIVER_H_
 
-#include <colors.h>
 #include <define.h>
 
 #define VIDEO_ROWS 25
 #define VIDEO_COLUMNS 80
 #define VIDEO_SIZE (VIDEO_ROWS * VIDEO_COLUMNS * 2)
+
+#define BACKGROUND_DEFAULT 0x00
+#define COLOR_DEFAULT 0x07
 
 #define ERROR_POSITION_INVALID -1
 
