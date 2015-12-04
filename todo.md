@@ -4,6 +4,8 @@
 
 - Change screen_t type name
 
+- Change video_color_st type name
+
 - Terminal:
 	- terminal_write(terminal, char)
 	- terminal_print(terminal, char *)
