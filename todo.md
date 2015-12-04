@@ -1,17 +1,6 @@
 #TODO:
 
-[x] Video driver:
-
-	- video_put(position, char, style) o video_put(position, char, color, bg)
-	- video_get(position)
-	- video_style_get(position)
-	- video_style_set(position, style)
-	- video_color_get(position)
-	- video_color_set(position, color)
-	- video_background_get(position)
-	- video_background_set(position, background)
-	- video_cursor_set(position)
-	- video_cursor_get()
+- Change tSysVideoStyle type name
 
 - Terminal:
 	- terminal_write(terminal, char)
@@ -48,8 +37,6 @@
 - Sonido
 	- Musica al iniciar
 	- Teclado/piano
-
-- Compartir las librerias de C entre Kernel y User? O tener una para cada uno? O compartir algunas?
 
 - Errores syscalls compartidos entre kernel y user (kernal ya usa common, falta user)
 

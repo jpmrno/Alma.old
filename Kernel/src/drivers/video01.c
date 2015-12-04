@@ -26,16 +26,14 @@
 #define CURSOR_SHAPE_DOT_END 0x1F
 // ^^^ Cursor Shapes ^^^
 
-#define BYTE_FIRST_HALF(x) ((x) & 0x0F0)
-#define BYTE_LAST_HALF(x) ((x) & 0x0F)
 #define WORD_FIRST_HALF(x) ((x) & 0x0FF00)
 #define WORD_LAST_HALF(x) ((x) & 0x0FF)
-#define BYTE_LAST_5BITS(x) ((x) & 0x01F)
+#define GET_LAST_5BITS(x) ((x) & 0x01F)
 
 typedef struct {
     uint8_t character;
     uint8_t style;
-} tSystemVideo;
+} screen_t;
 // ^^^ DEFINES ^^^
  
 // LOCAL FUNCTIONS
@@ -44,7 +42,7 @@ void video_cursor_setter();
 // ^^^ LOCAL FUNCTIONS ^^^
 
 // VARIABLES
-static tSystemVideo * video = (tSystemVideo *) VIDEO_DIR;
+static screen_t * video = (screen_t *) VIDEO_DIR;
 static int cursor = 0;
 static int cursor_shown = TRUE;
 // ^^^ VARIABLES ^^^
@@ -131,9 +129,9 @@ void video_cursor_shape_changer(uint8_t start, uint8_t end) {
 	// If Cursor Scan Line End < Cursor Scan Line Start, cursor will not be displayed!
 	// -------------------------------------------------------------------------------
 	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_START_REGISTER);
-	_port_write_byte(PORT_VIDEO_DATA, BYTE_LAST_5BITS(start)); // Top most line
+	_port_write_byte(PORT_VIDEO_DATA, GET_LAST_5BITS(start)); // Top most line
 	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_END_REGISTER);
-	_port_write_byte(PORT_VIDEO_DATA, BYTE_LAST_5BITS(end)); // Bottom most line
+	_port_write_byte(PORT_VIDEO_DATA, GET_LAST_5BITS(end)); // Bottom most line
 }
 
 int video_put(unsigned int position, char character) {
