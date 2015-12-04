@@ -81,7 +81,33 @@ int main() {
 	/*************************************************************************/
 	
 	clearScreen();
-	((EntryPoint) shellAddress)();
+	//((EntryPoint) shellAddress)();
+	video_init();
+	video_style_range(80*0, 80*1-1, _VIDEO_STYLER(_VIDEO_COLOR_BRIGHTTEN(_VIDEO_COLOR_WHITE), _VIDEO_COLOR_BRIGHTTEN(_VIDEO_COLOR_BLACK)));
+	video_put(79/2-2, 's');
+	video_put(79/2-1, 'h');
+	video_put(79/2, 'e');
+	video_put(79/2+1, 'l');
+	video_put(79/2+2, 'l');
+	video_put(0, 'j');
+	video_put(1, 'u');
+	video_put(2, 'a');
+	video_put(3, 'n');
+	video_style_range(80*1, 80*4-1, _VIDEO_STYLER(_VIDEO_COLOR_BLACK, _VIDEO_COLOR_BRIGHTTEN(_VIDEO_COLOR_WHITE)));
+	video_put(80*2+2, 'C');
+	video_put(80*2+3, 'o');
+	video_put(80*2+4, 'm');
+	video_put(80*2+5, 'm');
+	video_put(80*2+6, 'a');
+	video_put(80*2+7, 'n');
+	video_put(80*2+8, 'd');
+	video_put(80*2+9, ':');
+	video_put(80*2+11, 'c');
+	video_put(80*2+12, 'l');
+	video_put(80*2+13, 'e');
+	video_put(80*2+14, 'a');
+	video_put(80*2+15, 'r');
+	video_cursor_put(80*2+16);
 
 	return 0;
 }
