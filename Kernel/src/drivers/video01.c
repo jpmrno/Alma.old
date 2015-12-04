@@ -46,7 +46,7 @@ static void video_cursor_setter();
 // ^^^ LOCAL FUNCTIONS ^^^
 
 // VARIABLES
-static screen_t * video = (screen_t *) VIDEO_DIR;
+static pixel_st * video = (pixel_st *) VIDEO_DIR; // TODO: pixel_st * O screen_st???
 static int cursor = 0;
 static int cursor_shown = TRUE;
 // ^^^ VARIABLES ^^^

@@ -23,7 +23,9 @@ typedef enum {
 typedef struct {
     uint8_t character;
     uint8_t style;
-} screen_t;
+} pixel_st;
+
+typedef pixel_st screen_st[_VIDEO_SIZE];
 
 void video_init();
 void video_clear();
