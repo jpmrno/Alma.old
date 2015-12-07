@@ -12,9 +12,11 @@
 #define _VIDEO_ERROR_CURSOR_SHAPE_INVALID -2
 #define _VIDEO_ERROR_RANGE_INVALID -3
 
+#define _VIDEO_CURSOR_LAST_POSITION (_VIDEO_SIZE - 1)
+
 // TODO: Docs
 
-typedef uint8_t tSysVideoStyle;
+typedef uint8_t tSysVideoStyle; // TODO: Remove
 
 typedef enum {
 	_VIDEO_CURSOR_SHAPE_SQUARE, _VIDEO_CURSOR_SHAPE_UNDERSCORE, _VIDEO_CURSOR_SHAPE_DOT

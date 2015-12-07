@@ -1,10 +1,46 @@
+#include <terminal01.h>
 #include <stdarg.h>
 
-#define _VIDEO_CURSOR_IN_LAST_POSITION(x) ((x) == (_VIDEO_SIZE - 1)) // TODO: In video.h
+extern terminal_st terminal_active;
 
 static void terminal_write(terminal_st * terminal, char character);
 static void terminal_writter(terminal_st * terminal, char character);
 static int terminal_print(terminal_st * terminal, char * string);
+static void terminal_putInBase(terminal_st * terminal, int number, unsigned int base);
+static void terminal_newline(terminal_st * terminal);
+
+void terminal_init(terminal_st * terminal) {
+	int i;
+
+	terminal->cursor = 0;
+	terminal->cursor_shown = TRUE;
+	terminal->style = _VIDEO_STYLE_DEFAULT;
+
+	for(i = 0; i < _VIDEO_SIZE; i++) {
+		terminal->screen[i].character = ' ';
+		terminal->screen[i].style = terminal->style;
+	}
+}
+
+void terminal_show(terminal_st * terminal) {
+	int i;
+
+	// Send to video
+	for(i = 0; i < _VIDEO_SIZE; i++) {
+		pixel_st pixel = terminal->screen[i];
+		video_putWithStyle(i, pixel.character, pixel.style);
+	}
+
+	video_cursor_put(terminal->cursor);
+	video_cursor_show(terminal->cursor_shown);
+	video_cursor_shape(terminal->cursor_shape);
+	terminal_active = *terminal;
+}
+
+void terminal_hide() {
+	video_clear();
+	video_cursor_show(FALSE);
+}
 
 int terminal_printf(terminal_st * terminal, char * fmt, ...) {
     char symbol;
@@ -22,15 +58,15 @@ int terminal_printf(terminal_st * terminal, char * fmt, ...) {
 				case 'c':
 					terminal_write(terminal, va_arg(arg, int));
 					break;
-				case 'd':
-					terminal_putInBase(terminal, va_arg(arg, int), BASE_DECIMAL);
-					break;
-				case 'x':
-					terminal_putInBase(terminal, va_arg(arg, unsigned int), BASE_HEXADECIMAL);
-					break;
-				case 'b':
-					terminal_putInBase(terminal, va_arg(arg, unsigned int), BASE_BINARY);
-					break;
+				// case 'd':
+				// 	terminal_putInBase(terminal, va_arg(arg, int), BASE_DECIMAL);
+				// 	break;
+				// case 'x':
+				// 	terminal_putInBase(terminal, va_arg(arg, unsigned int), BASE_HEXADECIMAL);
+				// 	break;
+				// case 'b':
+				// 	terminal_putInBase(terminal, va_arg(arg, unsigned int), BASE_BINARY);
+				// 	break;
 				case '%':
 					terminal_write(terminal, symbol);
 					break;
@@ -46,25 +82,33 @@ int terminal_printf(terminal_st * terminal, char * fmt, ...) {
     return i - 1;
 }
 
+void terminal_shift(terminal_st * terminal, int lines) {
+
+}
+
+void terminal_delete(terminal_st * terminal) {
+
+}
+
 static void terminal_write(terminal_st * terminal, char character) {
-	int tab = TAB_SIZE;
+	// int tab = TAB_SIZE;
 
 	switch(character) {
 		case '\n': // New line
 			terminal_newline(terminal);
 			break;
 
-		case '\t': // Tab
-			while(tab--) {
-				terminal_writter(terminal, ' '); // TODO: 
-			}
-			break;
+		// case '\t': // Tab
+		// 	while(tab--) {
+		// 		terminal_writter(terminal, ' '); // TODO: 
+		// 	}
+		// 	break;
 
-		case '\b': // Backspace
-			if (getCursor() > cursorLockedAt) { // TODO: 
-				terminal_delete(terminal);
-			}
-			break;
+		// case '\b': // Backspace
+		// 	if (getCursor() > cursorLockedAt) { // TODO: 
+		// 		terminal_delete(terminal);
+		// 	}
+		// 	break;
 
 		default: // Normal Character
 			terminal_writter(terminal, character);
@@ -74,14 +118,14 @@ static void terminal_write(terminal_st * terminal, char character) {
 
 static void terminal_writter(terminal_st * terminal, char character) {
 	// If cursor is in last position -> shifts up the page (1)
-	if(_VIDEO_CURSOR_IN_LAST_POSITION(terminal.cursor)) {
+	if(terminal->cursor == _VIDEO_CURSOR_LAST_POSITION) {
 		terminal_shift(terminal, 1); // TODO: Or -1
 	}
 
 	terminal->screen[terminal->cursor].character = character;
-	terminal->screen[terminal->cursor].style = terminal.style;
+	terminal->screen[terminal->cursor].style = terminal->style;
 
-	if(terminal == terminal_active) {
+	if(terminal == &terminal_active) {
 		video_putWithStyle(terminal->cursor, character, terminal->style);
 		video_cursor_put(terminal->cursor + 1);
 	}
@@ -99,38 +143,10 @@ static int terminal_print(terminal_st * terminal, char * string) {
 	return i;
 }
 
-static void terminal_putInBase(terminal_st * terminal, , unsigned int base) {
+static void terminal_putInBase(terminal_st * terminal, int number, unsigned int base) {
 
 }
 
 static void terminal_newline(terminal_st * terminal) {
 
-}
-
-void terminal_shift(terminal_st * terminal, int lines) {
-
-}
-
-void terminal_delete(terminal_st * terminal) {
-
-}
-
-void terminal_show(terminal_st * terminal) {
-	int i;
-
-	// Send to video
-	for(i = 0; i < _VIDEO_SIZE; i++) {
-		pixel_st pixel = terminal->screen[i];
-		video_putWithStyle(i, pixel.character, pixel.style);
-	}
-
-	video_cursor_put(terminal->cursor);
-	video_cursor_show(terminal->cursor_shown);
-	video_cursor_shape(terminal->cursor_shape);
-	terminal_actual = terminal;
-}
-
-void terminal_hide() {
-	video_clear();
-	video_cursor_enable(FALSE);
 }

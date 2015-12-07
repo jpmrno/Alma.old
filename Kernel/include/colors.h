@@ -1,6 +1,8 @@
 #ifndef _VIDEO_COLORS_H_
 #define _VIDEO_COLORS_H_
 
+#include <define.h>
+
 #define _VIDEO_COLOR_BITS 4
 #define _VIDEO_COLOR_GETTER(x) ((x) & 0x0F)
 #define _VIDEO_BG_GETTER(x) ((x) & 0xF0)
@@ -25,6 +27,8 @@ enum video_color_st {
 
 #define _VIDEO_BG_DEFAULT _VIDEO_COLOR_BLACK
 #define _VIDEO_COLOR_DEFAULT _VIDEO_COLOR_BRIGHTTEN(_VIDEO_COLOR_WHITE)
-#define _VIDEO_STYLE_DEFAULT (_VIDEO_BG_DEFAULT + _VIDEO_COLOR_DEFAULT)
+#define _VIDEO_STYLE_DEFAULT _VIDEO_STYLER(_VIDEO_COLOR_DEFAULT, _VIDEO_BG_DEFAULT)
+
+typedef uint8_t style_st;
 
 #endif

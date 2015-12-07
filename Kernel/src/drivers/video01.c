@@ -42,7 +42,7 @@ static void video_cursor_shape_changer(uint8_t start, uint8_t end);
 /**
  * TODO: Docs
  */
-static void video_cursor_setter();
+static void video_cursor_setter(unsigned int position);
 // ^^^ LOCAL FUNCTIONS ^^^
 
 // VARIABLES
@@ -86,7 +86,7 @@ int video_cursor_put(unsigned int position) {
 	cursor = position;
 
 	if(cursor_shown) {
-		video_cursor_setter();
+		video_cursor_setter(cursor);
 	}
 
 	return OK;
@@ -260,11 +260,11 @@ int video_bg_range(unsigned int from, unsigned int to, tSysVideoStyle bg) {
 	return OK;
 }
 
-static void video_cursor_setter() {
+static void video_cursor_setter(unsigned int position) {
 	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_LOCATION_HIGH_REGISTER);
-	_port_write_byte(PORT_VIDEO_DATA, WORD_FIRST_HALF(cursor)); // High part
+	_port_write_byte(PORT_VIDEO_DATA, WORD_FIRST_HALF(position)); // High part
 	_port_write_byte(PORT_VIDEO_INDEX, INDEX_CURSOR_LOCATION_LOW_REGISTER);
-	_port_write_byte(PORT_VIDEO_DATA, WORD_LAST_HALF(cursor)); // Low part
+	_port_write_byte(PORT_VIDEO_DATA, WORD_LAST_HALF(position)); // Low part
 }
 
 static void video_cursor_shape_changer(uint8_t start, uint8_t end) {
