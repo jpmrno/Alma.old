@@ -22,6 +22,8 @@ typedef enum {
 	_VIDEO_CURSOR_SHAPE_SQUARE, _VIDEO_CURSOR_SHAPE_UNDERSCORE, _VIDEO_CURSOR_SHAPE_DOT
 } tSysVideoCursorShape;
 
+#define _VIDEO_CURSOR_SHAPE_DEFAULT _VIDEO_CURSOR_SHAPE_SQUARE
+
 typedef struct {
     uint8_t character;
     uint8_t style;

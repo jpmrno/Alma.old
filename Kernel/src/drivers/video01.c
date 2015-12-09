@@ -53,7 +53,7 @@ static int cursor_shown = TRUE;
 
 void video_init() {
 	cursor_shown = TRUE;
-	video_cursor_shape(_VIDEO_CURSOR_SHAPE_SQUARE);
+	video_cursor_shape(_VIDEO_CURSOR_SHAPE_DEFAULT);
 	video_clear();
 }
 

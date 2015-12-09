@@ -6,6 +6,7 @@
 #define _VIDEO_COLOR_BITS 4
 #define _VIDEO_COLOR_GETTER(x) ((x) & 0x0F)
 #define _VIDEO_BG_GETTER(x) ((x) & 0xF0)
+#define _VIDEO_STYLE_GETTER(x) ((x) & 0xFF)
 #define _VIDEO_COLOR_TO_BG(x) (_VIDEO_COLOR_GETTER(x) << _VIDEO_COLOR_BITS)
 #define _VIDEO_BG_TO_COLOR(x) (_VIDEO_BG_GETTER(x) >> _VIDEO_COLOR_BITS)
 #define _VIDEO_STYLER_COLOR(x, y) (_VIDEO_BG_GETTER(x) +  _VIDEO_COLOR_GETTER(y))

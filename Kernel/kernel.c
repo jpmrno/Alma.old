@@ -3,6 +3,7 @@
 #include <moduleLoader.h>
 #include <terminal.h>
 #include <memory.h>
+#include <terminal01.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -14,6 +15,8 @@ extern uint8_t endOfKernel;
 static const uint64_t PageSize = 0x1000;
 
 static void * const shellAddress = (void *) 0x400000;
+
+terminal_st terminal_active = {0}; // TODO: Remove
 
 typedef int (*EntryPoint)();
 

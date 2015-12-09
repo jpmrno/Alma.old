@@ -2,14 +2,14 @@
 #define _TERMINAL_H_NEW // TODO: Change
 
 #include <define.h>
-#include <video01.h> // TODO: No me gusta esto aca
+#include <video01.h> // TODO: Va a tener que estar aca hasta que pueda alocar memoria para hacer terminal_new()
 
 typedef struct {
 	unsigned int cursor;
 	int cursor_shown;
+	tSysVideoCursorShape cursor_shape; // TODO: Change tSysVideoCursorShape name
 	style_st style;
 	screen_st screen;
-	tSysVideoCursorShape cursor_shape;
 } terminal_st;
 
 void terminal_init(terminal_st * terminal);

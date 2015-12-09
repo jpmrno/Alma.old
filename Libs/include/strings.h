@@ -24,6 +24,24 @@ void strcpy(char * dest, const char * source);
  * @param  num the return value for the number
  * @return     the length of the number or <0 if error occurred
  */
-int strint(char *s, unsigned int *num);
+int strint(const char * s, unsigned int * num);
+
+/**
+ * TODO: Doc
+ * @param  num  [description]
+ * @param  base [description]
+ * @param  p    [description]
+ * @return      [description]
+ */
+unsigned int intstr(int value, unsigned int base, char * buffer);
+
+/**
+ * TODO: Docs and improve and negative numbers
+ * @param  value  [description]
+ * @param  base   [description]
+ * @param  buffer [description]
+ * @return        [description]
+ */
+unsigned int uintstr(unsigned int value, unsigned int base, char * buffer);
 
 #endif
