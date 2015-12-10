@@ -4,6 +4,7 @@
 #include <terminal.h>
 #include <memory.h>
 #include <terminal01.h>
+#include <video.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -19,6 +20,7 @@ static void * const shellAddress = (void *) 0x400000;
 terminal_st terminal_active = {0}; // TODO: Remove
 
 typedef int (*EntryPoint)();
+void displayLogo(); // TODO: Remove
 
 void * getStackBase() {
 	return (void *)(
@@ -82,9 +84,35 @@ int main() {
 	print("[Done]\n\n");
 	/*************************************************************************/
 	/*************************************************************************/
-	
 	clearScreen();
 	((EntryPoint) shellAddress)();
+	//displayLogo();
 
 	return 0;
+}
+
+void displayLogo() {
+	clearScreen();
+	styleAll(0xF0);
+	print("                         \n");
+	print("                         \n");
+	print("                         \n");
+	print("                         \n");
+	print("                         \n");
+	print("                         \n");
+	print("                         \n");
+	print("                         \n");
+	print("                         \n");
+	setStyle(0xF1);
+	print("                           .---..                   \n");
+	setStyle(0xF2);
+	print("                              / |                   \n");
+	setStyle(0xF3);
+	print("                             /  |--.  .-. .  .  .-. \n");
+	setStyle(0xF2);
+	print("                            /   |  | (   )|  | (.-' \n");
+	setStyle(0xF1);
+	print("                           '---''  `- `-' `--`- `--'\n");
+	setStyle(0xF1);
+	print("                                              Kernel");
 }
