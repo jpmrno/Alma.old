@@ -6,6 +6,7 @@
 
 typedef struct {
 	unsigned int cursor;
+	unsigned int cursor_lock;
 	int cursor_shown;
 	tSysVideoCursorShape cursor_shape; // TODO: Change tSysVideoCursorShape name
 	style_st style;
@@ -19,6 +20,8 @@ void terminal_hide();
 int terminal_printf(terminal_st * terminal, char * fmt, ...);
 
 void terminal_shift(terminal_st * terminal, int lines);
-void terminal_delete(terminal_st * terminal);
+
+int terminal_cursor_shape(terminal_st * terminal, tSysVideoCursorShape shape);
+void terminal_cursor_lock(terminal_st * terminal);
 
 #endif

@@ -9,9 +9,11 @@
 
 static void terminal_write(terminal_st * terminal, char character);
 static void terminal_writter(terminal_st * terminal, char character);
+static void terminal_newline(terminal_st * terminal);
+static void terminal_tab(terminal_st * terminal);
+static void terminal_delete(terminal_st * terminal);
 static int terminal_print(terminal_st * terminal, char * string);
 static void terminal_putInBase(terminal_st * terminal, int number, unsigned int base);
-static void terminal_newline(terminal_st * terminal);
 
 static void terminal_style_set(terminal_st * terminal, style_st style);
 
@@ -23,6 +25,7 @@ void terminal_init(terminal_st * terminal) {
 	int i;
 
 	terminal->cursor = 0;
+	terminal->cursor_lock = 0;
 	terminal->cursor_shown = TRUE;
 	terminal->style = _VIDEO_STYLE_DEFAULT;
 	terminal->cursor_shape = _VIDEO_CURSOR_SHAPE_DEFAULT;
@@ -105,10 +108,6 @@ void terminal_shift(terminal_st * terminal, int lines) {
 
 }
 
-void terminal_delete(terminal_st * terminal) {
-
-}
-
 // Change tSysVideoCursorShape name
 int terminal_cursor_shape(terminal_st * terminal, tSysVideoCursorShape shape) {
 	// terminal->cursor_shape = shape;
@@ -118,8 +117,8 @@ int terminal_cursor_shape(terminal_st * terminal, tSysVideoCursorShape shape) {
 	// }
 }
 
-int terminal_cursor_lock(terminal_st * terminal) {
-
+void terminal_cursor_lock(terminal_st * terminal) {
+	terminal->cursor_lock = terminal->cursor;
 }
 
 static void terminal_write(terminal_st * terminal, char character) {
@@ -129,19 +128,12 @@ static void terminal_write(terminal_st * terminal, char character) {
 		case '\n': // New line
 			terminal_newline(terminal);
 			break;
-
 		case '\t': // Tab
-			while(tab--) {
-				terminal_writter(terminal, ' '); // TODO: 
-			}
+			terminal_tab(terminal);
 			break;
-
-		// case '\b': // Backspace
-		// 	if (getCursor() > cursorLockedAt) { // TODO: 
-		// 		terminal_delete(terminal);
-		// 	}
-		// 	break;
-
+		case '\b': // Backspace
+			terminal_delete(terminal);
+			break;
 		default: // Normal Character
 			terminal_writter(terminal, character);
 			break;
@@ -163,6 +155,34 @@ static void terminal_writter(terminal_st * terminal, char character) {
 	}
 
 	terminal->cursor++;
+}
+
+static void terminal_newline(terminal_st * terminal) {
+
+}
+
+static void terminal_tab(terminal_st * terminal) {
+	int tab = TAB_SIZE;
+
+	while(tab--) {
+		terminal_writter(terminal, ' ');
+	}
+}
+
+
+static void terminal_delete(terminal_st * terminal) {
+	if (terminal->cursor <= terminal->cursor_lock || terminal->cursor == 0) { // TODO: Mejor forma?
+		return;
+	}
+
+	terminal->cursor--;
+	terminal->screen[terminal->cursor].character = ' ';
+	terminal->screen[terminal->cursor].style = terminal->style;
+
+	if(terminal == &terminal_active) {
+		video_putWithStyle(terminal->cursor, ' ', terminal->style);
+		video_cursor_put(terminal->cursor);
+	}
 }
 
 static int terminal_print(terminal_st * terminal, char * string) {
@@ -198,8 +218,4 @@ static void terminal_putInBase(terminal_st * terminal, int number, unsigned int 
 		default:
 			break;
 	}
-}
-
-static void terminal_newline(terminal_st * terminal) {
-
 }

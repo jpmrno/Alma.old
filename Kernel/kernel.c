@@ -3,7 +3,7 @@
 #include <moduleLoader.h>
 #include <terminal.h>
 #include <memory.h>
-#include <terminal01.h>
+#include <terminal01.h> // TODO: Remove
 #include <video.h>
 
 extern uint8_t text;
@@ -84,35 +84,24 @@ int main() {
 	print("[Done]\n\n");
 	/*************************************************************************/
 	/*************************************************************************/
+	
 	clearScreen();
-	((EntryPoint) shellAddress)();
-	//displayLogo();
+	//((EntryPoint) shellAddress)();
+	displayLogo();
 
 	return 0;
 }
 
-void displayLogo() {
+void displayLogo() { // TODO: 
 	clearScreen();
 	styleAll(0xF0);
-	print("                         \n");
-	print("                         \n");
-	print("                         \n");
-	print("                         \n");
-	print("                         \n");
-	print("                         \n");
-	print("                         \n");
-	print("                         \n");
-	print("                         \n");
-	setStyle(0xF1);
+	print("\n\n\n\n\n\n\n\n");
 	print("                           .---..                   \n");
-	setStyle(0xF2);
 	print("                              / |                   \n");
-	setStyle(0xF3);
 	print("                             /  |--.  .-. .  .  .-. \n");
-	setStyle(0xF2);
 	print("                            /   |  | (   )|  | (.-' \n");
-	setStyle(0xF1);
 	print("                           '---''  `- `-' `--`- `--'\n");
-	setStyle(0xF1);
 	print("                                              Kernel");
+	print("\n\n\n\n\n");
+	print("                         Press any key to continue... ");
 }
