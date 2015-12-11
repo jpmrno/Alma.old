@@ -81,6 +81,9 @@ int terminal_printf(terminal_st * terminal, char * fmt, ...) {
 				case 'b':
 					terminal_putInBase(terminal, va_arg(arg, int), BASE_BINARY);
 					break;
+				case 'f':
+					terminal_style_set(terminal, _VIDEO_STYLE_GETTER(va_arg(arg, style_st)));
+					break;
 				case '%':
 					terminal_write(terminal, symbol);
 					break;
