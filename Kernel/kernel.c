@@ -87,7 +87,23 @@ int main() {
 	
 	clearScreen();
 	//((EntryPoint) shellAddress)();
+	
 	displayLogo();
+
+	// TODO: Just for fun
+	uint8_t i = 0;
+	int l = 10000000;
+	while(TRUE) {
+		styleAll(i);
+		while(l) {
+			l--;
+		}
+		i++;
+		if(i == 0xFF) {
+			i = 0;
+		}
+		l = 10000000;
+	}
 
 	return 0;
 }
@@ -96,12 +112,21 @@ void displayLogo() { // TODO:
 	clearScreen();
 	styleAll(0xF0);
 	print("\n\n\n\n\n\n\n\n");
-	print("                           .---..                   \n");
-	print("                              / |                   \n");
-	print("                             /  |--.  .-. .  .  .-. \n");
-	print("                            /   |  | (   )|  | (.-' \n");
-	print("                           '---''  `- `-' `--`- `--'\n");
-	print("                                              Kernel");
+	setStyle(0xF0);
+	print("\n");
+	setStyle(0xF0);
+	print("\t\t\t\t\t\t\t\t  ______                        ");
+	print("\n");
+	print("\t\t\t\t\t\t\t\t / _  / |__   ___  _   _  ___   ");
+	print("\n");
+	print("\t\t\t\t\t\t\t\t \\// /| '_ \\ / _ \\| | | |/ _ \\  ");
+	print("\n");
+	print("\t\t\t\t\t\t\t\t  / //\\ | | | (_) | |_| |  __/  ");
+	print("\n");
+	print("\t\t\t\t\t\t\t\t /____/_| |_|\\___/ \\__,_|\\___|  ");
+	print("\n");
+	print("\t\t\t\t\t\t\t\t                        Kernel\n");
+	setStyle(0xF0);
 	print("\n\n\n\n\n");
-	print("                         Press any key to continue... ");
+	print("\t\t\t\t\t\t\t\t Press any key to continue... ");
 }

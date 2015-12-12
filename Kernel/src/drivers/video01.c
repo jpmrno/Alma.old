@@ -121,7 +121,7 @@ int video_cursor_shape(tSysVideoCursorShape shape) {
 	return OK;
 }
 
-int video_put(unsigned int position, char character) {
+int video_write(unsigned int position, char character) {
 	if(position >= _VIDEO_SIZE) {
 		return _VIDEO_ERROR_CURSOR_INVALID;
 	}
@@ -131,7 +131,7 @@ int video_put(unsigned int position, char character) {
 	return OK;
 }
 
-int video_putWithStyle(unsigned int position, char character, tSysVideoStyle style) {
+int video_writeWithStyle(unsigned int position, char character, tSysVideoStyle style) {
 	if(position >= _VIDEO_SIZE) {
 		return _VIDEO_ERROR_CURSOR_INVALID;
 	}

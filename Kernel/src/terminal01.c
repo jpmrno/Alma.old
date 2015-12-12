@@ -3,9 +3,12 @@
 #include <strings.h>
 
 #define TAB_SIZE 3
+
 #define BASE_BINARY 2 // TODO: Cambiar de lugar! numbers.h en shared lib?
 #define BASE_DECIMAL 10
 #define BASE_HEXADECIMAL 16
+
+#define IS_CURSOR_AT_BEGGINING_OF_LINE(x) (!((x) % _VIDEO_COLUMNS))
 
 static void terminal_write(terminal_st * terminal, char character);
 static void terminal_writter(terminal_st * terminal, char character);
@@ -19,7 +22,8 @@ static void terminal_style_set(terminal_st * terminal, style_st style);
 
 extern terminal_st terminal_active;
 
-static char convert_buffer[128] = {0}; // TODO: Cambiar cuando pueda alocar memoria?
+#define CONVERT_BUFFER_SIZE 128
+static char convert_buffer[CONVERT_BUFFER_SIZE] = {0}; // TODO: Cambiar cuando pueda alocar memoria?
 
 void terminal_init(terminal_st * terminal) {
 	int i;
@@ -42,7 +46,7 @@ void terminal_show(terminal_st * terminal) {
 	// Send to video
 	for(i = 0; i < _VIDEO_SIZE; i++) {
 		pixel_st pixel = terminal->screen[i];
-		video_putWithStyle(i, pixel.character, pixel.style);
+		video_writeWithStyle(i, pixel.character, pixel.style);
 	}
 
 	video_cursor_put(terminal->cursor);
@@ -81,7 +85,7 @@ int terminal_printf(terminal_st * terminal, char * fmt, ...) {
 				case 'b':
 					terminal_putInBase(terminal, va_arg(arg, int), BASE_BINARY);
 					break;
-				case 'f':
+				case 'f': // TODO: 
 					terminal_style_set(terminal, _VIDEO_STYLE_GETTER(va_arg(arg, style_st)));
 					break;
 				case '%':
@@ -153,7 +157,7 @@ static void terminal_writter(terminal_st * terminal, char character) {
 	terminal->screen[terminal->cursor].style = terminal->style;
 
 	if(terminal == &terminal_active) {
-		video_putWithStyle(terminal->cursor, character, terminal->style);
+		video_writeWithStyle(terminal->cursor, character, terminal->style);
 		video_cursor_put(terminal->cursor + 1);
 	}
 
@@ -161,7 +165,13 @@ static void terminal_writter(terminal_st * terminal, char character) {
 }
 
 static void terminal_newline(terminal_st * terminal) {
+	if(IS_CURSOR_AT_BEGGINING_OF_LINE(terminal->cursor)) {
+		terminal_writter(terminal, ' ');
+	}
 
+	while(!IS_CURSOR_AT_BEGGINING_OF_LINE(terminal->cursor)) {
+		terminal_writter(terminal, ' ');
+	}
 }
 
 static void terminal_tab(terminal_st * terminal) {
@@ -183,7 +193,7 @@ static void terminal_delete(terminal_st * terminal) {
 	terminal->screen[terminal->cursor].style = terminal->style;
 
 	if(terminal == &terminal_active) {
-		video_putWithStyle(terminal->cursor, ' ', terminal->style);
+		video_writeWithStyle(terminal->cursor, ' ', terminal->style);
 		video_cursor_put(terminal->cursor);
 	}
 }
@@ -211,6 +221,7 @@ static void terminal_putInBase(terminal_st * terminal, int number, unsigned int 
 	// terminal_print(terminal, convert_buffer + 1);
 
 	terminal_print(terminal, convert_buffer);
+
 	switch(base) {
 		case BASE_BINARY:
 			terminal_write(terminal, 'b');

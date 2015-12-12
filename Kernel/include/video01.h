@@ -40,8 +40,8 @@ int video_cursor_get();
 
 int video_cursor_shape(tSysVideoCursorShape shape);
 
-int video_put(unsigned int position, char character);
-int video_putWithStyle(unsigned int position, char character, tSysVideoStyle style);
+int video_write(unsigned int position, char character);
+int video_writeWithStyle(unsigned int position, char character, tSysVideoStyle style);
 char video_get(unsigned int position);
 
 int video_style_put(unsigned int position, tSysVideoStyle style);
