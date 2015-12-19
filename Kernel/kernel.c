@@ -17,7 +17,8 @@ static const uint64_t PageSize = 0x1000;
 
 static void * const shellAddress = (void *) 0x400000;
 
-terminal_st terminal_active = {0}; // TODO: Remove
+static terminal_st terminals[2] = {{0}, {0}};
+terminal_st * terminal_active; // TODO: Remove
 
 typedef int (*EntryPoint)();
 void displayLogo(); // TODO: Remove
@@ -87,23 +88,44 @@ int main() {
 	
 	clearScreen();
 	//((EntryPoint) shellAddress)();
+	//displayLogo();
 	
-	displayLogo();
+	video_init();
+	terminal_init(&terminals[0]);
+	terminal_init(&terminals[1]);
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_show(&terminals[1]);
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_show(&terminals[0]);
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_show(&terminals[1]);
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_show(&terminals[0]);
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_printf(&terminals[0], "Holu\n");
+	terminal_show(&terminals[1]);
+	terminal_printf(&terminals[0], "ChauChauChauChauChauChauChauChauChauChauChauChauChauChauChauChauChauChauChauCha");
+	terminal_show(&terminals[1]);
 
-	// TODO: Just for fun
-	uint8_t i = 0;
-	int l = 10000000;
-	while(TRUE) {
-		styleAll(i);
-		while(l) {
-			l--;
-		}
-		i++;
-		if(i == 0xFF) {
-			i = 0;
-		}
-		l = 10000000;
-	}
+	//terminal_show(&terminal_active);
 
 	return 0;
 }
@@ -129,4 +151,21 @@ void displayLogo() { // TODO:
 	setStyle(0xF0);
 	print("\n\n\n\n\n");
 	print("\t\t\t\t\t\t\t\t Press any key to continue... ");
+
+	// TODO: Just for fun
+	uint8_t i = 0;
+	int l = 10000000;
+	while(TRUE) {
+		styleAll(i);
+		while(l) {
+			l--;
+		}
+		i++;
+		if(i == 0xFF) {
+			i = 0;
+		}
+		l = 10000000;
+	}
+
+	return 0;
 }

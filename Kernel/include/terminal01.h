@@ -8,7 +8,7 @@ typedef struct {
 	unsigned int cursor;
 	unsigned int cursor_lock;
 	int cursor_shown;
-	tSysVideoCursorShape cursor_shape; // TODO: Change tSysVideoCursorShape name
+	shape_st cursor_shape; // TODO: Change tSysVideoCursorShape name
 	style_st style;
 	screen_st screen;
 } terminal_st;
@@ -17,11 +17,13 @@ void terminal_init(terminal_st * terminal);
 void terminal_show(terminal_st * terminal);
 void terminal_hide();
 
+void terminal_write(terminal_st * terminal, char character);
+int terminal_print(terminal_st * terminal, char * string);
 int terminal_printf(terminal_st * terminal, char * fmt, ...);
 
 void terminal_shift(terminal_st * terminal, int lines);
 
-int terminal_cursor_shape(terminal_st * terminal, tSysVideoCursorShape shape);
+int terminal_cursor_shape(terminal_st * terminal, shape_st shape);
 void terminal_cursor_lock(terminal_st * terminal);
 
 #endif
