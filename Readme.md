@@ -1,6 +1,6 @@
 # ![Zhoue Logo](/Docs/logo.png)
 
-Zhoue is based on x64BareBones wich is a basic setup to develop operating systems for the Intel 64 bits architecture.
+Zhoue is based on x64BareBones which is a basic setup to develop operating systems for the Intel 64 bits architecture.
 
 The final goal of x64BareBones's project is to provide an entry point for a kernel and the possibility to load extra binary modules separated from the main kernel.
 
@@ -10,7 +10,7 @@ This project was made for our Computer Architecture subject of the ITBA Universi
 
 ## Requisites
 
-### General
+### Linux
 
 This project needs the following packages: `nasm qemu gcc binutils make`
 
