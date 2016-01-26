@@ -4,7 +4,11 @@
 #define TERMINAL_MAX 3 // TODO: Cambiar nombre?
 #define TERMINAL_DEFAULT 0 // TODO: Cambiar nombre?
 
+#define _OUTPUT_SLEEP_TIME_MIN 5 // TODO: Cambiar de lugar
+
 #define _OUTPUT_ERROR_TERMINAL_INVALID -1 // TODO: Cambiar de lugar
+#define _OUTPUT_ERROR_SLEEP_ACTIVE -2 // TODO: Cambiar de lugar
+#define _OUTPUT_ERROR_SLEEP_TIME -3 // TODO: Cambiar de lugar
 
 static terminal_st terminals[TERMINAL_MAX] = {{0}, {0}};
 terminal_st * terminal_active; // TODO: A futuro inicializar
@@ -86,6 +90,10 @@ int out_sleep_isEnabled() {
 }
 
 void out_sleep_enabled(int boolean) {
+	if(sleep_active) {
+		return _OUTPUT_ERROR_SLEEP_ACTIVE;
+	}
+
 	sleep_enabled = boolean ? TRUE : FALSE;
 }
 
@@ -93,10 +101,32 @@ int out_sleep_isActive() {
 	return sleep_active;
 }
 
-void out_sleep() { // TODO: Screen Saver
+int out_sleep_time_set(unsigned int time) {
+	if(sleep_active) {
+		return _OUTPUT_ERROR_SLEEP_ACTIVE;
+	}
 
+	if(time < _OUTPUT_SLEEP_TIME_MIN) {
+		return _OUTPUT_ERROR_SLEEP_TIME;
+	}
+
+	sleep_trigger = time;
+
+	return OK;
 }
 
-void out_wake() {
+int out_sleep_time_get() {
+	return sleep_trigger;
+}
 
+int out_sleep() { // TODO: Screen Saver
+	if(sleep_active) {
+		return _OUTPUT_ERROR_SLEEP_ACTIVE;
+	}
+
+	sleep_active = TRUE;
+}
+
+void out_wake() { // TODO: Screen Saver
+	sleep_active = FALSE;
 }
