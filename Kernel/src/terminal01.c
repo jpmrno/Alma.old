@@ -14,7 +14,6 @@ static void terminal_writter(terminal_st * terminal, char character);
 static void terminal_newline(terminal_st * terminal);
 static void terminal_tab(terminal_st * terminal);
 static void terminal_delete(terminal_st * terminal);
-static void terminal_putInBase(terminal_st * terminal, int number, unsigned int base);
 
 static void terminal_style_set(terminal_st * terminal, style_st style);
 
@@ -58,7 +57,7 @@ void terminal_hide() {
 	video_cursor_show(FALSE);
 }
 
-void terminal_write(terminal_st * terminal, char character) {
+void terminal_write(terminal_st * terminal, char character) { // TODO: Que devuelva si escribio un caracter o algo especial?
 	int tab = TAB_SIZE;
 
 	switch(character) {
@@ -87,51 +86,30 @@ int terminal_print(terminal_st * terminal, char * string) {
 	return i;
 }
 
-int terminal_printf(terminal_st * terminal, char * fmt, ...) {
-    char symbol;
-    int i = 0;
-    va_list arg;
+void terminal_digit(terminal_st * terminal, int number, unsigned int base) {
+	intstr(number, base, convert_buffer);
 
-    va_start(arg, fmt);
-    while(fmt[i] != 0) {
-		if(fmt[i] == '%') {
-			symbol = fmt[++i];
-		    switch(symbol) {
-		    	case 's':
-					terminal_print(terminal, va_arg(arg, char *));
-					break;
-				case 'c':
-					terminal_write(terminal, va_arg(arg, int));
-					break;
-				case 'd':
-					terminal_putInBase(terminal, va_arg(arg, int), BASE_DECIMAL);
-					break;
-				case 'h':
-					terminal_putInBase(terminal, va_arg(arg, int), BASE_HEXADECIMAL);
-					break;
-				case 'b':
-					terminal_putInBase(terminal, va_arg(arg, int), BASE_BINARY);
-					break;
-				case 'f': // TODO: 
-					terminal_style_set(terminal, _VIDEO_STYLE_GETTER(va_arg(arg, style_st)));
-					break;
-				case '%':
-					terminal_write(terminal, symbol);
-					break;
-		    }
-		} else if(fmt[i] == '\f') { // TODO: Check
-			symbol = fmt[++i];
-			terminal_style_set(terminal, _VIDEO_STYLE_GETTER(symbol));
-			i++;
-		} else {
-			terminal_write(terminal, fmt[i]);
-		}
+	// TODO: Choose
+	// if(number < 0) {
+	// 	terminal_write(terminal, '-');
+	// }
+	// if(base == BASE_HEXADECIMAL) {
+	// 	terminal_print(terminal, "0x");
+	// }
+	// terminal_print(terminal, convert_buffer + 1);
 
-		i++;
-    }
-    va_end(arg);
+	terminal_print(terminal, convert_buffer);
 
-    return i - 1;
+	switch(base) {
+		case BASE_BINARY:
+			terminal_write(terminal, 'b');
+			break;
+		case BASE_HEXADECIMAL:
+			terminal_write(terminal, 'h');
+			break;
+		default:
+			break;
+	}
 }
 
 static void terminal_style_set(terminal_st * terminal, style_st style) { // TODO: Static?
@@ -242,31 +220,5 @@ static void terminal_delete(terminal_st * terminal) {
 	if(terminal == terminal_active) {
 		video_writeWithStyle(terminal->cursor, ' ', terminal->style);
 		video_cursor_put(terminal->cursor);
-	}
-}
-
-static void terminal_putInBase(terminal_st * terminal, int number, unsigned int base) {
-	intstr(number, base, convert_buffer);
-
-	// TODO: Choose
-	// if(number < 0) {
-	// 	terminal_write(terminal, '-');
-	// }
-	// if(base == BASE_HEXADECIMAL) {
-	// 	terminal_print(terminal, "0x");
-	// }
-	// terminal_print(terminal, convert_buffer + 1);
-
-	terminal_print(terminal, convert_buffer);
-
-	switch(base) {
-		case BASE_BINARY:
-			terminal_write(terminal, 'b');
-			break;
-		case BASE_HEXADECIMAL:
-			terminal_write(terminal, 'h');
-			break;
-		default:
-			break;
 	}
 }
