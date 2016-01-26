@@ -1,150 +1,62 @@
-#ifndef _VIDEO_DRIVER_H_
-#define _VIDEO_DRIVER_H_
+#ifndef _VIDEO_DRIVER_01_H_
+#define _VIDEO_DRIVER_01_H_
 
-#include <define.h>
+#include <define01.h>
+#include <colors.h>
 
-#define VIDEO_ROWS 25
-#define VIDEO_COLUMNS 80
-#define VIDEO_SIZE (VIDEO_ROWS * VIDEO_COLUMNS * 2)
+#define _VIDEO_ROWS 25
+#define _VIDEO_COLUMNS 80
+#define _VIDEO_SIZE (_VIDEO_ROWS * _VIDEO_COLUMNS)
 
-#define BACKGROUND_DEFAULT 0x00
-#define COLOR_DEFAULT 0x07
+#define _VIDEO_ERROR_CURSOR_INVALID -1
+#define _VIDEO_ERROR_CURSOR_SHAPE_INVALID -2
+#define _VIDEO_ERROR_RANGE_INVALID -3
 
-#define ERROR_POSITION_INVALID -1
+#define _VIDEO_CURSOR_LAST_POSITION (_VIDEO_SIZE - 1)
+#define _VIDEO_CURSOR_TO_POSITION(x,y) (((x) * _VIDEO_COLUMNS) + (y))
 
-/**
- * Initialize the screen, by clearing all the existent data,
- * making the cursor enable, and reseting its position to the
- * beginning of the screen.
- */
-void initVideo();
+// TODO: Docs
 
-/**
- * Writes the given character at the corresponding position of the screen.
- * @param character			 the character to be written
- */
-void write(char character);
+typedef enum {
+	_VIDEO_CURSOR_SHAPE_SQUARE, _VIDEO_CURSOR_SHAPE_UNDERSCORE, _VIDEO_CURSOR_SHAPE_DOT
+} shape_st;
 
-/**
- * Writes the given character at the given position.
- * @param  character			the character to be written
- * @param  position 			the position where to write the character
- * @return          			OK if the position is valid.
- *                        		ERROR_POSITION_INVALID otherwise.
- */
-int put(char character, unsigned int position);
+#define _VIDEO_CURSOR_SHAPE_DEFAULT _VIDEO_CURSOR_SHAPE_SQUARE
 
-/**
- * Writes the given style at the given position.
- * @param  thisStyle 			the style to be written
- * @param  position  			the position where to write the character
- * @return           			OK if the position is valid.
- *                        		ERROR_POSITION_INVALID otherwise.
- */
-int putStyleOf(uint8_t thisStyle, unsigned int position);
+typedef struct {
+    uint8_t character;
+    uint8_t style;
+} pixel_st;
 
-/**
- * Gets the character at the given position
- * @param  position 			the position from where to get the character
- * @return          			the character at the given position, if valid.
- *                         		ERROR_POSITION_INVALID otherwise.
- */
-uint8_t get(unsigned int position);
+typedef pixel_st screen_st[_VIDEO_SIZE];
 
-/**
- * Gets the style at the given position
- * @param  position 			the position from where to get the style
- * @return          			the style at the given position, if valid.
- *                         		ERROR_POSITION_INVALID otherwise.
- */
-uint8_t getStyleOf(unsigned int position);
+void video_init();
+void video_clear();
 
-/**
- * Sets the cursor at the given position and updates it.
- * @param  position  			the position where to set the cursor
- * @return           			OK if the position is valid.
- *                        		ERROR_POSITION_INVALID otherwise.
- */
-int setCursor(unsigned int position);
+void video_cursor_show(int boolean);
+int video_cursor_put(unsigned int position);
+int video_cursor_get();
 
-/**
- * 
- * @return the cursor position
- */
-unsigned int getCursor();
+int video_cursor_shape(shape_st shape);
+int video_cursor_shape_isValid(shape_st shape);
 
-/**
- * Inserts a new line in the screen, from the cursor's position.
- * Note that everything following the cursor's line position will be deleted.
- * So, for using this function, be sure that the cursor is after the last
- * inserted character.
- */
-void newLine();
+int video_write(unsigned int position, char character);
+int video_writeWithStyle(unsigned int position, char character, style_st style);
+char video_get(unsigned int position);
 
-/**
- * Deletes the last inserted character & style.
- */
-void delete();
+int video_style_put(unsigned int position, style_st style);
+int video_style_get(unsigned int position);
+void video_style_all(style_st style);
+int video_style_range(unsigned int from, unsigned int to, style_st style);
 
-/**
- * Clears the screen, reseting the cursor's position 
- * to the beginning of the screen.
- */
-void clearAll();
+int video_color_put(unsigned int position, style_st color);
+int video_color_get(unsigned int position);
+void video_color_all(style_st color);
+int video_color_range(unsigned int from, unsigned int to, style_st color);
 
-/**
- * Sets the default style to the whole screen.
- */
-void clearStyle();
-
-/**
- * Sets the given style to the whole screen.
- * @param newStyle				the style to be set
- */
-void styleAll(uint8_t newStyle);
-
-/**
- * Sets the given color to the whole screen.
- * @param color 				the color to be set
- */
-void colorAll(uint8_t color);
-
-/**
- * Sets the given background to the whole screen.
- * @param background 			the background to be set
- */
-void backgroundAll(uint8_t background);
-
-/**
- * Sets the active style to the default one
- * for the next writings
- */
-void restoreStyle();
-
-/**
- * Sets the active style to the given one
- * for the next writings
- * @param newStyle			the style to be set
- */
-void setStyle(uint8_t newStyle);
-
-/**
- * @return  				the active style
- */
-uint8_t getStyle();
-
-/**
- * Sets the active color to the given one
- * for the next writings
- * @param color 			the color to be set
- */
-void setColor(uint8_t color);
-
-/**
- * Sets the active background to the given one
- * for the next writings
- * @param background 		the background to be set
- */
-void setBackground(uint8_t background);
+int video_bg_put(unsigned int position, style_st bg);
+int video_bg_get(unsigned int position);
+void video_bg_all(style_st bg);
+int video_bg_range(unsigned int from, unsigned int to, style_st bg);
 
 #endif

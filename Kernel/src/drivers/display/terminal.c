@@ -1,4 +1,4 @@
-#include <terminal01.h>
+#include <terminal.h>
 #include <stdarg.h>
 #include <strings.h>
 

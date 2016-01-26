@@ -1,4 +1,4 @@
-#include <terminal01.h>
+#include <terminal.h>
 #include <stdarg.h>
 
 #define TERMINAL_MAX 3 // TODO: Cambiar nombre?
