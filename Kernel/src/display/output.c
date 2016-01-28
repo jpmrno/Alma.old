@@ -33,7 +33,7 @@ void out_init() {
 }
 
 int out_select(int terminal_desired) {
-	if(terminal_desired <= _OUTPUT_TERMINAL_MAX) {
+	if(terminal_desired >= _OUTPUT_TERMINAL_MAX) {
 		return _OUTPUT_ERROR_TERMINAL_INVALID;
 	}
 

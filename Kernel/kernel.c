@@ -1,7 +1,7 @@
-#include <video.h>
-#include <output.h>
 #include <modules.h>
 #include <memory.h>
+#include <video.h>
+#include <output.h>
 
 #define PAGE_SIZE 0x1000
 
