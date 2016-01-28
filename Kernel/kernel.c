@@ -1,3 +1,4 @@
+#include <define.h>
 #include <modules.h>
 #include <memory.h>
 #include <video.h>
