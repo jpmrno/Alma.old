@@ -1,5 +1,5 @@
-#ifndef _TERMINAL_H_NEW
-#define _TERMINAL_H_NEW // TODO: Change
+#ifndef _TERMINAL_H_
+#define _TERMINAL_H_
 
 #include <define.h>
 #include <video.h> // TODO: Va a tener que estar aca hasta que pueda alocar memoria para hacer terminal_new()

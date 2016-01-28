@@ -1,6 +1,6 @@
 include Makevars
 
-all: toolchain bootloader libs kernel userland image
+all: toolchain bootloader libs kernel image
 
 toolchain:
 	$(MAKE) -C $(TOOLCHAIN_PATH) all

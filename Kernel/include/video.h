@@ -1,5 +1,5 @@
-#ifndef _VIDEO_DRIVER_01_H_
-#define _VIDEO_DRIVER_01_H_
+#ifndef _VIDEO_H_
+#define _VIDEO_H_
 
 #include <define01.h>
 #include <colors.h>

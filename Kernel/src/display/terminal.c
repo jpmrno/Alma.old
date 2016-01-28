@@ -17,10 +17,10 @@ static void terminal_delete(terminal_st * terminal);
 
 static void terminal_style_set(terminal_st * terminal, style_st style);
 
-extern terminal_st * terminal_active;
-
 #define CONVERT_BUFFER_SIZE 128
 static char convert_buffer[CONVERT_BUFFER_SIZE] = {0}; // TODO: Cambiar cuando pueda alocar memoria?
+
+static terminal_st * terminal_active;
 
 void terminal_init(terminal_st * terminal) {
 	int i;
