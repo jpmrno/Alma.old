@@ -2,6 +2,7 @@
 #define _DEFINE_H_
 
 #include <stdint.h>
+#include <debug.h> // TODO: Si o no?
 
 #define NULL ((void *) 0)
 

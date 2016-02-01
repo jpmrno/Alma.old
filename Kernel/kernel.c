@@ -3,6 +3,7 @@
 #include <memory.h>
 #include <video.h>
 #include <output.h>
+#include <debug.h> // TODO: En define.h?
 
 #define PAGE_SIZE 0x1000
 
@@ -21,12 +22,13 @@ typedef int (* EntryPoint)();
 static void * kernel_stack_base();
 static void kernel_bss_clear();
 
-static void * moduleAddresses[] = {
+static void * module_addresses[] = {
 	(void *) MODULE_SHELL_ADDRESS // Shell address
 };
 
 void * kernel_init() {	
-	module_load(&endOfKernelBinary, moduleAddresses);
+	module_load(&endOfKernelBinary, module_addresses);
+
 	kernel_bss_clear();
 
 	return kernel_stack_base();
@@ -35,10 +37,21 @@ void * kernel_init() {
 int kernel_main() {
 	video_init();
 	out_init();
-	out_printf("Loading modules... [Done]\n");
 	out_printf("Initializing video driver... [Done]\n");
+	out_printf("Loading modules... [Done]\n");
+
+	out_printf("Initializing debug channel... ");
+	debug_init();
+	out_printf("[Done]\n");
+
+	debug("# Kernel Main\n");
+	debug("## Kernel's binary\n");
+	debug("\ttext: %h\n", (uint64_t)&text);
+	debug("\trodata: %h\n", (uint64_t)&rodata);
+	debug("\tdata: %h\n", (uint64_t)&data);
+	debug("\tbss: %h\n", (uint64_t)&bss);
 	
-	//((EntryPoint) moduleAddresses[MODULE_SHELL_INDEX])();
+	//((EntryPoint) module_addresses[MODULE_SHELL_INDEX])();
 
 	return 0;
 }

@@ -1,4 +1,5 @@
 #include <terminal.h>
+#include <define.h>
 #include <stdarg.h>
 #include <strings.h>
 
@@ -17,7 +18,7 @@ static void terminal_delete(terminal_st * terminal);
 
 static void terminal_style_set(terminal_st * terminal, style_st style);
 
-#define CONVERT_BUFFER_SIZE 128
+#define CONVERT_BUFFER_SIZE 128 // TODO: Cambiar de lugar!!
 static char convert_buffer[CONVERT_BUFFER_SIZE] = {0}; // TODO: Cambiar cuando pueda alocar memoria?
 
 static terminal_st * terminal_active;

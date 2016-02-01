@@ -1,4 +1,5 @@
 #include <output.h>
+#include <define.h>
 #include <terminal.h>
 #include <stdarg.h>
 #include <strings.h>
@@ -91,11 +92,11 @@ void out_cursor_shape() { // TODO:
 
 }
 
-// int out_sleep_isEnabled() { // TODO: En manager?
+// int out_sleep_isEnabled() { // TODO: En manager
 // 	return sleep_enabled;
 // }
 
-// void out_sleep_enabled(int boolean) { // TODO: En manager?
+// void out_sleep_enabled(int boolean) { // TODO: En manager
 // 	if(sleep_active) {
 // 		return _OUTPUT_ERROR_SLEEP_ACTIVE;
 // 	}
@@ -108,17 +109,13 @@ void out_cursor_shape() { // TODO:
 // 		return _OUTPUT_ERROR_SLEEP_ACTIVE;
 // 	}
 
-// 	if(time < _OUTPUT_SLEEP_TIME_MIN) {
+// 	if(time < _OUTPUT_SLEEP_TIME_MIN) { // TODO: En manager
 // 		return _OUTPUT_ERROR_SLEEP_TIME;
 // 	}
 
 // 	sleep_trigger = time;
 
 // 	return OK;
-// }
-
-// int out_sleep_time_get() {
-// 	return sleep_trigger;
 // }
 
 int out_sleep_init() { // TODO: Screen Saver
