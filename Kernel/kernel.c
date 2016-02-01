@@ -40,10 +40,11 @@ int kernel_main() {
 	out_printf("Initializing video driver... [Done]\n");
 	out_printf("Loading modules... [Done]\n");
 
-	out_printf("Initializing debug channel... ");
-	debug_init();
+	out_printf("Initializing serial port... ");
+	serial_init();
 	out_printf("[Done]\n");
 
+	debug_init();
 	debug("# Kernel Main\n");
 	debug("## Kernel's binary\n");
 	debug("\ttext: %h\n", (uint64_t)&text);
