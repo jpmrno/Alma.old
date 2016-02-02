@@ -3,6 +3,11 @@
 
 #include <define.h>
 
+#define _IDT_ENTRIES 256
+#define _GDT_CODE_SEGMENT 0x08
+
+#define _IDT_ERROR_INDEX_INVALID -1
+
 // Modified from: Arquitectura de las Computadoras - TP6 @ ITBA
 #define _IDT_ACCESS_PRESENT     	0x80            // present segment at memory
 #define _IDT_ACCESS_CODE_SEGMENT    0x18            // code segment 
@@ -17,6 +22,8 @@
 #define _IDT_ACCESS_DATA        	(_IDT_ACCESS_PRESENT | _IDT_ACCESS_DATA_SEGMENT | _IDT_ACCESS_WRITE)
 #define _IDT_ACCESS_STACK       	(_IDT_ACCESS_PRESENT | _IDT_ACCESS_DATA_SEGMENT | _IDT_ACCESS_WRITE)
 
+void idt_init();
+
 /**
  * Sets a new IDT entry at the given index, with the corresponding pointer to
  * the interrupt service routine and with the detailed access permissions.  
@@ -25,6 +32,6 @@
  * @param offset - the pointer to the interrupt service routine
  * @param access - the permissions for the entry being set
  */
-void idt_entry(int index, qword_t offset, byte_t access);
+int idt_entry(unsigned int index, qword_t offset, byte_t access);
 
 #endif

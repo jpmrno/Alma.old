@@ -1,5 +1,4 @@
-GLOBAL _interrupt_set
-GLOBAL _interrupt_clear
+GLOBAL _pic_mask
 
 section .text
 
@@ -44,19 +43,19 @@ align 16
 %endmacro
 
 ; -----------------------------------------------------------------------------
-; Enables INTR hardware interrupts.
+; Applies the given mask to the PIC	to enable/disable interrupts              
+; @param rdi - the mask to be applied to the PIC             // TODO: Se pude hacer en C directo 				  
 ; -----------------------------------------------------------------------------
 align 16
-_interrupt_set:
-	sti
-	ret
-; -----------------------------------------------------------------------------
+_pic_mask:
+	push rbp
+    mov rbp, rsp
 
-; -----------------------------------------------------------------------------
-; Disables INTR hardware interrupts.
-; -----------------------------------------------------------------------------
-align 16
-_interrupt_clear:
-	cli
-	ret
+    xor rax, rax ; To ensure rax register will be empty
+    mov rax, rdi
+    out	21h, al
+
+    mov rsp, rbp
+    pop rbp
+    ret
 ; -----------------------------------------------------------------------------

@@ -6,6 +6,7 @@
 #include <debug.h>
 #include <idt.h>
 #include <interrupts.h>
+#include <pic.h>
 
 #define PAGE_SIZE 0x1000
 
@@ -52,7 +53,27 @@ int kernel_main() {
 	debug("\ttext: %h\n", (uint64_t)&text);
 	debug("\trodata: %h\n", (uint64_t)&rodata);
 	debug("\tdata: %h\n", (uint64_t)&data);
-	debug("\tbss: %h\n", (uint64_t)&bss);
+	debug("\tbss: %h\n\n", (uint64_t)&bss);
+
+	debug("\tSerial inited\n\n");
+
+	idt_init(); // TODO:
+
+	out_printf("Disabling interrupts... ");
+	_interrupt_clear();
+	debug("\tCLI\n");
+	_pic_mask((uint8_t) 0xFF); // TODO: 0xFF define
+	debug("\tPIC Masc set to: 0xFF\n");
+	out_printf("[Done]\n");
+
+	out_printf("Drivers loading: \n");
+
+	out_printf("Enabling interrupts... ");
+	_interrupt_set();
+	debug("\tSTI\n");
+	_pic_mask((uint8_t) 0xFC); // TODO: 0xFC define
+	debug("\tPIC Masc set to: 0xFC\n\n");
+	out_printf("[Done]\n");
 	
 	//((EntryPoint) module_addresses[MODULE_SHELL_INDEX])();
 
