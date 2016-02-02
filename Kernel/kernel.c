@@ -3,7 +3,8 @@
 #include <memory.h>
 #include <video.h>
 #include <output.h>
-#include <debug.h> // TODO: En define.h?
+#include <debug.h>
+#include <idt.h>
 
 #define PAGE_SIZE 0x1000
 
