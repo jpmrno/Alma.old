@@ -3,7 +3,10 @@
 
 #include <define.h>
 
-#define _PORT_COM1 0x3F8 // COM1
+#define _PORT_COM1 0x3F8
+#define _PORT_COM2 0x2F8
+#define _PORT_COM3 0x3E8
+#define _PORT_COM4 0x2E8
 
 /**
  * TODO: Doc

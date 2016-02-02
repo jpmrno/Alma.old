@@ -1,8 +1,6 @@
 #ifndef _LIB_STRINGS_H_
 #define _LIB_STRINGS_H_
 
-#define ERROR_NUMBER_NOT_POSITIVE -1
-
 /**
  * Compares 2 null terminated strings
  * @param  s1 a string
@@ -17,14 +15,6 @@ int strcmp(const char * s1, const char * s2);
  * @param source a string
  */
 void strcpy(char * dest, const char * source);
-
-/**
- * Converts a string into a number only if the number is possitive
- * @param  s   the string
- * @param  num the return value for the number
- * @return     the length of the number or <0 if error occurred
- */
-int strint(const char * s, unsigned int * num);
 
 /**
  * TODO: Doc

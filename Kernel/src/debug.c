@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <serial.h>
 #include <strings.h>
+#include <numbers.h>
 
 // TODO: 
 
@@ -83,7 +84,7 @@ static void debug_digit(int number, unsigned int base) {
 	// if(number < 0) {
 	// 	terminal_write(terminal, '-');
 	// }
-	// if(base == BASE_HEXADECIMAL) {
+	// if(base == _NUMBERS_BASE_HEXADECIMAL) {
 	// 	terminal_print(terminal, "0x");
 	// }
 	// terminal_print(terminal, convert_buffer + 1);
@@ -91,10 +92,10 @@ static void debug_digit(int number, unsigned int base) {
 	debug_print(convert_buffer);
 
 	switch(base) {
-		case BASE_BINARY:
+		case _NUMBERS_BASE_BINARY:
 			debug_write('b');
 			break;
-		case BASE_HEXADECIMAL:
+		case _NUMBERS_BASE_HEXADECIMAL:
 			debug_write('h');
 			break;
 		default:

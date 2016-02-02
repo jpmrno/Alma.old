@@ -1,13 +1,9 @@
 #include <terminal.h>
 #include <define.h>
 #include <stdarg.h>
-#include <strings.h>
+#include <numbers.h>
 
 #define TAB_SIZE 3
-
-#define BASE_BINARY 2 // TODO: Cambiar de lugar! numbers.h en shared lib?
-#define BASE_DECIMAL 10
-#define BASE_HEXADECIMAL 16
 
 #define IS_CURSOR_AT_BEGGINING_OF_LINE(x) (!((x) % _VIDEO_COLUMNS))
 
@@ -18,7 +14,7 @@ static void terminal_delete(terminal_st * terminal);
 
 static void terminal_style_set(terminal_st * terminal, style_st style);
 
-#define CONVERT_BUFFER_SIZE 128 // TODO: Cambiar de lugar!!
+#define CONVERT_BUFFER_SIZE 128 // TODO: Cambiar cuando pueda alocar memoria?
 static char convert_buffer[CONVERT_BUFFER_SIZE] = {0}; // TODO: Cambiar cuando pueda alocar memoria?
 
 static terminal_st * terminal_active;
@@ -94,7 +90,7 @@ void terminal_digit(terminal_st * terminal, int number, unsigned int base) {
 	// if(number < 0) {
 	// 	terminal_write(terminal, '-');
 	// }
-	// if(base == BASE_HEXADECIMAL) {
+	// if(base == _NUMBERS_BASE_HEXADECIMAL) {
 	// 	terminal_print(terminal, "0x");
 	// }
 	// terminal_print(terminal, convert_buffer + 1);
@@ -102,10 +98,10 @@ void terminal_digit(terminal_st * terminal, int number, unsigned int base) {
 	terminal_print(terminal, convert_buffer);
 
 	switch(base) {
-		case BASE_BINARY:
+		case _NUMBERS_BASE_BINARY:
 			terminal_write(terminal, 'b');
 			break;
-		case BASE_HEXADECIMAL:
+		case _NUMBERS_BASE_HEXADECIMAL:
 			terminal_write(terminal, 'h');
 			break;
 		default:

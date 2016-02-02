@@ -3,11 +3,7 @@
 #include <terminal.h>
 #include <stdarg.h>
 #include <strings.h>
-
-// TODO: Temporal
-#define BASE_BINARY 2 // TODO: Cambiar de lugar! numbers.h en shared lib?
-#define BASE_DECIMAL 10
-#define BASE_HEXADECIMAL 16
+#include <numbers.h>
 
 #define SLEEP_TEXT_DEFAULT " ..|.. "
 
@@ -61,13 +57,13 @@ int out_printf(char * fmt, ...) { // TODO: How to set styles
 					terminal_write(&terminals[terminal_active], va_arg(arg, int));
 					break;
 				case 'd':
-					terminal_digit(&terminals[terminal_active], va_arg(arg, int), BASE_DECIMAL);
+					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_DECIMAL);
 					break;
 				case 'h':
-					terminal_digit(&terminals[terminal_active], va_arg(arg, int), BASE_HEXADECIMAL);
+					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_HEXADECIMAL);
 					break;
 				case 'b':
-					terminal_digit(&terminals[terminal_active], va_arg(arg, int), BASE_BINARY);
+					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_BINARY);
 					break;
 				case '%':
 					terminal_write(&terminals[terminal_active], symbol);

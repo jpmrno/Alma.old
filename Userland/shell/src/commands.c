@@ -7,6 +7,8 @@
 #define BACKGROUND 0
 #define TEXT 1
 
+// #define COMMAND(name) {#name, cmd_ ## name, CMD_MSJ_ ## name}
+
 // Remember to change CMDS_SIZE if a command is added
 tCommand commands[CMDS_SIZE] = {
 	{"help", cmd_help, CMD_HELP_MSG},
