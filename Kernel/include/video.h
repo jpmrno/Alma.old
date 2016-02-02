@@ -1,7 +1,7 @@
 #ifndef _VIDEO_H_
 #define _VIDEO_H_
 
-#include <define01.h>
+#include <define.h>
 #include <colors.h>
 
 #define _VIDEO_ROWS 25

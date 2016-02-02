@@ -8,11 +8,14 @@
 #define TRUE 1
 #define FALSE !TRUE
 
-#define NO_ERROR 0 // TODO: Remove
-#define OK NO_ERROR
-#define ERROR 1 // TODO: O -1? O !OK? ..?
+#define OK 0
+#define ERROR -1
 
-// TODO: Useful??
 #define ERROR_OCCURRED(x) ((x) < OK)
+
+typedef uint8_t byte;
+typedef uint16_t word;
+typedef uint32_t dword;
+typedef uint64_t qword;
 
 #endif
