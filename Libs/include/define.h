@@ -13,9 +13,9 @@
 
 #define ERROR_OCCURRED(x) ((x) < OK)
 
-typedef uint8_t byte;
-typedef uint16_t word;
-typedef uint32_t dword;
-typedef uint64_t qword;
+typedef uint8_t byte_t;
+typedef uint16_t word_t;
+typedef uint32_t dword_t;
+typedef uint64_t qword_t;
 
 #endif

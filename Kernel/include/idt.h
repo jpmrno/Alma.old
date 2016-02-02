@@ -25,6 +25,6 @@
  * @param offset - the pointer to the interrupt service routine
  * @param access - the permissions for the entry being set
  */
-void idt_entry(int index, qword offset, byte access);
+void idt_entry(int index, qword_t offset, byte_t access);
 
 #endif

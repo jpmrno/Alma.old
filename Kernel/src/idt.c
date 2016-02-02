@@ -7,35 +7,35 @@
 
 // Segment Descriptor
 typedef struct {
-  word limit,
-       base_l;		// Low
-  byte base_m,		// Mid
-       access,
-       attributes,
-       base_h;		// High
+	word_t 	limit,
+			base_l;		// Low
+	byte_t 	base_m,		// Mid
+       		access,
+       		attributes,
+       		base_h;		// High
 } segment_st;
 
 // Interrupt Descriptor
 typedef struct {
-	word 	offset_l,	// Low
+	word_t 	offset_l,	// Low
 			selector;
-	byte 	zero_l,		// Low
+	byte_t 	zero_l,		// Low
 			access;
-	word	offset_m;	// Mid
-	dword	offset_h;	// High
-	dword	zero_h;		// High
+	word_t	offset_m;	// Mid
+	dword_t	offset_h;	// High
+	dword_t	zero_h;		// High
 
 } interrupt_st;
 
 // IDTR // TODO: 
 typedef struct {
-	word	limit;
-	qword	base;
+	word_t	limit;
+	qword_t	base;
 } idtRegister_st;
 
 static interrupt_st * idt = (interrupt_st *) IDT_BASE_ADDRESS;
 
-void idt_entry(int index, qword offset, byte access) {
+void idt_entry(int index, qword_t offset, byte_t access) {
 	idt[index].selector = GDT_CODE_SEGMENT;
 	idt[index].offset_l = GET_WORD(offset);
 	offset >>= 16;
