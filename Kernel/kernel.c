@@ -5,6 +5,7 @@
 #include <output.h>
 #include <debug.h>
 #include <idt.h>
+#include <interrupts.h>
 
 #define PAGE_SIZE 0x1000
 
