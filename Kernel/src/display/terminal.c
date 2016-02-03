@@ -54,8 +54,9 @@ void terminal_hide() {
 	video_cursor_show(FALSE);
 }
 
-void terminal_write(terminal_st * terminal, char character) { // TODO: Que devuelva si escribio un caracter o algo especial?
+int terminal_write(terminal_st * terminal, char character) { // TODO: Que devuelva si escribio un caracter o algo especial?
 	int tab = TAB_SIZE;
+	int ret = 0;
 
 	switch(character) {
 		case '\n': // New line
@@ -69,18 +70,22 @@ void terminal_write(terminal_st * terminal, char character) { // TODO: Que devue
 			break;
 		default: // Normal Character
 			terminal_writter(terminal, character);
+			ret = 1;
 			break;
 	}
+
+	return ret;
 }
 
 int terminal_print(terminal_st * terminal, char * string) {
 	int i = 0;
+	int printed = 0;
 
 	while(string[i]) {
-		terminal_write(terminal, string[i++]);
+		printed += terminal_write(terminal, string[i++]);
 	}
 
-	return i;
+	return printed;
 }
 
 void terminal_digit(terminal_st * terminal, int number, unsigned int base) {

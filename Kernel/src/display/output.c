@@ -7,6 +7,8 @@
 
 #define SLEEP_TEXT_DEFAULT " ..|.. "
 
+static int out_vprintf(char * fmt, va_list arg); // TODO: 
+
 // Terminal vars
 static terminal_st terminals[_OUTPUT_TERMINAL_MAX] = {{0}, {0}};
 static int terminal_active = _OUTPUT_TERMINAL_DEFAULT; // TODO: A futuro inicializar
@@ -40,9 +42,11 @@ int out_select(int terminal_desired) {
 	return OK;
 }
 
+// TODO: Add return value to terminal_digit & Fix terminal write return value!
 int out_printf(char * fmt, ...) { // TODO: How to set styles
     char symbol;
     int i = 0;
+    int printed = 0;
     va_list arg;
 
     va_start(arg, fmt);
@@ -51,10 +55,10 @@ int out_printf(char * fmt, ...) { // TODO: How to set styles
 			symbol = fmt[++i];
 		    switch(symbol) {
 		    	case 's':
-					terminal_print(&terminals[terminal_active], va_arg(arg, char *));
+					printed += terminal_print(&terminals[terminal_active], va_arg(arg, char *));
 					break;
 				case 'c':
-					terminal_write(&terminals[terminal_active], va_arg(arg, int));
+					printed += terminal_write(&terminals[terminal_active], va_arg(arg, int));
 					break;
 				case 'd':
 					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_DECIMAL);
@@ -66,18 +70,82 @@ int out_printf(char * fmt, ...) { // TODO: How to set styles
 					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_BINARY);
 					break;
 				case '%':
-					terminal_write(&terminals[terminal_active], symbol);
+					printed += terminal_write(&terminals[terminal_active], symbol);
 					break;
 			}
 		} else {
-			terminal_write(&terminals[terminal_active], fmt[i]);
+			printed += terminal_write(&terminals[terminal_active], fmt[i]);
 		}
 
 		i++;
 	}
 	va_end(arg);
 
-	return i - 1;
+	return printed;
+}
+
+static int out_vprintf(char * fmt, va_list arg) { // TODO: Static?
+    char symbol;
+    int i = 0;
+    int printed = 0;
+
+    while(fmt[i] != 0) {
+		if(fmt[i] == '%') {
+			symbol = fmt[++i];
+		    switch(symbol) {
+		    	case 's':
+					printed += terminal_print(&terminals[terminal_active], va_arg(arg, char *));
+					break;
+				case 'c':
+					printed += terminal_write(&terminals[terminal_active], va_arg(arg, int));
+					break;
+				case 'd':
+					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_DECIMAL);
+					break;
+				case 'h':
+					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_HEXADECIMAL);
+					break;
+				case 'b':
+					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_BINARY);
+					break;
+				case '%':
+					printed += terminal_write(&terminals[terminal_active], symbol);
+					break;
+			}
+		} else {
+			printed += terminal_write(&terminals[terminal_active], fmt[i]);
+		}
+
+		i++;
+	}
+
+	return printed;
+}
+
+void out_box_top() {
+	out_printf("\n ------------------------------------------------------------------------------ ");
+}
+
+void out_box_bottom() {
+	out_printf(" ------------------------------------------------------------------------------ ");
+}
+
+// TODO: Faltan validaciones de texto a escribir
+void out_box_line(char * format, ...) {
+	static int length;
+	va_list args;
+
+	va_start(args, format);
+
+	out_printf("| ");
+	length = out_vprintf(format, args);
+	length = 77 - length; // TODO: Use define for 77
+	while(length--) {
+		out_printf(" ");
+	}
+	out_printf("|");
+
+	va_end(args);
 }
 
 void out_cursor_lock() { // TODO: 

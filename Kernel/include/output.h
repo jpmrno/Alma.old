@@ -15,6 +15,9 @@ void out_init();
 int out_select(int terminal_desired);
 
 int out_printf(char * fmt, ...);
+void out_box_top();
+void out_box_bottom();
+void out_box_line(char * fmt, ...);
 
 void out_cursor_lock();
 void out_cursor_shape();

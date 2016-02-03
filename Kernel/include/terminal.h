@@ -16,7 +16,7 @@ void terminal_init(terminal_st * terminal);
 void terminal_show(terminal_st * terminal);
 void terminal_hide();
 
-void terminal_write(terminal_st * terminal, char character);
+int terminal_write(terminal_st * terminal, char character);
 int terminal_print(terminal_st * terminal, char * string);
 void terminal_digit(terminal_st * terminal, int number, unsigned int base);
 

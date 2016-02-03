@@ -35,6 +35,6 @@ cleanall:
 	$(MAKE) -C $(IMAGE_PATH) clean
 
 run: clean all
-	$(QEMU) $(QEMU_DEBUGGING) $(QEMU_SOUND) -hda $(SOURCE_IMAGE) $(QEMU_FLAGS)
+	$(QEMU) $(QEMU_DEBUG) $(QEMU_LOG) $(QEMU_SOUND) -hda $(SOURCE_IMAGE) $(QEMU_FLAGS)
 
 .PHONY: all toolchain bootloader libs kernel userland image clean

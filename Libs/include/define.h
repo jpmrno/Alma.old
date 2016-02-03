@@ -3,6 +3,11 @@
 
 #include <stdint.h>
 
+#define STRINGNIFY_MACRO(x) #x
+#define STRINGNIFY_VALUE(x) STRINGNIFY_MACRO(x)
+#define STRINGNIFY_BOOL(x) (x) ? "true" : "false"
+#define STRINGNIFY_BOOL_YESNO(x) (x) ? "yes" : "no"
+
 #define NULL ((void *) 0)
 
 #define TRUE 1
