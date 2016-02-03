@@ -1,5 +1,7 @@
 GLOBAL _port_write_byte
+GLOBAL _port_write_word
 GLOBAL _port_read_byte
+GLOBAL _port_read_word
 
 section .text
 
@@ -61,6 +63,22 @@ _port_write_byte:
 	ret
 
 align 16
+_port_write_word:
+	pushaq					; Backup everything
+
+	xor rax, rax			; Clean registers
+	xor rdx, rdx
+
+	mov rax, rsi
+	and rax, 0FFFFh 		; Last word
+	mov rdx, rdi
+	and rdx, 0FFFFh 		; Last word
+	out dx, ax
+
+	popaq					; Restore everything
+	ret
+
+align 16
 _port_read_byte: ; TODO: Test & Doc
 	pushfq					; Backup everything
 	push rdx
@@ -71,6 +89,22 @@ _port_read_byte: ; TODO: Test & Doc
 	mov rdx, rdi
 	and rdx, 0FFFFh 		; Last word
 	in al, dx
+
+	pop rdx					; Restore everything
+	popfq
+	ret
+
+align 16
+_port_read_word: ; TODO: Test & Doc
+	pushfq					; Backup everything
+	push rdx
+
+	xor rax, rax			; Clean registers
+	xor rdx, rdx
+
+	mov rdx, rdi
+	and rdx, 0FFFFh 		; Last word
+	in ax, dx
 
 	pop rdx					; Restore everything
 	popfq

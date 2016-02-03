@@ -22,6 +22,9 @@
 #define _IDT_ACCESS_DATA        	(_IDT_ACCESS_PRESENT | _IDT_ACCESS_DATA_SEGMENT | _IDT_ACCESS_WRITE)
 #define _IDT_ACCESS_STACK       	(_IDT_ACCESS_PRESENT | _IDT_ACCESS_DATA_SEGMENT | _IDT_ACCESS_WRITE)
 
+#define _IDT_ENTRY_EXCEPTION(NUMBER) idt_entry(0x ## NUMBER, (qword_t) &exception_ ## NUMBER, _IDT_ACCESS_INT)
+#define _IDT_ENTRY_INTERRUPT(NUMBER) idt_entry(0x ## NUMBER, (qword_t) &interrupt_ ## NUMBER, _IDT_ACCESS_INT)
+
 void idt_init();
 
 /**

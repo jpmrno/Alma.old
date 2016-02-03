@@ -114,24 +114,27 @@ static void kernel_bss_clear() {
 
 static void kernel_idt_load() {
 	idt_init();
-	idt_entry(0x00, (qword_t) &exception_00, _IDT_ACCESS_INT);
-	idt_entry(0x02, (qword_t) &exception_02, _IDT_ACCESS_INT);
-	idt_entry(0x03, (qword_t) &exception_03, _IDT_ACCESS_INT);
-	idt_entry(0x04, (qword_t) &exception_04, _IDT_ACCESS_INT);
-	idt_entry(0x05, (qword_t) &exception_05, _IDT_ACCESS_INT);
-	idt_entry(0x06, (qword_t) &exception_06, _IDT_ACCESS_INT);
-	idt_entry(0x07, (qword_t) &exception_07, _IDT_ACCESS_INT);
-	idt_entry(0x08, (qword_t) &exception_08, _IDT_ACCESS_INT);
-	idt_entry(0x09, (qword_t) &exception_09, _IDT_ACCESS_INT);
-	idt_entry(0x0A, (qword_t) &exception_0A, _IDT_ACCESS_INT);
-	idt_entry(0x0B, (qword_t) &exception_0B, _IDT_ACCESS_INT);
-	idt_entry(0x0C, (qword_t) &exception_0C, _IDT_ACCESS_INT);
-	idt_entry(0x0D, (qword_t) &exception_0D, _IDT_ACCESS_INT);
-	idt_entry(0x0E, (qword_t) &exception_0E, _IDT_ACCESS_INT);
-	idt_entry(0x10, (qword_t) &exception_10, _IDT_ACCESS_INT);
-	idt_entry(0x11, (qword_t) &exception_11, _IDT_ACCESS_INT);
-	idt_entry(0x12, (qword_t) &exception_12, _IDT_ACCESS_INT);
-	idt_entry(0x13, (qword_t) &exception_13, _IDT_ACCESS_INT);
+
+	// Exceptions 
+	_IDT_ENTRY_EXCEPTION(00);
+	_IDT_ENTRY_EXCEPTION(02);
+	_IDT_ENTRY_EXCEPTION(03);
+	_IDT_ENTRY_EXCEPTION(04);
+	_IDT_ENTRY_EXCEPTION(05);
+	_IDT_ENTRY_EXCEPTION(06);
+	_IDT_ENTRY_EXCEPTION(07);
+	_IDT_ENTRY_EXCEPTION(08);
+	_IDT_ENTRY_EXCEPTION(09);
+	_IDT_ENTRY_EXCEPTION(0A);
+	_IDT_ENTRY_EXCEPTION(0B);
+	_IDT_ENTRY_EXCEPTION(0C);
+	_IDT_ENTRY_EXCEPTION(0D);
+	_IDT_ENTRY_EXCEPTION(0E);
+	_IDT_ENTRY_EXCEPTION(10);
+	_IDT_ENTRY_EXCEPTION(11);
+	_IDT_ENTRY_EXCEPTION(12);
+	_IDT_ENTRY_EXCEPTION(13);
+	// ^^^ Exceptions ^^^
 }
 
 static void kernel_halt() { // TODO: Static?
