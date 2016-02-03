@@ -1,5 +1,6 @@
 #include <kernel.h>
 #include <define.h>
+#include <system.h>
 #include <modules.h>
 #include <memory.h>
 #include <video.h>
@@ -21,7 +22,6 @@ extern uint8_t data;
 extern uint8_t bss;
 extern uint8_t endOfKernelBinary;
 extern uint8_t endOfKernel;
-extern void _halt();
 
 typedef int (* EntryPoint)();
 
