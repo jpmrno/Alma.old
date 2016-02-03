@@ -8,7 +8,6 @@ SOURCES_ASM = $(wildcard $(SRC_ASM)/*.asm & $(SRC_ASM)/**/*.asm)
 
 OBJECTS_C = $(SOURCES_C:.c=.o)
 OBJECTS_ASM = $(SOURCES_ASM:.asm=.o)
-OBJECT_LOADER = $(SOURCE_LOADER:.asm=.o)
 
 SRC_HEADERS += ../$(LIBS_HEADERS)
 HEADERS = $(foreach HEADER,$(SRC_HEADERS),-I $(HEADER))
@@ -16,7 +15,7 @@ DEPS = $(foreach LIB_DEP,$(LIB_DEPS),-l$(LIB_DEP))
 
 all: $(KERNEL_FILE)
 
-$(KERNEL_FILE): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
+$(KERNEL_FILE): $(OBJECTS_ASM) $(OBJECTS_C) 
 	$(LD) $(LD_FLAGS) -T $(SOURCE_LD) -o $@ $^ -L../$(LIBS_PATH) $(DEPS)
 
 %.o: %.c
@@ -26,6 +25,6 @@ $(KERNEL_FILE): $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
 	$(ASM) $(ASM_FLAGS) $< -o $@
 
 clean:
-	rm -f $(KERNEL_FILE) $(OBJECT_LOADER) $(OBJECTS_C) $(OBJECTS_ASM)
+	rm -f $(KERNEL_FILE) $(OBJECTS_ASM) $(OBJECTS_C) 
 
 .PHONY: all clean
