@@ -1,25 +1,44 @@
 #include <numbers.h>
+#include <define.h>
 
-#define CHAR_TO_INT(x)	((x)-'0')
+#define CHAR_IS_INT(x) (((x) >= '0') && ((x) <= '9'))
+#define CHAR_TO_INT(x) ((x) - '0')
 
-int strint(const char * s, unsigned int * num) {	
-	int length = 1;
-	if (*s == 0 || *s == '\n') {
-		*num = 0;
-		return length;
-	}
+int numstr(const char * string) {
+    int value = 0;
+    int negative = FALSE;
 
-	int i = CHAR_TO_INT(*s);
-	if (i < 0 || i > 9) {
-		return _NUMBERS_ERROR_NUMBER_NOT_POSITIVE;
-	}
+    if (*string == '-') {
+        negative = TRUE;
+        ++string;
+    }
 
-	length = strint(s + 1, num);
-	if (length == _NUMBERS_ERROR_NUMBER_NOT_POSITIVE) {
-		return _NUMBERS_ERROR_NUMBER_NOT_POSITIVE;
-	}
+    while(CHAR_IS_INT(*string)) {
+        value = (value * 10) + CHAR_TO_INT(*string);
+        ++string;
+    }
 
-	(*num) = (*num) + i * length;
+    return negative ? -value : value;
+}
 
-	return length * 10;
+int numstrl(const char * string, int * value) {
+    int digits = 0;
+    int negative = FALSE;
+
+    if (*string == '-') {
+        negative = TRUE;
+        ++string;
+    }
+
+    while(CHAR_IS_INT(*string)) {
+        *value = (*value * 10) + CHAR_TO_INT(*string);
+        ++string;
+        digits++;
+    }
+
+    if(negative) {
+    	*value = -*value;
+    }
+
+    return digits;
 }

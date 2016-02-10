@@ -2,15 +2,16 @@
 #include <define.h>
 #include <stdarg.h>
 #include <numbers.h>
+#include <strings.h>
 
 #define TAB_SIZE 3
 
 #define IS_CURSOR_AT_BEGGINING_OF_LINE(x) (!((x) % _VIDEO_COLUMNS))
 
 static void terminal_writter(terminal_st * terminal, char character);
-static void terminal_newline(terminal_st * terminal);
-static void terminal_tab(terminal_st * terminal);
-static void terminal_delete(terminal_st * terminal);
+static int terminal_newline(terminal_st * terminal);
+static int terminal_tab(terminal_st * terminal);
+static int terminal_delete(terminal_st * terminal);
 
 static void terminal_style_set(terminal_st * terminal, style_st style);
 
@@ -54,27 +55,29 @@ void terminal_hide() {
 	video_cursor_show(FALSE);
 }
 
-int terminal_write(terminal_st * terminal, char character) { // TODO: Que devuelva si escribio un caracter o algo especial?
-	int tab = TAB_SIZE;
-	int ret = 0;
+int terminal_write(terminal_st * terminal, char character) {
+	int printed = 0;
 
 	switch(character) {
 		case '\n': // New line
-			terminal_newline(terminal);
+			printed = terminal_newline(terminal);
 			break;
+
 		case '\t': // Tab
-			terminal_tab(terminal);
+			printed = terminal_tab(terminal);
 			break;
+
 		case '\b': // Backspace
-			terminal_delete(terminal);
+			printed = terminal_delete(terminal) ? -1 : 0;
 			break;
+
 		default: // Normal Character
 			terminal_writter(terminal, character);
-			ret = 1;
+			printed = 1;
 			break;
 	}
 
-	return ret;
+	return printed;
 }
 
 int terminal_print(terminal_st * terminal, char * string) {
@@ -88,30 +91,21 @@ int terminal_print(terminal_st * terminal, char * string) {
 	return printed;
 }
 
-void terminal_digit(terminal_st * terminal, int number, unsigned int base) {
-	intstr(number, base, convert_buffer);
-
-	// TODO: Choose
-	// if(number < 0) {
-	// 	terminal_write(terminal, '-');
-	// }
-	// if(base == _NUMBERS_BASE_HEXADECIMAL) {
-	// 	terminal_print(terminal, "0x");
-	// }
-	// terminal_print(terminal, convert_buffer + 1);
-
-	terminal_print(terminal, convert_buffer);
+int terminal_digit(terminal_st * terminal, int number, unsigned int base) {
+	int printed = terminal_print(terminal, strnum(number, base, convert_buffer));
 
 	switch(base) {
-		case _NUMBERS_BASE_BINARY:
-			terminal_write(terminal, 'b');
+		case _NUMBERS_BASE_BIN:
+			printed += terminal_write(terminal, 'b');
 			break;
-		case _NUMBERS_BASE_HEXADECIMAL:
-			terminal_write(terminal, 'h');
+		case _NUMBERS_BASE_HEX:
+			printed += terminal_write(terminal, 'h');
 			break;
 		default:
 			break;
 	}
+
+	return printed;
 }
 
 static void terminal_style_set(terminal_st * terminal, style_st style) { // TODO: Static?
@@ -192,27 +186,35 @@ static void terminal_writter(terminal_st * terminal, char character) {
 	terminal->cursor++;
 }
 
-static void terminal_newline(terminal_st * terminal) {
+static int terminal_newline(terminal_st * terminal) {
+	int printed = 0;
+
 	if(IS_CURSOR_AT_BEGGINING_OF_LINE(terminal->cursor)) {
 		terminal_writter(terminal, ' ');
+		printed++;
 	}
 
 	while(!IS_CURSOR_AT_BEGGINING_OF_LINE(terminal->cursor)) {
 		terminal_writter(terminal, ' ');
+		printed++;
 	}
+
+	return printed;
 }
 
-static void terminal_tab(terminal_st * terminal) {
-	int tab = TAB_SIZE;
+static int terminal_tab(terminal_st * terminal) {
+	int printed;
 
-	while(tab--) {
+	for(printed = 0; printed < TAB_SIZE; printed++) {
 		terminal_writter(terminal, ' ');
 	}
+
+	return printed;
 }
 
-static void terminal_delete(terminal_st * terminal) {
-	if (terminal->cursor <= terminal->cursor_lock || terminal->cursor == 0) { // TODO: Mejor forma?
-		return;
+static int terminal_delete(terminal_st * terminal) {
+	if(terminal->cursor <= terminal->cursor_lock || terminal->cursor == 0) { // TODO: Mejor forma?
+		return FALSE;
 	}
 
 	terminal->cursor--;
@@ -223,4 +225,6 @@ static void terminal_delete(terminal_st * terminal) {
 		video_writeWithStyle(terminal->cursor, ' ', terminal->style);
 		video_cursor_put(terminal->cursor);
 	}
+
+	return TRUE;
 }

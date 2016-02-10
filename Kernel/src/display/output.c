@@ -1,13 +1,11 @@
 #include <output.h>
 #include <define.h>
 #include <terminal.h>
-#include <stdarg.h>
 #include <strings.h>
 #include <numbers.h>
+#include <video.h> // TODO: sysvideo.h
 
 #define SLEEP_TEXT_DEFAULT " ..|.. "
-
-static int out_vprintf(char * fmt, va_list arg); // TODO: 
 
 // Terminal vars
 static terminal_st terminals[_OUTPUT_TERMINAL_MAX] = {{0}, {0}};
@@ -16,7 +14,7 @@ static int terminal_active = _OUTPUT_TERMINAL_DEFAULT; // TODO: A futuro inicial
 
 // Sleep vars
 static int sleep_active = FALSE;
-static char * sleep_text = SLEEP_TEXT_DEFAULT;
+static char sleep_text[_VIDEO_SIZE + 1];
 static int sleep_loop = TRUE;
 // ^^^ Sleep vars ^^^
 
@@ -29,6 +27,8 @@ void out_init() {
 
 	terminal_active = _OUTPUT_TERMINAL_DEFAULT;
 	terminal_show(&terminals[terminal_active]);
+
+	strcpy(sleep_text, SLEEP_TEXT_DEFAULT); // TODO: Sacar cuando peuda alocar memoria
 }
 
 int out_select(int terminal_desired) {
@@ -42,7 +42,7 @@ int out_select(int terminal_desired) {
 	return OK;
 }
 
-// TODO: Add return value to terminal_digit & Fix terminal write return value!
+// TODO: Fix terminal write return value!
 int out_printf(char * fmt, ...) { // TODO: How to set styles
     char symbol;
     int i = 0;
@@ -61,13 +61,13 @@ int out_printf(char * fmt, ...) { // TODO: How to set styles
 					printed += terminal_write(&terminals[terminal_active], va_arg(arg, int));
 					break;
 				case 'd':
-					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_DECIMAL);
+					printed += terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_DEC);
 					break;
 				case 'h':
-					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_HEXADECIMAL);
+					printed += terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_HEX);
 					break;
 				case 'b':
-					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_BINARY);
+					printed += terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_BIN);
 					break;
 				case '%':
 					printed += terminal_write(&terminals[terminal_active], symbol);
@@ -84,7 +84,7 @@ int out_printf(char * fmt, ...) { // TODO: How to set styles
 	return printed;
 }
 
-static int out_vprintf(char * fmt, va_list arg) { // TODO: Static?
+int out_vprintf(char * fmt, va_list arg) { // TODO: Static?
     char symbol;
     int i = 0;
     int printed = 0;
@@ -100,13 +100,13 @@ static int out_vprintf(char * fmt, va_list arg) { // TODO: Static?
 					printed += terminal_write(&terminals[terminal_active], va_arg(arg, int));
 					break;
 				case 'd':
-					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_DECIMAL);
+					printed += terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_DEC);
 					break;
 				case 'h':
-					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_HEXADECIMAL);
+					printed += terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_HEX);
 					break;
 				case 'b':
-					terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_BINARY);
+					printed += terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_BIN);
 					break;
 				case '%':
 					printed += terminal_write(&terminals[terminal_active], symbol);
@@ -221,18 +221,24 @@ int out_sleep_isActive() {
 	return sleep_active;
 }
 
-int out_sleep_loop(int boolean) {
+int out_sleep_set(char * text, int boolean) { // TODO: 
 	if(sleep_active) {
 		return _OUTPUT_ERROR_SLEEP_ACTIVE;
 	}
 
+	strcpy(sleep_text, text); // TODO: Sacar cuando peuda alocar memoria
 	sleep_loop = boolean ? TRUE : FALSE;
 
 	return OK;
 }
 
-int out_sleep_text(char * text) { // TODO: 
-	strcpy(sleep_text, text);
+int out_sleep_reset() {
+	if(sleep_active) {
+		return _OUTPUT_ERROR_SLEEP_ACTIVE;
+	}
 
-	return 0;
+	strcpy(sleep_text, SLEEP_TEXT_DEFAULT); // TODO: Sacar cuando peuda alocar memoria
+	sleep_loop = TRUE;
+
+	return OK;
 }

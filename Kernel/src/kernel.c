@@ -10,12 +10,14 @@
 #include <interrupts.h>
 #include <exceptions.h>
 #include <pic.h>
+#include <serial.h>
 
 #define PAGE_SIZE 0x1000
 
 #define MODULE_SHELL_INDEX 0
 #define MODULE_SHELL_ADDRESS 0x400000
 
+// TODO: Aca?
 extern uint8_t text;
 extern uint8_t rodata;
 extern uint8_t data;
@@ -30,7 +32,7 @@ static void kernel_bss_clear();
 
 static void kernel_idt_load();
 
-static void kernel_halt();
+static void kernel_halt_init();
 
 static void * module_addresses[] = {
 	(void *) MODULE_SHELL_ADDRESS // Shell address
@@ -55,18 +57,22 @@ int kernel_main() {
 	out_printf("[Done]\n");
 
 	log_init();
+#ifdef _DEGUB_ENABLED
 	log("# Kernel Main\n");
 	log("## Kernel's binary\n");
 	log("\ttext: %h\n", (uint64_t) &text);
 	log("\trodata: %h\n", (uint64_t) &rodata);
 	log("\tdata: %h\n", (uint64_t) &data);
 	log("\tbss: %h\n\n", (uint64_t) &bss);
+#endif
+
+	out_printf("Initializing & configuring PIC... ");
+	pic_init();
+	out_printf("[Done]\n");
 
 	out_printf("Disabling interrupts... ");
-	_interrupt_clear();
-	log("\tCLI\n");
-	_pic_mask((uint8_t) 0xFF); // TODO: 0xFF define
-	log("\tPIC Masc set to: 0xFF\n");
+	interrupt_clear();
+	pic_mask_all();
 	out_printf("[Done]\n");
 
 	out_printf("Loading IDT... ");
@@ -74,10 +80,8 @@ int kernel_main() {
 	out_printf("[Done]\n");
 
 	out_printf("Enabling interrupts... ");
-	_interrupt_set();
-	log("\tSTI\n");
-	_pic_mask((uint8_t) 0xFC); // TODO: 0xFC define
-	log("\tPIC Masc set to: 0xFC\n\n");
+	interrupt_set();
+	pic_mask(0xFC); // TODO: 
 	out_printf("[Done]\n");
 	
 	//((EntryPoint) module_addresses[MODULE_SHELL_INDEX])();
@@ -85,7 +89,7 @@ int kernel_main() {
 	return 0;
 }
 
-void kernel_panic(char * code, char * desc, char * source, int halt) {
+void kernel_panic(const char * code, const char * desc, const char * source, const int halt) {
 	out_box_top();
 	out_box_line("OOPS! Something went wrong", "");
 	out_box_line("EXCEPTION CODE: #%s", code);
@@ -96,7 +100,8 @@ void kernel_panic(char * code, char * desc, char * source, int halt) {
 	out_printf("\n");
 	
 	if(halt) {
-		kernel_halt();
+		kernel_halt_init();
+		_halt();
 	}
 }
 
@@ -137,13 +142,10 @@ static void kernel_idt_load() {
 	// ^^^ Exceptions ^^^
 }
 
-static void kernel_halt() { // TODO: Static?
+static void kernel_halt_init() { // TODO: Static?
 	out_printf("Disabling interrupts... ");
-	_interrupt_clear();
-	log("\tCLI\n");
-	_pic_mask((uint8_t) 0xFF); // TODO: 0xFF define
-	log("\tPIC Masc set to: 0xFF\n");
+	interrupt_clear();
+	pic_mask((uint8_t) 0xFF); // TODO: 0xFF define
 	out_printf("[Done]\n");
 	out_printf("System halted!");
-	_halt();
 }

@@ -48,6 +48,14 @@ void serial_write(char character) {
 	_port_write_byte(_PORT_COM1, character);
 }
 
+void serial_print(char * string) {
+	int i = 0;
+
+	while(string[i]) {
+		serial_write(string[i++]);
+	}
+}
+
 char serial_read() {
 	while (serial_received() == 0);
  

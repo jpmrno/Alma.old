@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#define _DEGUB_ENABLED
+
 #define STRINGNIFY_MACRO(x) #x
 #define STRINGNIFY_VALUE(x) STRINGNIFY_MACRO(x)
 #define STRINGNIFY_BOOL(x) (x) ? "true" : "false"

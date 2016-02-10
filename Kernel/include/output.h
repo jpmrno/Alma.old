@@ -1,6 +1,8 @@
 #ifndef _OUTPUT_H_
 #define _OUTPUT_H_
 
+#include <stdarg.h>
+
 #define _OUTPUT_TERMINAL_MAX 2
 #define _OUTPUT_TERMINAL_DEFAULT 0
 
@@ -15,6 +17,8 @@ void out_init();
 int out_select(int terminal_desired);
 
 int out_printf(char * fmt, ...);
+int out_vprintf(char * fmt, va_list arg); // TODO: 
+
 void out_box_top();
 void out_box_bottom();
 void out_box_line(char * fmt, ...);
@@ -26,7 +30,7 @@ int out_sleep_init();
 int out_sleep_step();
 int out_sleep_stop();
 int out_sleep_isActive();
-int out_sleep_loop(int boolean);
-int out_sleep_text(char * text);
+int out_sleep_set(char * text, int boolean);
+int out_sleep_reset();
 
 #endif

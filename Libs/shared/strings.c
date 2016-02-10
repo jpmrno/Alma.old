@@ -1,59 +1,80 @@
 #include <strings.h>
 #include <stdint.h>
 
+unsigned int strlen(char * string) { // TODO: Unsigned?
+	unsigned int i = 0;
+
+	while(string[i]) {
+		i++;
+	}
+
+	return i;
+}
+
 int strcmp(const char * s1, const char * s2) {
     while(*s1 && (*s1 == *s2)) {
         s1++,s2++;
     }
+
     return *(const unsigned char *) s1 - *(const unsigned char *) s2;
 }
 
 void strcpy(char * dest, const char * source) {
 	int i = 0;
 
-    while((dest[i] = source[i]) != '\0'){
+    while((dest[i] = source[i]) != '\0') {
     	i++;
     }
 }
 
-unsigned int intstr(int value, unsigned int base, char * buffer) { // TODO: Improve? Change?
-    int shifter;
-    unsigned int length = 0;
+/*
+** C++ version 0.4 char* style "itoa":
+** Written by Lukás Chmela
+** Released under GPLv3.
+** URL: http://www.strudel.org.uk/itoa/
+*/
+char * strnum(int value, int base, char * result) {
+	char * ptr = result, * ptr1 = result, tmp_char;
+	int tmp_value;
 
-    if(value < 0) {
-        *buffer++ = '-';
-        value *= -1;
-        length += 1;
-    }
-
-    return length + uintstr(value, base, buffer);
-}
-
-unsigned int uintstr(unsigned int value, unsigned int base, char * buffer) { // TODO: Improve? Change?
-	char *p = buffer;
-	char *p1, *p2;
-	unsigned int digits = 0;
-
-	//Calculate characters for each digit
-	do {
-		unsigned int remainder = value % base;
-		*p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
-		digits++;
-	} while (value /= base);
-
-	// Terminate string in buffer.
-	*p = 0;
-
-	//Reverse string in buffer.
-	p1 = buffer;
-	p2 = p - 1;
-	while (p1 < p2) {
-		char tmp = *p1;
-		*p1 = *p2;
-		*p2 = tmp;
-		p1++;
-		p2--;
+	// Check that the base is valid
+	if (base < 2 || base > 36) {
+		*result = '\0'; 
+		return result;
 	}
 
-	return digits;
+	do {
+		tmp_value = value;
+		value /= base;
+		*ptr++ = "ZYXWVUTSRQPONMLKJIHGFEDCBA9876543210123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" [35 + (tmp_value - value * base)];
+	} while(value);
+
+	// Apply negative sign
+	if (tmp_value < 0) {
+		*ptr++ = '-';
+	}
+
+	// Terminate string
+	*ptr-- = '\0';
+
+	// Reverse string
+	while(ptr1 < ptr) {
+		tmp_char = *ptr;
+		*ptr-- = *ptr1;
+		*ptr1++ = tmp_char;
+	}
+
+	return result;
+}
+
+int strfnd(const char * string, char character) {
+	int i;
+
+	for(i = 0; string[i] != 0; i++) {
+		if(string[i] == character) {
+			return i;
+		}
+	}
+
+	return _STRINGS_CHAR_NOT_FOUND;
 }

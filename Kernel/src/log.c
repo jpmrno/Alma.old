@@ -34,13 +34,13 @@ int log(char * fmt, ...) { // TODO: How to set styles
 					log_write(va_arg(arg, int));
 					break;
 				case 'd':
-					log_digit(va_arg(arg, int), _NUMBERS_BASE_DECIMAL);
+					log_digit(va_arg(arg, int), _NUMBERS_BASE_DEC);
 					break;
 				case 'h':
-					log_digit(va_arg(arg, int), _NUMBERS_BASE_HEXADECIMAL);
+					log_digit(va_arg(arg, int), _NUMBERS_BASE_HEX);
 					break;
 				case 'b':
-					log_digit(va_arg(arg, int), _NUMBERS_BASE_BINARY);
+					log_digit(va_arg(arg, int), _NUMBERS_BASE_BIN);
 					break;
 				case '%':
 					log_write(symbol);
@@ -72,15 +72,13 @@ static int log_print(char * string) {
 }
 
 static void log_digit(int number, unsigned int base) {
-	intstr(number, base, convert_buffer);
-
-	log_print(convert_buffer);
+	log_print(strnum(number, base, convert_buffer));
 
 	switch(base) {
-		case _NUMBERS_BASE_BINARY:
+		case _NUMBERS_BASE_BIN:
 			log_write('b');
 			break;
-		case _NUMBERS_BASE_HEXADECIMAL:
+		case _NUMBERS_BASE_HEX:
 			log_write('h');
 			break;
 		default:

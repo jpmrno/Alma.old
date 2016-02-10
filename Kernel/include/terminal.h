@@ -18,7 +18,7 @@ void terminal_hide();
 
 int terminal_write(terminal_st * terminal, char character);
 int terminal_print(terminal_st * terminal, char * string);
-void terminal_digit(terminal_st * terminal, int number, unsigned int base);
+int terminal_digit(terminal_st * terminal, int number, unsigned int base);
 
 void terminal_shift(terminal_st * terminal, int lines);
 
