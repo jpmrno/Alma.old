@@ -75,6 +75,10 @@ int kernel_main() {
 	pic_mask_all();
 	out_printf("[Done]\n");
 
+	out_printf("Initializing PIT... ");
+	pit_init();
+	out_printf("[Done]\n");
+
 	out_printf("Loading IDT... ");
 	kernel_idt_load();
 	out_printf("[Done]\n");
@@ -83,6 +87,11 @@ int kernel_main() {
 	interrupt_set();
 	pic_mask(0xFC); // TODO: 
 	out_printf("[Done]\n");
+
+	pit_wait(5);
+	pit_wait(5);
+
+	out_printf("[OOOKKK]\n");
 	
 	//((EntryPoint) module_addresses[MODULE_SHELL_INDEX])();
 
@@ -139,6 +148,7 @@ static void kernel_idt_load() {
 	_IDT_ENTRY_EXCEPTION(11);
 	_IDT_ENTRY_EXCEPTION(12);
 	_IDT_ENTRY_EXCEPTION(13);
+	_IDT_ENTRY_INTERRUPT(20);
 	// ^^^ Exceptions ^^^
 }
 

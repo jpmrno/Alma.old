@@ -11,4 +11,6 @@ void interrupt_set();
  */
 void interrupt_clear();
 
+extern void _interrupt_20();
+
 #endif
