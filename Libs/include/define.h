@@ -3,16 +3,26 @@
 
 #include <stdint.h>
 
+#define _DEGUB_ENABLED
+
+#define STRINGNIFY_MACRO(x) #x
+#define STRINGNIFY_VALUE(x) STRINGNIFY_MACRO(x)
+#define STRINGNIFY_BOOL(x) (x) ? "true" : "false"
+#define STRINGNIFY_BOOL_YESNO(x) (x) ? "yes" : "no"
+
 #define NULL ((void *) 0)
 
 #define TRUE 1
 #define FALSE !TRUE
 
-#define NO_ERROR 0 // TODO: Remove
-#define OK NO_ERROR
-#define ERROR 1 // TODO: O -1? O !OK? ..?
+#define OK 0
+#define ERROR -1
 
-// TODO: Useful??
 #define ERROR_OCCURRED(x) ((x) < OK)
+
+typedef uint8_t byte_t;
+typedef uint16_t word_t;
+typedef uint32_t dword_t;
+typedef uint64_t qword_t;
 
 #endif

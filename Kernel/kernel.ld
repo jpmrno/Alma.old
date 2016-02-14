@@ -1,5 +1,5 @@
 OUTPUT_FORMAT("binary")
-ENTRY(loader)
+ENTRY(kernel_loader)
 SECTIONS
 {
 	.text 0x100000 :

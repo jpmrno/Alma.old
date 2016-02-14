@@ -12,3 +12,7 @@
 *.img
 *.qcow2
 *.vmdk
+
+# Logs
+log*.md
+*.log

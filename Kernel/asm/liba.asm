@@ -1,6 +1,4 @@
 GLOBAL _cpu_vendor
-GLOBAL _port_write_byte
-GLOBAL _port_read_byte
 
 section .text
 
@@ -71,37 +69,4 @@ _cpu_vendor:
 
 	mov rsp, rbp
 	pop rbp
-	ret
-
-; TODO: Doc
-align 16
-_port_write_byte:
-	pushaq					; Backup everything
-
-	xor rax, rax			; Clean registers
-	xor rdx, rdx
-
-	mov rax, rsi
-	and rax, 0FFh 			; Last byte
-	mov rdx, rdi
-	and rdx, 0FFFFh 		; Last word
-	out dx, al
-
-	popaq					; Restore everything
-	ret
-
-align 16
-_port_read_byte: ; TODO: Test & Doc
-	pushfq					; Backup everything
-	push rdx
-
-	xor rax, rax			; Clean registers
-	xor rdx, rdx
-
-	mov rdx, rdi
-	and rdx, 0FFFFh 		; Last word
-	in al, dx
-
-	pop rdx					; Restore everything
-	popfq
 	ret
