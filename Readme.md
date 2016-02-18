@@ -1,4 +1,6 @@
-# ![Zhoue Logo](/Docs/logo.png)
+# ![Zhoue Logo](Docs/logo.png)
+
+[![Build Status](https://travis-ci.com/jpmrno/Zhoue.svg?token=rrzVPFKtpAUUPF2Pp1UE&branch=master)](https://travis-ci.com/jpmrno/Zhoue)
 
 Zhoue is based on x64BareBones which is a basic setup to develop operating systems for the Intel 64 bits architecture.
 
@@ -10,33 +12,46 @@ This project was made for our Computer Architecture subject of the ITBA Universi
 
 ## Requisites
 
+This project needs the following packages: `nasm qemu gcc binutils make`.
+
 ### Linux
 
-This project needs the following packages: `nasm qemu gcc binutils make`
+*Assuming you already have `gcc binutils make` installed...*
 
-### Mac OS
+This will install `nasm` and `qemu` into your system.
 
-0) *Pre-Requisite:* Install BREW (http://brew.sh)
+From the project's directory, run:
 
-	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	sudo apt-get update
+	sudo apt-get install nasm
+	sudo apt-get install qemu
 
-1) Install QEMU
+Or simply run the installation script: `./Scripts/install-linux.sh`.
 
-	brew install qemu
+### OS X
 
-2) Install NASM
+*Assuming you already have `brew` (http://brew.sh) installed...*
 
+This will install `nasm`, `qemu` and a `Cross Compiler` ([CrossCompiler](CrossCompiler/)/[gcc-4.8.1-OSX64.dmg](CrossCompiler/gcc-4.8.1-OSX64.dmg)) into your system.
+
+From the project's directory, run:
+
+	brew update
 	brew install nasm
+	brew install qemu
+	hdiutil mount ./CrossCompiler/gcc-4.8.1-OSX64.dmg
+	sudo installer -package /Volumes/gcc-4.8.1-for-linux64/gcc-4.8.1-for-linux64.pkg -target /
+	sudo hdiutil detach /Volumes/gcc-4.8.1-for-linux64
 
-3) *Optional:* Install the newest version of MAKE
-
-	brew install make
+Or simply run the installation script: `./Scripts/install-osx.sh`.
 
 ## Usage
 
-From the project's directory run:
+From the project's directory, simply run:
 
 	make run
+
+If you want to just compile the project, run `make all`, then use this script to run: `./Scripts/run.sh` (not yet supported).
 
 ## Credits
 
