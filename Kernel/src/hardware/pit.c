@@ -63,7 +63,6 @@ static int booleans[TIMERS];
 static unsigned int time;
 
 static int * pit_sleep_asign(unsigned int seconds);
-void _pit_set(unsigned int);
 
 void pit_init() {
 	int i;
@@ -72,13 +71,10 @@ void pit_init() {
 		timers[i].time = 0;
 		booleans[i] = TRUE;
 	}
-
-	pit_set(10);
 }
 
-void pit_set(unsigned int miliseconds) { // TODO: Better
-	_pit_set(miliseconds / 1000);
-	time = miliseconds;
+void pit_set(unsigned int miliseconds) { // TODO: 
+
 }
 
 uint32_t pit_get() { // TODO: 

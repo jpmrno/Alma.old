@@ -2,7 +2,7 @@
 #define _PIT_H_
 
 void pit_init();
-void pit_set(unsigned int frequency);
+void pit_set(unsigned int miliseconds);
 
 void pit_trigger();
 

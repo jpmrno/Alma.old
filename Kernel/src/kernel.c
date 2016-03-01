@@ -32,8 +32,6 @@ static void kernel_bss_clear();
 
 static void kernel_idt_load();
 
-static void kernel_halt_init();
-
 static void * module_addresses[] = {
 	(void *) MODULE_SHELL_ADDRESS // Shell address
 };
@@ -57,14 +55,14 @@ int kernel_main() {
 	out_printf("[Done]\n");
 
 	log_init();
-#ifdef _DEGUB_ENABLED
+	#ifdef _DEGUB_ENABLED
 	log("# Kernel Main\n");
 	log("## Kernel's binary\n");
 	log("\ttext: %h\n", (uint64_t) &text);
 	log("\trodata: %h\n", (uint64_t) &rodata);
 	log("\tdata: %h\n", (uint64_t) &data);
 	log("\tbss: %h\n\n", (uint64_t) &bss);
-#endif
+	#endif
 
 	out_printf("Initializing & configuring PIC... ");
 	pic_init();
@@ -79,19 +77,12 @@ int kernel_main() {
 	pit_init();
 	out_printf("[Done]\n");
 
-	out_printf("Loading IDT... ");
 	kernel_idt_load();
-	out_printf("[Done]\n");
 
 	out_printf("Enabling interrupts... ");
 	interrupt_set();
 	pic_mask(0xFC); // TODO: 
 	out_printf("[Done]\n");
-
-	pit_wait(5);
-	pit_wait(5);
-
-	out_printf("[OOOKKK]\n");
 	
 	//((EntryPoint) module_addresses[MODULE_SHELL_INDEX])();
 
@@ -100,7 +91,7 @@ int kernel_main() {
 
 void kernel_panic(const char * code, const char * desc, const char * source, const int halt) {
 	out_box_top();
-	out_box_line("OOPS! Something went wrong", "");
+	out_box_line("OOPS! Something went wrong");
 	out_box_line("EXCEPTION CODE: #%s", code);
 	out_box_line("DESCRIPTION: %s", desc);
 	out_box_line("SOURCE: %s", source);
@@ -109,8 +100,13 @@ void kernel_panic(const char * code, const char * desc, const char * source, con
 	out_printf("\n");
 	
 	if(halt) {
-		kernel_halt_init();
-		_halt();
+		out_printf("Disabling interrupts... ");
+		interrupt_clear();
+		pic_mask_all();
+		out_printf("[Done]\n");
+
+		out_printf("System halted!");
+		system_halt();
 	}
 }
 
@@ -127,9 +123,12 @@ static void kernel_bss_clear() {
 }
 
 static void kernel_idt_load() {
+	out_printf("Initializing IDT... ");
 	idt_init();
+	out_printf("[Done]\n");
 
 	// Exceptions 
+	out_printf("Loading exceptions... ");
 	_IDT_ENTRY_EXCEPTION(00);
 	_IDT_ENTRY_EXCEPTION(02);
 	_IDT_ENTRY_EXCEPTION(03);
@@ -148,14 +147,13 @@ static void kernel_idt_load() {
 	_IDT_ENTRY_EXCEPTION(11);
 	_IDT_ENTRY_EXCEPTION(12);
 	_IDT_ENTRY_EXCEPTION(13);
-	_IDT_ENTRY_INTERRUPT(20);
-	// ^^^ Exceptions ^^^
-}
-
-static void kernel_halt_init() { // TODO: Static?
-	out_printf("Disabling interrupts... ");
-	interrupt_clear();
-	pic_mask((uint8_t) 0xFF); // TODO: 0xFF define
 	out_printf("[Done]\n");
-	out_printf("System halted!");
+	// ^^ Exceptions ^^
+
+	// Interrupts
+	out_printf("Loading interrupts... ");
+	_IDT_ENTRY_INTERRUPT(20);
+	_IDT_ENTRY_INTERRUPT(80);
+	out_printf("[Done]\n");
+	// ^^ Interrupts ^^
 }

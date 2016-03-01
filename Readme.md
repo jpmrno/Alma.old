@@ -8,7 +8,7 @@ The final goal of x64BareBones's project is to provide an entry point for a kern
 
 Please read "Manual de Usuario.pdf" for the usage manual and "Informe.pdf" for more information about Zhoue.
 
-This project was made for our Computer Architecture subject of the ITBA University (at Buenos Aires, Argentina).
+This project was made for our Computer Architecture subject at ITBA University (Buenos Aires, Argentina).
 
 ## Requisites
 
@@ -32,7 +32,7 @@ Or simply run the installation script: `./Scripts/install-linux.sh`.
 
 *Assuming you already have `brew` (http://brew.sh) installed...*
 
-This will install `nasm`, `qemu` and a `Cross Compiler` ([CrossCompiler](CrossCompiler/)/[gcc-4.8.1-OSX64.dmg](CrossCompiler/gcc-4.8.1-OSX64.dmg)) into your system.
+This will install `nasm`, `qemu` and a `cross compiler` ([CrossCompiler](CrossCompiler/)/[gcc-4.8.1-OSX64.dmg](CrossCompiler/gcc-4.8.1-OSX64.dmg)) into your system.
 
 From the project's directory, run:
 
