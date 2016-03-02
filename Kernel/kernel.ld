@@ -1,27 +1,23 @@
 OUTPUT_FORMAT("binary")
-ENTRY(kernel_loader)
-SECTIONS
-{
-	.text 0x100000 :
-	{
-		text = .;
+ENTRY(loader)
+SECTIONS {
+	.text 0x100000 : {
+		kernel_text = .;
 		*(.text*)
 		. = ALIGN(0x1000);
-		rodata = .;
+		kernel_rodata = .;
 		*(.rodata*)
 	}
-	.data ALIGN(0x1000) : AT(ADDR(.data))
-	{
-		data = .;
+	.data ALIGN(0x1000) : AT(ADDR(.data)) {
+		kernel_data = .;
 		*(.data*)
-		endOfKernelBinary = .;
+		kernel_binary = .;
 	}
-	.bss ALIGN(0x1000) : AT(ADDR(.bss))
-	{
-		bss = .;
+	.bss ALIGN(0x1000) : AT(ADDR(.bss)) {
+		kernel_bss = .;
 		*(.bss*)
 		*(EXCLUDE_FILE (*.o) COMMON)
 	}
 	. = ALIGN(0x1000);
-	endOfKernel = .;
+	kernel_end = .;
 }

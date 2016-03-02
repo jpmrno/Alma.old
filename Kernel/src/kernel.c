@@ -10,6 +10,7 @@
 #include <interrupts.h>
 #include <exceptions.h>
 #include <pic.h>
+#include <pit.h>
 #include <serial.h>
 
 #define PAGE_SIZE 0x1000
@@ -18,12 +19,12 @@
 #define MODULE_SHELL_ADDRESS 0x400000
 
 // TODO: Aca?
-extern uint8_t text;
-extern uint8_t rodata;
-extern uint8_t data;
-extern uint8_t bss;
-extern uint8_t endOfKernelBinary;
-extern uint8_t endOfKernel;
+extern uint8_t kernel_text;
+extern uint8_t kernel_rodata;
+extern uint8_t kernel_data;
+extern uint8_t kernel_bss;
+extern uint8_t kernel_binary;
+extern uint8_t kernel_end;
 
 typedef int (* EntryPoint)();
 
@@ -37,7 +38,7 @@ static void * module_addresses[] = {
 };
 
 void * kernel_init() {	
-	module_load(&endOfKernelBinary, module_addresses);
+	module_load(&kernel_binary, module_addresses);
 
 	kernel_bss_clear();
 
@@ -58,10 +59,10 @@ int kernel_main() {
 	#ifdef _DEGUB_ENABLED
 	log("# Kernel Main\n");
 	log("## Kernel's binary\n");
-	log("\ttext: %h\n", (uint64_t) &text);
-	log("\trodata: %h\n", (uint64_t) &rodata);
-	log("\tdata: %h\n", (uint64_t) &data);
-	log("\tbss: %h\n\n", (uint64_t) &bss);
+	log("\ttext: %h\n", (uint64_t) &kernel_text);
+	log("\trodata: %h\n", (uint64_t) &kernel_rodata);
+	log("\tdata: %h\n", (uint64_t) &kernel_data);
+	log("\tbss: %h\n\n", (uint64_t) &kernel_bss);
 	#endif
 
 	out_printf("Initializing & configuring PIC... ");
@@ -112,14 +113,14 @@ void kernel_panic(const char * code, const char * desc, const char * source, con
 
 static void * kernel_stack_base() {
 	return (void *) (
-		(uint64_t) &endOfKernel			// End of kernel address
+		(uint64_t) &kernel_end			// End of kernel address
 		+ ((uint64_t) PAGE_SIZE) * 8	// The size of the stack itself, 32KiB
 		- sizeof(uint64_t)				// Begin at the top of the stack
 	);
 }
 
 static void kernel_bss_clear() {
-	memset(&bss, 0, &endOfKernel - &bss);
+	memset(&kernel_bss, 0, &kernel_end - &kernel_bss);
 }
 
 static void kernel_idt_load() {
