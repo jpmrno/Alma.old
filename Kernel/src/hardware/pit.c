@@ -64,6 +64,8 @@ static unsigned int time;
 
 static int * pit_sleep_asign(unsigned int seconds);
 
+extern void manage_time();
+
 void pit_init() {
 	int i;
 
@@ -92,6 +94,8 @@ void pit_trigger() {
 			}
 		}
 	}
+
+	manage_time();
 }
  
 void pit_wait(unsigned int seconds) {
@@ -107,9 +111,9 @@ static int * pit_sleep_asign(unsigned int seconds) {
 	for(i = 0; i < TIMERS; i++) {
 		if(timers[i].time == 0) {
 			timers[i].time = SECONDS_TO_PIT_CYCLES(seconds);
-#ifdef _DEGUB_ENABLED
+			#ifdef _DEGUB_ENABLED
 			log("<PIT> Assigned timer: %d\n", i);
-#endif
+			#endif
 			return &booleans[i];
 		}
 	}

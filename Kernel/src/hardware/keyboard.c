@@ -6,14 +6,17 @@
 #define KEYBOARD_BUFFER_SIZE 256
 #define BUFFER_NEXT(x) (((x) + 1) >= KEYBOARD_BUFFER_SIZE) ? 0 : ((x) + 1);
 
+static int keyboard_current = _KEYBOARD_ENGLISH;
+
 static key_st keyboard_buffer[KEYBOARD_BUFFER_SIZE];
-static int keyboard_current = _KEYBOARD_SPANISH;
-static int key_pressed[KEYS_PRESSABLES] = {FALSE, FALSE, FALSE, FALSE};
-static int key_on[KEYS_ONOFF] = {FALSE, TRUE, FALSE};
-static int waitingESC = FALSE;
-static int enters = 0;
 static int buffer_nextInsert = 0;
 static int buffer_lastReturn = KEYBOARD_BUFFER_SIZE - 1;
+
+static int key_pressed[KEYS_PRESSABLES] = {FALSE, FALSE, FALSE, FALSE};
+static int key_on[KEYS_ONOFF] = {FALSE, TRUE, FALSE};
+
+static int waitingESC = FALSE;
+static int enters = 0;
 
 static key_st key_process(unsigned char scancode);
 
@@ -30,7 +33,7 @@ static int key_ascii(unsigned char scancode);
  * at: keyboard.c. That's why its declaration is not included at: manager.h
  * @param key - the key to decide which action to perform
  */
-void manage_key(key_st * key);
+extern void manage_key(key_st * key);
 
 /**
  * Receives a scan code and process it, performing the necessary actions
@@ -210,6 +213,10 @@ static int key_toggle(unsigned char scancode, int press) {
 
 			case SCANCODE_NUMLOCK:
 				key_on[NUMLOCK] = press != key_on[NUMLOCK];
+				break;
+
+			case SCANCODE_SCROLLLOCK:
+				key_on[SCROLLLOCK] = press != key_on[SCROLLLOCK];
 				break;
 
 			// case SCANCODE_TAB: // TODO: ?????

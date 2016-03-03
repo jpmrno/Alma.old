@@ -28,12 +28,11 @@ else
 endif
 
 QEMU = qemu-system-x86_64
-QEMU_FLAGS = -m 512 -monitor stdio
-#QEMU_LOG = -serial stdio
-QEMU_LOG = -serial file:log.md
+QEMU_FLAGS = -m 512
+#QEMU_LOG = -serial file:log.md
+QEMU_LOG = -serial stdio
 QEMU_SOUND = -soundhw pcspk
-#QEMU_DEBUG = -s -S
-QEMU_DEBUG = 
+#QEMU_DEBUG = -s -S -monitor stdio
 
 GCC_WARNINGS = -Wall -Wextra -pedantic
 #GCC_WARNINGS = -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs -Winline -Wno-long-long -Wuninitialized -Wconversion -Wstrict-prototypes
