@@ -45,3 +45,8 @@ syscall_st * interrupt_80(int syscall) {
 
 	return NULL;
 }
+
+void interrupt_21(unsigned char scancode) {
+	keyboard_trigger(scancode);
+	pic_irq_eoi(1);
+}

@@ -84,6 +84,8 @@ int kernel_main() {
 	interrupt_set();
 	pic_mask(0xFC); // TODO: 
 	out_printf("[Done]\n");
+
+	while(1);
 	
 	//((EntryPoint) module_addresses[MODULE_SHELL_INDEX])();
 
@@ -154,6 +156,7 @@ static void kernel_idt_load() {
 	// Interrupts
 	out_printf("Loading interrupts... ");
 	_IDT_ENTRY_INTERRUPT(20);
+	_IDT_ENTRY_INTERRUPT(21);
 	_IDT_ENTRY_INTERRUPT(80);
 	out_printf("[Done]\n");
 	// ^^ Interrupts ^^

@@ -3,6 +3,9 @@
 
 #define _STRINGS_CHAR_NOT_FOUND -1
 
+#define _CHAR_ISALPHA(x) (((x) >= 'a' && (x) <= 'z') || ((x) >= 'A' && (x) <= 'Z')) ? TRUE : FALSE
+#define _CHAR_ISNUMBER(x) ((x) >= '0' && (x) <= '9') ? TRUE : FALSE
+
 unsigned int strlen(char * string);
 
 /**

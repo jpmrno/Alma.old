@@ -8,6 +8,12 @@ enum syscall_triggers { // TODO: Move
 	_SYSCALL_WRITE
 };
 
+enum file_descriptors { // TODO: Move
+	_FILEDESCRIPTOR_STDOUT = 0,
+	_FILEDESCRIPTOR_STDIN
+};
+
+
 #define _FILEDESCRIPTOR_SDOUT 0 // TODO: Move
 #define _ERROR_SYSCALL_FILEDESCRIPTOR -1 // TODO: Move
 

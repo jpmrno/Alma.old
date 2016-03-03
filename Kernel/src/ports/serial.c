@@ -16,8 +16,6 @@ Offset	DLAB	Register mapped to this port
 +7		-		Scratch Register.
 */
 
-// TODO: Deberia ir en port.c?
-
 static int serial_transmit_isEmpty();
 static int serial_received();
 

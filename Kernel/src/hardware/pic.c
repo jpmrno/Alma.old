@@ -23,17 +23,17 @@ static uint16_t pic_reg(int ocw3);
 
 // TODO: PIC Remap
 void pic_init() {
-#ifdef _DEGUB_ENABLED
+	#ifdef _DEGUB_ENABLED
 	log("<PIC> Inited.\n");
-#endif
+	#endif
 }
 
 void pic_mask(uint8_t mask) {
 	_port_write_byte(_PIC_MASTER_DATA, mask);
 
-#ifdef _DEGUB_ENABLED
+	#ifdef _DEGUB_ENABLED
 	log("<PIC> Masked: %h\n", mask);
-#endif
+	#endif
 }
 
 void pic_mask_all() {
@@ -56,9 +56,9 @@ int pic_irq_mask(uint8_t irq) {
 	mask = _port_read_byte(port) | (1 << irq);
 	_port_write_byte(port, mask);
 
-#ifdef _DEGUB_ENABLED
+	#ifdef _DEGUB_ENABLED
 	log("<PIC> Masked: %h\n", mask);
-#endif
+	#endif
 
 	return OK;
 }
@@ -79,9 +79,9 @@ int pic_irq_clear(uint8_t irq) {
 	mask = _port_read_byte(port) & ~(1 << irq);
 	_port_write_byte(port, mask);
 
-#ifdef _DEGUB_ENABLED
+	#ifdef _DEGUB_ENABLED
 	log("<PIC> Masked: %h\n", mask);
-#endif
+	#endif
 
 	return OK;    
 }
@@ -93,9 +93,9 @@ int pic_irq_eoi(uint8_t irq) {
 
 	if(irq >= _PIC_LINES_MAX) {
 		_port_write_byte(_PIC_SLAVE_COMMAND, _PIC_EOI);
-// #ifdef _DEGUB_ENABLED
-// 		log("\n<PIC SLAVE EOI>\n");
-// #endif
+		// #ifdef _DEGUB_ENABLED
+		// log("\n<PIC SLAVE EOI>\n");
+		// #endif
 	}
 
 	_port_write_byte(_PIC_MASTER_COMMAND, _PIC_EOI);

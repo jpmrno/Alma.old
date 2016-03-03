@@ -4,6 +4,9 @@ GLOBAL _interrupt_clear
 GLOBAL _interrupt_20
 EXTERN interrupt_20
 
+GLOBAL _interrupt_21
+EXTERN interrupt_21
+
 GLOBAL _interrupt_80
 EXTERN interrupt_80
 
@@ -84,12 +87,28 @@ _interrupt_20:
 ; // TODO: 
 ; -----------------------------------------------------------------------------
 align 16
+_interrupt_21:
+	pushaq
+
+	xor rax, rax		; To ensure rax register will be empty
+
+	in al, 0x60			; Get the scancode from the keyboard
+	mov rdi, rax
+	call interrupt_21
+
+	popaq
+	iretq
+; -----------------------------------------------------------------------------
+
+; -----------------------------------------------------------------------------
+; // TODO: 
+; -----------------------------------------------------------------------------
+align 16
 _interrupt_80:
 	push rbp
 	mov rbp, rsp
 
     push rdi
-    xor rdi, rdi 				; To ensure rdi register will be empty
     mov rdi, rax
     call interrupt_80
     pop rdi

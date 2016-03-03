@@ -12,6 +12,7 @@ void interrupt_set();
 void interrupt_clear();
 
 extern void _interrupt_20();
+extern void _interrupt_21();
 extern void _interrupt_80();
 
 #endif
