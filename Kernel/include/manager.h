@@ -1,9 +1,11 @@
 #ifndef _MANAGER_H_
 #define _MANAGER_H_
 
-enum file_descriptors { // TODO: Move
-	_FILEDESCRIPTOR_STDOUT = 0,
-	_FILEDESCRIPTOR_STDIN
+#include <sys_screen.h>
+
+enum terminal_ops {
+	_TERMINAL_OPERATION_SELECT = _TERMINAL_COLOR_OPERATION_STYLE + 1,
+	_TERMINAL_OPERATION_CURSOR,
 };
 
 #endif

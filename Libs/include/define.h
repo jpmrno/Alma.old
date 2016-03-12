@@ -10,6 +10,9 @@
 #define STRINGNIFY_BOOL(x) (x) ? "true" : "false"
 #define STRINGNIFY_BOOL_YESNO(x) (x) ? "yes" : "no"
 
+#define WORD_FIRST_HALF(x) (((x) & 0x0FF00) >> 8)
+#define WORD_LAST_HALF(x) ((x) & 0x0FF)
+
 #define NULL ((void *) 0)
 
 #define TRUE 1

@@ -5,6 +5,8 @@
 #include <numbers.h>
 #include <video.h> // TODO: sysvideo.h
 
+#define BOX_LINE_MAXLENGTH 76
+
 #define SLEEP_TEXT_DEFAULT " ..|.. "
 
 // Terminal vars
@@ -130,7 +132,6 @@ void out_box_bottom() {
 	out_printf(" ------------------------------------------------------------------------------ ");
 }
 
-// TODO: Faltan validaciones de texto a escribir
 void out_box_line(char * format, ...) {
 	static int length;
 	va_list args;
@@ -139,21 +140,39 @@ void out_box_line(char * format, ...) {
 
 	out_printf("| ");
 	length = out_vprintf(format, args);
-	length = 77 - length; // TODO: Use define for 77
+
+	if(length > BOX_LINE_MAXLENGTH) {
+		int aux = length - BOX_LINE_MAXLENGTH;
+		length = BOX_LINE_MAXLENGTH;
+
+		while(aux--) {
+			out_printf("\b");
+		}
+	}
+
+	length = BOX_LINE_MAXLENGTH - length;
 	while(length--) {
 		out_printf(" ");
 	}
-	out_printf("|");
+	out_printf(" |");
 
 	va_end(args);
 }
 
-void out_cursor_lock() { // TODO: 
-
+int out_color_text(style_st color) {
+	terminal_color_text(&terminals[terminal_active], color);
 }
 
-void out_cursor_shape() { // TODO: 
+int out_color_bg(style_st color) {
+	terminal_color_bg(&terminals[terminal_active], color);
+}
 
+int out_cursor_shape(shape_st cursor) {
+	return terminal_cursor_shape(&terminals[terminal_active], cursor);
+}
+
+void out_cursor_lock() { // TODO: 
+	terminal_cursor_lock(&terminals[terminal_active]);
 }
 
 // int out_sleep_isEnabled() { // TODO: En manager

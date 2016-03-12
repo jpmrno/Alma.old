@@ -1,12 +1,9 @@
 #ifndef _SYS_IO_H_
 #define _SYS_IO_H_
 
-// TODO: Errors
-
-enum fileDescriptors {
-	STDIN = 0, STDOUT = 1, STDERR = 2
+enum file_descriptors {
+	_FILEDESCRIPTOR_STDOUT = 0,
+	_FILEDESCRIPTOR_STDIN
 };
-
-#define SYSTEM_ERROR_FILEDESCRIPTOR 1
 
 #endif

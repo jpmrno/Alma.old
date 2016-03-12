@@ -13,8 +13,6 @@ static int terminal_newline(terminal_st * terminal);
 static int terminal_tab(terminal_st * terminal);
 static int terminal_delete(terminal_st * terminal);
 
-static void terminal_style_set(terminal_st * terminal, style_st style);
-
 #define CONVERT_BUFFER_SIZE 128 // TODO: Cambiar cuando pueda alocar memoria?
 static char convert_buffer[CONVERT_BUFFER_SIZE] = {0}; // TODO: Cambiar cuando pueda alocar memoria?
 
@@ -108,10 +106,6 @@ int terminal_digit(terminal_st * terminal, int number, unsigned int base) {
 	return printed;
 }
 
-static void terminal_style_set(terminal_st * terminal, style_st style) { // TODO: Static?
-	terminal->style = style;
-}
-
 void terminal_shift(terminal_st * terminal, int lines) { // TODO: Por ahora no va a hacer nada con lines
 	int i, j;
 
@@ -148,6 +142,24 @@ void terminal_shift(terminal_st * terminal, int lines) { // TODO: Por ahora no v
 	
 	if(terminal == terminal_active) {
 		video_cursor_put(terminal->cursor);
+	}
+}
+
+void terminal_color_text(terminal_st * terminal, style_st color) {
+	int i;
+
+	for(i = 0; i < _VIDEO_SIZE; i++) {
+		terminal->screen[i].style = (terminal->style & 0xF0) + (color & 0x0F); // TODO: 
+		video_color_put(i, color);
+	}
+}
+
+void terminal_color_bg(terminal_st * terminal, style_st color) {
+	int i;
+
+	for(i = 0; i < _VIDEO_SIZE; i++) {
+		terminal->screen[i].style = (terminal->style & 0x0F) + (color & 0xF0); // TODO: 
+		video_bg_put(i, color);
 	}
 }
 

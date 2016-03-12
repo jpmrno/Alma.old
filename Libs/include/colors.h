@@ -14,7 +14,6 @@
 #define _VIDEO_STYLER(x, y) (_VIDEO_COLOR_GETTER(x) + _VIDEO_COLOR_TO_BG(y))
 
 #define _VIDEO_COLOR_BRIGHTTEN(x) (_VIDEO_COLOR_GETTER(x) + 0x08)
-
 enum video_color_st {
 	_VIDEO_COLOR_BLACK = 0x00,
 	_VIDEO_COLOR_BLUE,
@@ -31,5 +30,9 @@ enum video_color_st {
 #define _VIDEO_STYLE_DEFAULT _VIDEO_STYLER(_VIDEO_COLOR_DEFAULT, _VIDEO_BG_DEFAULT)
 
 typedef uint8_t style_st;
+
+typedef enum {
+	_VIDEO_CURSOR_SHAPE_SQUARE, _VIDEO_CURSOR_SHAPE_UNDERSCORE, _VIDEO_CURSOR_SHAPE_DOT
+} shape_st;
 
 #endif

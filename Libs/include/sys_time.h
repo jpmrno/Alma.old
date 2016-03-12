@@ -1,17 +1,12 @@
 #ifndef _SYS_TIME_H_
 #define _SYS_TIME_H_
 
-#define SYSTEM_TIME_INVALID -1
+#define _TIME_OPERATION_INVALID -1
+#define _TIME_OPERATION_ERROR -2
 
-typedef struct {
-	uint8_t second;
-	uint8_t minute;
-	uint8_t hour;
-	uint8_t day;
-	uint8_t month;
-	uint16_t year;
-} tSystemTime;
-
-// TODO: Sync systime.h with kernel and time.h
+enum time_ops {
+	_TIME_OPERATION_SET = 0,
+	_TIME_OPERATION_GET
+};
 
 #endif

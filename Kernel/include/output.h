@@ -2,6 +2,7 @@
 #define _OUTPUT_H_
 
 #include <stdarg.h>
+#include <colors.h>
 
 #define _OUTPUT_TERMINAL_MAX 2
 #define _OUTPUT_TERMINAL_DEFAULT 0
@@ -23,8 +24,11 @@ void out_box_top();
 void out_box_bottom();
 void out_box_line(char * fmt, ...);
 
+int out_color_text(style_st color);
+int out_color_bg(style_st color);
+int out_cursor_shape(shape_st cursor);
+
 void out_cursor_lock();
-void out_cursor_shape();
 
 int out_sleep_init();
 int out_sleep_step();

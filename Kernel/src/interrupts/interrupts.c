@@ -10,6 +10,7 @@ extern void _interrupt_set();
 extern void _interrupt_clear();
 
 void interrupt_20();
+void interrupt_21(unsigned char scancode);
 syscall_st * interrupt_80(int syscall);
 
 void interrupt_set() {
@@ -33,20 +34,22 @@ void interrupt_20() {
 	pic_irq_eoi(0);
 }
 
+void interrupt_21(unsigned char scancode) {
+	keyboard_trigger(scancode);
+	pic_irq_eoi(1);
+}
+
 syscall_st * interrupt_80(int syscall) {
 	switch(syscall) {
 		case _SYSCALL_READ:
 			return syscall_read;
 		case _SYSCALL_WRITE:
 			return syscall_write;
+		case _SYSCALL_TIME:
+			return syscall_time;
 		default:
 			break;
 	}
 
 	return NULL;
-}
-
-void interrupt_21(unsigned char scancode) {
-	keyboard_trigger(scancode);
-	pic_irq_eoi(1);
 }
