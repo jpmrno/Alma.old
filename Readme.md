@@ -1,4 +1,4 @@
-# ![Alma](Docs/alma.svg)
+# ![Alma](http://imgh.us/alma.svg)
 [![Build Status](https://travis-ci.com/jpmrno/Alma.svg?token=rrzVPFKtpAUUPF2Pp1UE&branch=master)](https://travis-ci.com/jpmrno/Alma)
 
 Alma is based on x64BareBones which is a basic setup to develop operating systems for the Intel 64 bits architecture.
@@ -22,8 +22,7 @@ This will install `nasm` and `qemu` into your system.
 From the project's directory, run:
 
 	sudo apt-get update
-	sudo apt-get install nasm
-	sudo apt-get install qemu
+	sudo apt-get install nasm qemu
 
 Or simply run the installation script: `./Scripts/install-linux.sh`.
 
