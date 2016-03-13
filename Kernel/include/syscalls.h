@@ -10,6 +10,7 @@ syscall_st syscall_read;
 syscall_st syscall_write;
 syscall_st syscall_time;
 syscall_st syscall_terminal_select;
+syscall_st syscall_terminal_clear;
 syscall_st syscall_terminal_color;
 syscall_st syscall_terminal_cursor;
 

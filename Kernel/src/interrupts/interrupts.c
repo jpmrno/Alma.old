@@ -47,6 +47,14 @@ syscall_st * interrupt_80(int syscall) {
 			return syscall_write;
 		case _SYSCALL_TIME:
 			return syscall_time;
+		case _SYSCALL_TERMINAL_SELECT:
+			return syscall_terminal_select;
+		case _SYSCALL_TERMINAL_CLEAR:
+			return syscall_terminal_clear;
+		case _SYSCALL_TERMINAL_COLOR:
+			return syscall_terminal_color;
+		case _SYSCALL_TERMINAL_CURSOR:
+			return syscall_terminal_cursor;
 		default:
 			break;
 	}
