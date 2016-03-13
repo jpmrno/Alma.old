@@ -11,6 +11,7 @@
 
 void out_init();
 int out_select(int terminal_desired);
+void out_clear();
 
 int out_printf(char * fmt, ...);
 int out_vprintf(char * fmt, va_list arg); // TODO: 
@@ -21,8 +22,8 @@ void out_box_line(char * fmt, ...);
 
 void out_color_text(style_st color);
 void out_color_bg(style_st color);
-int out_cursor(cursor_st cursor);
 
+int out_cursor(cursor_st cursor);
 void out_cursor_lock();
 
 int out_sleep_init();

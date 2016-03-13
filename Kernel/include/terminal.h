@@ -15,6 +15,7 @@ typedef struct {
 void terminal_init(terminal_st * terminal);
 void terminal_show(terminal_st * terminal);
 void terminal_hide();
+void terminal_clear(terminal_st * terminal);
 
 int terminal_write(terminal_st * terminal, char character);
 int terminal_print(terminal_st * terminal, char * string);

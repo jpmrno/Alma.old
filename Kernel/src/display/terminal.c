@@ -54,6 +54,21 @@ void terminal_hide() {
 	video_cursor_show(FALSE);
 }
 
+void terminal_clear(terminal_st * terminal) {
+	int i;
+
+	terminal->cursor = 0;
+	terminal->cursor_lock = 0;
+
+	for(i = 0; i < _VIDEO_SIZE; i++) {
+		terminal->screen[i].character = ' ';
+		terminal->screen[i].style = terminal->style; // TODO: Style tmb??
+		video_writeWithStyle(i, ' ', terminal->style);
+	}
+
+	video_cursor_put(terminal->cursor);
+}
+
 int terminal_write(terminal_st * terminal, char character) {
 	int printed = 0;
 

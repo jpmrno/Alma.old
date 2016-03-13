@@ -13,6 +13,7 @@ static unsigned int manage_read_stdin(char * buffer, unsigned int length);
 static unsigned int manage_write_stdout(const char * string, unsigned int length);
 
 static int manage_terminal_select(int index);
+static int manage_terminal_clear();
 static int manage_terminal_color(int operation, style_st color);
 static int manage_terminal_cursor(cursor_st cursor);
 
@@ -77,6 +78,9 @@ int manage_terminal(int operation, int value) {
 		case _TERMINAL_OPERATION_SELECT:
 			return manage_terminal_select(value);
 
+		case _TERMINAL_OPERATION_CLEAR:
+			return manage_terminal_clear();
+
 		case _TERMINAL_COLOR_OPERATION_STYLE:
 		case _TERMINAL_COLOR_OPERATION_TEXT:
 		case _TERMINAL_COLOR_OPERATION_BG:
@@ -122,6 +126,12 @@ static unsigned int manage_write_stdout(const char * string, unsigned int length
 
 static int manage_terminal_select(int index) {
 	return out_select(index);
+}
+
+static int manage_terminal_clear() {
+	out_clear();
+
+	return OK;
 }
 
 static int manage_terminal_color(int operation, style_st color) {

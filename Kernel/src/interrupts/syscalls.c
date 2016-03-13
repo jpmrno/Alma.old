@@ -39,6 +39,10 @@ int syscall_terminal_select(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r
 	return manage_terminal(_TERMINAL_OPERATION_SELECT, index);
 }
 
+int syscall_terminal_clear(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8, uint64_t r9) {
+	return manage_terminal(_TERMINAL_OPERATION_CLEAR, 0);
+}
+
 int syscall_terminal_color(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8, uint64_t r9) {
 	int operation = (int) rdi;
 	int color = (int) rsi;

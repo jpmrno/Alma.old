@@ -44,6 +44,10 @@ int out_select(int terminal_desired) {
 	return OK;
 }
 
+void out_clear() {
+	terminal_clear(&terminals[terminal_active]);
+}
+
 // TODO: Fix terminal write return value!
 int out_printf(char * fmt, ...) { // TODO: How to set styles
     char symbol;
