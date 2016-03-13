@@ -1,6 +1,5 @@
-# ![Alma Logo](Docs/alma.logo.svg)
-
-[![Build Status](https://travis-ci.com/jpmrno/Zhoue.svg?token=rrzVPFKtpAUUPF2Pp1UE&branch=master)](https://travis-ci.com/jpmrno/Alma)
+# ![Alma](Docs/alma.svg)
+[![Build Status](https://travis-ci.com/jpmrno/Alma.svg?token=rrzVPFKtpAUUPF2Pp1UE&branch=master)](https://travis-ci.com/jpmrno/Alma)
 
 Alma is based on x64BareBones which is a basic setup to develop operating systems for the Intel 64 bits architecture.
 
