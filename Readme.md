@@ -1,4 +1,4 @@
-# ![Alma Logo](Docs/Alma.web.png)
+# ![Alma Logo](Docs/alma.logo.svg)
 
 [![Build Status](https://travis-ci.com/jpmrno/Zhoue.svg?token=rrzVPFKtpAUUPF2Pp1UE&branch=master)](https://travis-ci.com/jpmrno/Alma)
 
@@ -32,16 +32,17 @@ Or simply run the installation script: `./Scripts/install-linux.sh`.
 
 *Assuming you already have `brew` (http://brew.sh) installed...*
 
-This will install `nasm`, `qemu` and a `cross compiler` ([CrossCompiler](CrossCompiler/)/[gcc-4.8.1-OSX64.dmg](CrossCompiler/gcc-4.8.1-OSX64.dmg)) into your system.
+This will install `nasm`, `qemu` and a `cross compiler` ([CrossGCC](http://crossgcc.rts-software.org/doku.php?id=compiling_for_linux)) into your system.
 
 From the project's directory, run:
 
 	brew update
 	brew install nasm
 	brew install qemu
+	curl -o ./CrossCompiler/gcc-4.8.1-OSX64.dmg http://crossgcc.rts-software.org/download/gcc-4.8.1-for-linux32-linux64/gcc-4.8.1-for-linux64.dmg
 	hdiutil mount ./CrossCompiler/gcc-4.8.1-OSX64.dmg
 	sudo installer -package /Volumes/gcc-4.8.1-for-linux64/gcc-4.8.1-for-linux64.pkg -target /
-	sudo hdiutil detach /Volumes/gcc-4.8.1-for-linux64
+	hdiutil detach /Volumes/gcc-4.8.1-for-linux64
 
 Or simply run the installation script: `./Scripts/install-osx.sh`.
 
