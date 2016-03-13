@@ -1,13 +1,13 @@
 #ifndef _TERMINAL_H_
 #define _TERMINAL_H_
 
-#include <video.h> // TODO: Va a tener que estar aca hasta que pueda alocar memoria para hacer terminal_new()
+#include <sys_video.h>
 
 typedef struct {
 	unsigned int cursor;
 	unsigned int cursor_lock;
 	int cursor_shown;
-	shape_st cursor_shape;
+	cursor_st cursor_shape;
 	style_st style;
 	screen_st screen;
 } terminal_st;
@@ -24,7 +24,7 @@ void terminal_shift(terminal_st * terminal, int lines);
 
 void terminal_color_text(terminal_st * terminal, style_st color);
 void terminal_color_bg(terminal_st * terminal, style_st color);
-int terminal_cursor_shape(terminal_st * terminal, shape_st shape);
+int terminal_cursor(terminal_st * terminal, cursor_st shape);
 
 void terminal_cursor_lock(terminal_st * terminal);
 

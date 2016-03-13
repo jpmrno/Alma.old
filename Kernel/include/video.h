@@ -2,27 +2,7 @@
 #define _VIDEO_H_
 
 #include <define.h>
-#include <colors.h>
-
-#define _VIDEO_ROWS 25
-#define _VIDEO_COLUMNS 80
-#define _VIDEO_SIZE (_VIDEO_ROWS * _VIDEO_COLUMNS)
-
-#define _VIDEO_ERROR_CURSOR_INVALID -1
-#define _VIDEO_ERROR_CURSOR_SHAPE_INVALID -2
-#define _VIDEO_ERROR_RANGE_INVALID -3
-
-#define _VIDEO_CURSOR_LAST_POSITION (_VIDEO_SIZE - 1)
-#define _VIDEO_CURSOR_TO_POSITION(x,y) (((x) * _VIDEO_COLUMNS) + (y))
-
-#define _VIDEO_CURSOR_SHAPE_DEFAULT _VIDEO_CURSOR_SHAPE_SQUARE
-
-typedef struct {
-    uint8_t character;
-    uint8_t style;
-} pixel_st;
-
-typedef pixel_st screen_st[_VIDEO_SIZE];
+#include <sys_video.h>
 
 void video_init();
 void video_clear();
@@ -31,8 +11,8 @@ void video_cursor_show(int boolean);
 int video_cursor_put(unsigned int position);
 int video_cursor_get();
 
-int video_cursor_shape(shape_st shape);
-int video_cursor_shape_isValid(shape_st shape);
+int video_cursor_shape(cursor_st shape);
+int video_cursor_shape_isValid(cursor_st shape);
 
 int video_write(unsigned int position, char character);
 int video_writeWithStyle(unsigned int position, char character, style_st style);

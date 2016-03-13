@@ -51,7 +51,7 @@ static int cursor_shown = TRUE;
 
 void video_init() {
 	cursor_shown = TRUE;
-	video_cursor_shape(_VIDEO_CURSOR_SHAPE_DEFAULT);
+	video_cursor_shape(_VIDEO_CURSOR_DEFAULT);
 	video_clear();
 }
 
@@ -94,19 +94,19 @@ int video_cursor_get() {
 	return cursor;
 }
 
-int video_cursor_shape(shape_st shape) {
+int video_cursor_shape(cursor_st shape) {
 	uint8_t start, end;
 
 	switch(shape) {
-		case _VIDEO_CURSOR_SHAPE_SQUARE:
+		case _VIDEO_CURSOR_SQUARE:
 			start = CURSOR_SHAPE_SQUARE_START;
 			end = CURSOR_SHAPE_SQUARE_END;
 			break;
-		case _VIDEO_CURSOR_SHAPE_UNDERSCORE:
+		case _VIDEO_CURSOR_UNDERSCORE:
 			start = CURSOR_SHAPE_UNDERSCORE_START;
 			end = CURSOR_SHAPE_UNDERSCORE_END;
 			break;
-		case _VIDEO_CURSOR_SHAPE_DOT:
+		case _VIDEO_CURSOR_DOT:
 			start = CURSOR_SHAPE_DOT_START;
 			end = CURSOR_SHAPE_DOT_END;
 			break;
@@ -119,11 +119,11 @@ int video_cursor_shape(shape_st shape) {
 	return OK;
 }
 
-int video_cursor_shape_isValid(shape_st shape) {
+int video_cursor_shape_isValid(cursor_st shape) {
 	switch(shape) {
-		case _VIDEO_CURSOR_SHAPE_SQUARE:
-		case _VIDEO_CURSOR_SHAPE_UNDERSCORE:
-		case _VIDEO_CURSOR_SHAPE_DOT:
+		case _VIDEO_CURSOR_SQUARE:
+		case _VIDEO_CURSOR_UNDERSCORE:
+		case _VIDEO_CURSOR_DOT:
 			return TRUE;
 		default:
 			return FALSE;

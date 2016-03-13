@@ -3,6 +3,24 @@
 
 #include <define.h>
 
+#define _VIDEO_ERROR_CURSOR_INVALID -1
+#define _VIDEO_ERROR_CURSOR_SHAPE_INVALID -2
+#define _VIDEO_ERROR_RANGE_INVALID -3
+
+#define _VIDEO_ROWS 25
+#define _VIDEO_COLUMNS 80
+#define _VIDEO_SIZE (_VIDEO_ROWS * _VIDEO_COLUMNS)
+
+typedef struct { // TODO: Sacar cuando pueda alocar memoria
+    uint8_t character;
+    uint8_t style;
+} pixel_st;
+
+typedef pixel_st screen_st[_VIDEO_SIZE]; // TODO: Sacar cuando pueda alocar memoria
+
+#define _VIDEO_CURSOR_LAST_POSITION (_VIDEO_SIZE - 1)
+#define _VIDEO_CURSOR_TO_POSITION(x,y) (((x) * _VIDEO_COLUMNS) + (y))
+
 #define _VIDEO_COLOR_BITS 4
 #define _VIDEO_COLOR_GETTER(x) ((x) & 0x0F)
 #define _VIDEO_BG_GETTER(x) ((x) & 0xF0)
@@ -32,7 +50,8 @@ enum video_color_st {
 typedef uint8_t style_st;
 
 typedef enum {
-	_VIDEO_CURSOR_SHAPE_SQUARE, _VIDEO_CURSOR_SHAPE_UNDERSCORE, _VIDEO_CURSOR_SHAPE_DOT
-} shape_st;
+	_VIDEO_CURSOR_SQUARE, _VIDEO_CURSOR_UNDERSCORE, _VIDEO_CURSOR_DOT
+} cursor_st;
+#define _VIDEO_CURSOR_DEFAULT _VIDEO_CURSOR_SQUARE
 
 #endif

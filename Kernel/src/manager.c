@@ -4,7 +4,9 @@
 #include <output.h>
 #include <keyboard.h>
 #include <rtc.h>
+#include <sys_calls.h>
 #include <sys_io.h>
+#include <sys_screen.h>
 #include <sys_time.h>
 
 static unsigned int manage_read_stdin(char * buffer, unsigned int length);
@@ -12,7 +14,7 @@ static unsigned int manage_write_stdout(const char * string, unsigned int length
 
 static int manage_terminal_select(int index);
 static int manage_terminal_color(int operation, style_st color);
-static int manage_terminal_cursor(shape_st cursor);
+static int manage_terminal_cursor(cursor_st cursor);
 
 static int key_print_enabled = TRUE;
 static int key_buffer_enabled = TRUE;
@@ -61,33 +63,30 @@ unsigned int manage_write(unsigned int fd, const char * string, unsigned int len
 int manage_rtc(int operation, time_st * time) {
 	switch(operation) {
 		case _TIME_OPERATION_SET:
-			return ERROR_OCCURRED(rtc_write(time)) ? _TIME_OPERATION_ERROR : OK;
+			return rtc_write(time);
 
 		case _TIME_OPERATION_GET:
-			return ERROR_OCCURRED(rtc_read(time)) ? _TIME_OPERATION_ERROR : OK;
+			return rtc_read(time);
 	}
 
-	return _TIME_OPERATION_INVALID;
+	return _SYSCALL_ERROR_TIME_OPERATION_INVALID;
 }
 
 int manage_terminal(int operation, int value) {
 	switch(operation) {
 		case _TERMINAL_OPERATION_SELECT:
-			manage_terminal_select(value);
-			break;
+			return manage_terminal_select(value);
+
 		case _TERMINAL_COLOR_OPERATION_STYLE:
 		case _TERMINAL_COLOR_OPERATION_TEXT:
 		case _TERMINAL_COLOR_OPERATION_BG:
-			manage_terminal_color(operation, (style_st) value);
-			break;
-		case _TERMINAL_OPERATION_CURSOR:
-			manage_terminal_cursor((shape_st) value);
+			return manage_terminal_color(operation, (style_st) value);
 
-		default:
-			return _TERMINAL_OPERATION_INVALID;
+		case _TERMINAL_OPERATION_CURSOR:
+			return manage_terminal_cursor((cursor_st) value);
 	}
 
-	return OK;
+	return _SYSCALL_ERROR_SCREEN_OPERATION_INVALID;
 }
 
 static unsigned int manage_read_stdin(char * buffer, unsigned int length) {
@@ -122,7 +121,7 @@ static unsigned int manage_write_stdout(const char * string, unsigned int length
 }
 
 static int manage_terminal_select(int index) {
-	return ERROR_OCCURRED(out_select(index)) ? _TERMINAL_OPERATION_ERROR : OK;
+	return out_select(index);
 }
 
 static int manage_terminal_color(int operation, style_st color) {
@@ -141,12 +140,12 @@ static int manage_terminal_color(int operation, style_st color) {
 			break;
 
 		default:
-			return _TERMINAL_OPERATION_INVALID;
+			return _SYSCALL_ERROR_SCREEN_OPERATION_INVALID;
 	}
 
 	return OK;
 }
 
-static int manage_terminal_cursor(shape_st cursor) {
-	return ERROR_OCCURRED(out_cursor_shape(cursor)) ? _TERMINAL_OPERATION_ERROR : OK;
+static int manage_terminal_cursor(cursor_st cursor) {
+	return out_cursor(cursor);
 }

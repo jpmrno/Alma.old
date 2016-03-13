@@ -2,18 +2,7 @@
 #define _RTC_H_ 
 
 #include <define.h>
-
-#define _RTC_TIME_INVALID -1
-
-typedef struct {
-	uint8_t second;
-	uint8_t minute;
-	uint8_t hour;
-	uint8_t day;
-	uint8_t month;
-	uint16_t year;
-} time_st;
-
+#include <sys_time.h>
 
 /**
  * Reads the date and time from the RTC, and stores the data

@@ -61,7 +61,7 @@ static int isUpdating() ;
  * Validates if the given time_st structure contains valid data.
  * @param  t            the time_st structure to validate
  * @return              OK if the structure is valid.
- *                      _RTC_TIME_INVALID otherwise.
+ *                      _RTC_ERROR_TIME_INVALID otherwise.
  */
 static int validateTime(time_st* t);
 
@@ -267,16 +267,16 @@ static int validateTime(time_st* t) {
       int leap, maxDays;
 
       if (  t->second >= 60 || t->minute >= 60 || t-> hour >= 24)
-            return _RTC_TIME_INVALID;
+            return _RTC_ERROR_TIME_INVALID;
 
       if (t->day >=32 || t->day == 0|| t->month >= 13 || t->month == 0)
-            return _RTC_TIME_INVALID;
+            return _RTC_ERROR_TIME_INVALID;
 
       leap = isLeap(t->year);
       maxDays = days[leap][t->month];
       
       if (t->day > maxDays)
-            return _RTC_TIME_INVALID;
+            return _RTC_ERROR_TIME_INVALID;
       
       return OK;
 }

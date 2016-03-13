@@ -1,5 +1,6 @@
 #include <terminal.h>
 #include <define.h>
+#include <video.h>
 #include <stdarg.h>
 #include <numbers.h>
 #include <strings.h>
@@ -25,7 +26,7 @@ void terminal_init(terminal_st * terminal) {
 	terminal->cursor_lock = 0;
 	terminal->cursor_shown = TRUE;
 	terminal->style = _VIDEO_STYLE_DEFAULT;
-	terminal->cursor_shape = _VIDEO_CURSOR_SHAPE_DEFAULT;
+	terminal->cursor_shape = _VIDEO_CURSOR_DEFAULT;
 
 	for(i = 0; i < _VIDEO_SIZE; i++) {
 		terminal->screen[i].character = ' ';
@@ -163,15 +164,15 @@ void terminal_color_bg(terminal_st * terminal, style_st color) {
 	}
 }
 
-int terminal_cursor_shape(terminal_st * terminal, shape_st shape) {
+int terminal_cursor(terminal_st * terminal, cursor_st shape) {
 	if(!video_cursor_shape_isValid(shape)) {
-		return _VIDEO_ERROR_CURSOR_SHAPE_INVALID; // TODO: 
+		return _VIDEO_ERROR_CURSOR_SHAPE_INVALID;
 	}
 
 	terminal->cursor_shape = shape;
 
 	if(terminal == terminal_active) {
-		return video_cursor_shape(shape); // TODO: 
+		return video_cursor_shape(shape);
 	}
 
 	return OK;

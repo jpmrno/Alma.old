@@ -159,16 +159,16 @@ void out_box_line(char * format, ...) {
 	va_end(args);
 }
 
-int out_color_text(style_st color) {
+void out_color_text(style_st color) {
 	terminal_color_text(&terminals[terminal_active], color);
 }
 
-int out_color_bg(style_st color) {
+void out_color_bg(style_st color) {
 	terminal_color_bg(&terminals[terminal_active], color);
 }
 
-int out_cursor_shape(shape_st cursor) {
-	return terminal_cursor_shape(&terminals[terminal_active], cursor);
+int out_cursor(cursor_st cursor) {
+	return terminal_cursor(&terminals[terminal_active], cursor);
 }
 
 void out_cursor_lock() { // TODO: 
