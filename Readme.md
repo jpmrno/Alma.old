@@ -1,4 +1,4 @@
-# ![λlma](http://imgh.us/alma.svg)
+# ![λlma](http://imgh.us/alma_2.svg)
 [![λlma's build status](https://travis-ci.com/jpmrno/Alma.svg?token=rrzVPFKtpAUUPF2Pp1UE&branch=master)](https://travis-ci.com/jpmrno/Alma)
 
 λlma is based on x64BareBones which is a basic setup to develop operating systems for the Intel 64 bits architecture.
