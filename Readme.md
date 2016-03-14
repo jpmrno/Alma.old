@@ -1,11 +1,11 @@
-# ![Alma](http://imgh.us/alma.svg)
-[![Build Status](https://travis-ci.com/jpmrno/Alma.svg?token=rrzVPFKtpAUUPF2Pp1UE&branch=master)](https://travis-ci.com/jpmrno/Alma)
+# ![λlma](http://imgh.us/alma.svg)
+[![λlma's build status](https://travis-ci.com/jpmrno/Alma.svg?token=rrzVPFKtpAUUPF2Pp1UE&branch=master)](https://travis-ci.com/jpmrno/Alma)
 
-Alma is based on x64BareBones which is a basic setup to develop operating systems for the Intel 64 bits architecture.
+λlma is based on x64BareBones which is a basic setup to develop operating systems for the Intel 64 bits architecture.
 
 The final goal of x64BareBones's project is to provide an entry point for a kernel and the possibility to load extra binary modules separated from the main kernel.
 
-Please read "Manual de Usuario.pdf" for the usage manual and "Informe.pdf" for more information about Alma.
+Please read "Manual de Usuario.pdf" for the usage manual and "Informe.pdf" for more information about λlma.
 
 This project was made for our Computer Architecture subject at ITBA University (Buenos Aires, Argentina).
 
@@ -28,7 +28,7 @@ Or simply run the installation script: `./Scripts/install-linux.sh`.
 
 ### OS X
 
-*Assuming you already have `brew` (http://brew.sh) installed...*
+*Assuming you already have [Homebrew](http://brew.sh) installed...*
 
 This will install `nasm`, `qemu` and a `cross compiler` ([CrossGCC](http://crossgcc.rts-software.org/doku.php?id=compiling_for_linux)) into your system.
 
@@ -55,13 +55,13 @@ If you want to just compile the project, run `make all`, then use this script to
 
 ## Credits
 
-- Alma β (project's structure & kernel modifications): 
+- λlma β (project's structure & kernel modifications): 
 	- Author: Juan Moreno
 
-- Alma α (kernel implementation): 
-	- Author: Matías Nicolás Comercio Vázquez 
+- λlma α (kernel implementation): 
+	- Author: [Matías Comercio](@MatiasComercioITBA)
 	- Author: Juan Moreno
 
-- x64BareBones (base project): 
-	- Author: Rodrigo Rearden (RowDaBoat) 
+- [x64BareBones](https://bitbucket.org/RowDaBoat/x64barebones/) (base project): 
+	- Author: Rodrigo Rearden
 	- Collaborator: Augusto Nizzo McIntosh

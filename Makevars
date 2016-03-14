@@ -9,11 +9,11 @@ SYS_GCC = gcc
 # Per system
 ifeq ($(shell uname), Darwin)
   # Mac OS
-  CC_PATH = /usr/local
-  GCC = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-gcc
-  GPP = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-g++
-  LD = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-ld
-  AR = $(CC_PATH)/gcc-4.8.1-for-linux64/bin/x86_64-pc-linux-ar
+  CC_PATH = /usr/local/gcc-4.8.1-for-linux64/bin
+  GCC = $(CC_PATH)/x86_64-pc-linux-gcc
+  GPP = $(CC_PATH)/x86_64-pc-linux-g++
+  LD = $(CC_PATH)/x86_64-pc-linux-ld
+  AR = $(CC_PATH)/x86_64-pc-linux-ar
   ASM = nasm
   ifneq (, $(shell which gmake))
     MAKE = gmake
