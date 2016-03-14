@@ -59,7 +59,7 @@ If you want to just compile the project, run `make all`, then use this script to
 	- Author: Juan Moreno
 
 - λlma α (kernel implementation): 
-	- Author: [Matías Comercio](@MatiasComercioITBA)
+	- Author: [Matías Comercio](https://github.com/MatiasComercioITBA)
 	- Author: Juan Moreno
 
 - [x64BareBones](https://bitbucket.org/RowDaBoat/x64barebones/) (base project): 
