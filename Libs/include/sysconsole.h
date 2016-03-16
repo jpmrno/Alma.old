@@ -1,7 +1,7 @@
-#ifndef _SYS_SCREEN_H_
-#define _SYS_SCREEN_H_
+#ifndef _SYSCONSOLE_H_
+#define _SYSCONSOLE_H_
 
-#include <sys_video.h>
+#include <sysvideo.h>
 
 #define _OUTPUT_ERROR_TERMINAL_INVALID -1
 #define _OUTPUT_ERROR_SLEEP_ACTIVE -2

@@ -1,9 +1,8 @@
 #include <output.h>
 #include <define.h>
-#include <terminal.h>
 #include <strings.h>
 #include <numbers.h>
-#include <video.h> // TODO: sysvideo.h
+#include <terminal.h>
 
 #define BOX_LINE_MAXLENGTH 76
 
@@ -48,49 +47,18 @@ void out_clear() {
 	terminal_clear(&terminals[terminal_active]);
 }
 
-// TODO: Fix terminal write return value!
-int out_printf(char * fmt, ...) { // TODO: How to set styles
-    char symbol;
-    int i = 0;
+int out_printf(char * fmt, ...) {
     int printed = 0;
     va_list arg;
 
     va_start(arg, fmt);
-    while(fmt[i] != 0) {
-		if(fmt[i] == '%') {
-			symbol = fmt[++i];
-		    switch(symbol) {
-		    	case 's':
-					printed += terminal_print(&terminals[terminal_active], va_arg(arg, char *));
-					break;
-				case 'c':
-					printed += terminal_write(&terminals[terminal_active], va_arg(arg, int));
-					break;
-				case 'd':
-					printed += terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_DEC);
-					break;
-				case 'h':
-					printed += terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_HEX);
-					break;
-				case 'b':
-					printed += terminal_digit(&terminals[terminal_active], va_arg(arg, int), _NUMBERS_BASE_BIN);
-					break;
-				case '%':
-					printed += terminal_write(&terminals[terminal_active], symbol);
-					break;
-			}
-		} else {
-			printed += terminal_write(&terminals[terminal_active], fmt[i]);
-		}
-
-		i++;
-	}
+    printed = out_vprintf(fmt, arg);
 	va_end(arg);
 
 	return printed;
 }
 
-int out_vprintf(char * fmt, va_list arg) { // TODO: Static?
+int out_vprintf(char * fmt, va_list arg) { // TODO: How to set styles
     char symbol;
     int i = 0;
     int printed = 0;

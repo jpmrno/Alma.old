@@ -1,7 +1,7 @@
 #ifndef _MANAGER_H_
 #define _MANAGER_H_
 
-#include <sys_screen.h>
+#include <sysconsole.h>
 
 enum terminal_ops {
 	_TERMINAL_OPERATION_SELECT = _TERMINAL_COLOR_OPERATION_STYLE + 1,

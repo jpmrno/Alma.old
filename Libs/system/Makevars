@@ -1,6 +1,0 @@
-LIB_NAME = system
-LIB_DEPS = shared
-
-SRC_C = .
-SRC_ASM = .
-SRC_HEADERS = .

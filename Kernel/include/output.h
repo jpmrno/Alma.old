@@ -2,7 +2,7 @@
 #define _OUTPUT_H_
 
 #include <stdarg.h>
-#include <sys_screen.h>
+#include <sysconsole.h>
 
 #define _OUTPUT_TERMINAL_MAX 2
 #define _OUTPUT_TERMINAL_DEFAULT 0

@@ -2,9 +2,8 @@
 #include <define.h>
 #include <pit.h>
 #include <pic.h>
-#include <syscalls.h>
+#include <ksyscalls.h>
 #include <log.h>
-#include <output.h>
 
 extern void _interrupt_set();
 extern void _interrupt_clear();
@@ -40,24 +39,9 @@ void interrupt_21(unsigned char scancode) {
 }
 
 syscall_st * interrupt_80(int syscall) {
-	switch(syscall) {
-		case _SYSCALL_READ:
-			return syscall_read;
-		case _SYSCALL_WRITE:
-			return syscall_write;
-		case _SYSCALL_TIME:
-			return syscall_time;
-		case _SYSCALL_TERMINAL_SELECT:
-			return syscall_terminal_select;
-		case _SYSCALL_TERMINAL_CLEAR:
-			return syscall_terminal_clear;
-		case _SYSCALL_TERMINAL_COLOR:
-			return syscall_terminal_color;
-		case _SYSCALL_TERMINAL_CURSOR:
-			return syscall_terminal_cursor;
-		default:
-			break;
+	if(syscall < _SYSCALLS_FIRST || syscall >= _SYSCALLS_SIZE) {
+		return NULL;
 	}
 
-	return NULL;
+	return syscalls_table[syscall];
 }

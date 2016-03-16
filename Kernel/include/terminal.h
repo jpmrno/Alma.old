@@ -1,7 +1,7 @@
 #ifndef _TERMINAL_H_
 #define _TERMINAL_H_
 
-#include <sys_video.h>
+#include <sysvideo.h>
 
 typedef struct {
 	unsigned int cursor;

@@ -2,7 +2,7 @@
 #define _VIDEO_H_
 
 #include <define.h>
-#include <sys_video.h>
+#include <sysvideo.h>
 
 void video_init();
 void video_clear();

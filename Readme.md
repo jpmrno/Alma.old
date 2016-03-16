@@ -28,9 +28,9 @@ Or simply run the installation script: `./Scripts/install-linux.sh`.
 
 ### OS X
 
-*Assuming you already have [Homebrew](http://brew.sh) installed...*
+*Assuming you already have [homebrew](http://brew.sh) installed...*
 
-This will install `nasm`, `qemu` and a `cross compiler` ([CrossGCC](http://crossgcc.rts-software.org/doku.php?id=compiling_for_linux)) into your system.
+This will install `nasm`, `qemu` and a `cross compiler` ([CrossGCC](http://crossgcc.rts-software.org/doku.php?id=compiling_for_linux#bit_linux_binaries_for_mac_intel1)) into your system.
 
 From the project's directory, run:
 

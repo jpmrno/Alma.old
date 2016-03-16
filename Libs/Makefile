@@ -1,19 +1,16 @@
 include ../Makevars
 
-LIBS = shared system api
+LIBS = shared api
 
-all: shared system api
+all: shared api
 
 shared:
 	$(MAKE) -C $@ all
 
-system: shared
-	$(MAKE) -C $@ all
-
-api: shared system
+api: shared
 	$(MAKE) -C $@ all
 
 clean:
 	$(foreach LIB, $(LIBS), $(MAKE) -C $(LIB) clean;)
 
-.PHONY: all shared system api clean
+.PHONY: all shared api clean

@@ -6,7 +6,7 @@ SOURCE_LOADER = asm/loader.asm
 
 LINKER_SCRIPT = kernel.ld
 
-LIB_DEPS = shared system
+LIB_DEPS = shared api
 
 GCC_FLAGS = $(GCC_WARNINGS) $(GCC_FLAGS_G)
 ASM_FLAGS = $(ASM_FLAGS_G)

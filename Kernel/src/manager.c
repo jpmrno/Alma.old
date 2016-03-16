@@ -4,10 +4,9 @@
 #include <output.h>
 #include <keyboard.h>
 #include <rtc.h>
-#include <sys_calls.h>
-#include <sys_io.h>
-#include <sys_screen.h>
-#include <sys_time.h>
+#include <syscalls.h>
+#include <sysio.h>
+#include <systime.h>
 
 static unsigned int manage_read_stdin(char * buffer, unsigned int length);
 static unsigned int manage_write_stdout(const char * string, unsigned int length);

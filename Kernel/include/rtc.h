@@ -2,7 +2,7 @@
 #define _RTC_H_ 
 
 #include <define.h>
-#include <sys_time.h>
+#include <systime.h>
 
 /**
  * Reads the date and time from the RTC, and stores the data

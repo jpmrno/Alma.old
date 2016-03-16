@@ -1,5 +1,5 @@
-#ifndef _SYS_TIME_H_
-#define _SYS_TIME_H_
+#ifndef _SYSTIME_H_
+#define _SYSTIME_H_
 
 #define _RTC_ERROR_TIME_INVALID -1
 #define _SYSCALL_ERROR_TIME_OPERATION_INVALID -2
