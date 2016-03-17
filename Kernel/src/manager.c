@@ -27,7 +27,7 @@ void manage_time() {
 void manage_key(key_st * key) {
 	if(key->type == _KEY_TYPE_PRINTABLE) {
 		if(key_buffer_enabled) {
-			if (key->value == '\b') {
+			if(key->value == '\b') {
 				// If the key cannot be erased, nothing is done for now.
 				keyboard_delete();
 			} else {

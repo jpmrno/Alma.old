@@ -9,7 +9,7 @@ extern unsigned int manage_write(unsigned int fd, const char * string, unsigned 
 extern int manage_rtc(int operation, time_st * time);
 extern int manage_terminal(int operation, int value);
 
-syscall_st * syscalls_table[_SYSCALLS_SIZE] = {
+const syscall_st * syscalls_table[_SYSCALLS_SIZE] = {
 	syscall_read, // _SYSCALL_READ
 	syscall_write, // _SYSCALL_WRITE
 	syscall_time, // _SYSCALL_TIME

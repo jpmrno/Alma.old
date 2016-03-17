@@ -108,6 +108,8 @@ _interrupt_80:
 	push rbp
 	mov rbp, rsp
 
+	sti							; // TODO: Why?? 
+
     push rdi
     mov rdi, rax
     call interrupt_80

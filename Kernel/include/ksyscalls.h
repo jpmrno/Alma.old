@@ -15,6 +15,6 @@ syscall_st syscall_terminal_color;
 syscall_st syscall_terminal_cursor;
 // (2) FUTURE SYSCALL HERE !!
 
-extern syscall_st * syscalls_table[_SYSCALLS_SIZE];
+extern const syscall_st * syscalls_table[_SYSCALLS_SIZE]; // TODO: Const?
 
 #endif
