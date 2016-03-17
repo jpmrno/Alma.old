@@ -18,7 +18,6 @@
 #define MODULE_SHELL_INDEX 0
 #define MODULE_SHELL_ADDRESS 0x400000
 
-// TODO: Aca?
 extern uint8_t kernel_text;
 extern uint8_t kernel_rodata;
 extern uint8_t kernel_data;

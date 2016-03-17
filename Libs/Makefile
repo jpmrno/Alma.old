@@ -1,16 +1,28 @@
 include ../Makevars
+include Makevars
 
-LIBS = shared api
+LIB = lib$(LIB_NAME).a
 
-all: shared api
+SOURCES_C = $(wildcard $(SRC_C)/*.c & $(SRC_C)/**/*.c)
+SOURCES_ASM = $(wildcard $(SRC_ASM)/*.asm & $(SRC_ASM)/**/*.asm)
 
-shared:
-	$(MAKE) -C $@ all
+OBJECTS_C = $(SOURCES_C:.c=.o)
+OBJECTS_ASM = $(SOURCES_ASM:.asm=.o)
 
-api: shared
-	$(MAKE) -C $@ all
+HEADERS = $(foreach HEADER,$(SRC_HEADERS),-I $(HEADER))
+
+all: $(LIB)
+
+$(LIB): $(OBJECTS_C) $(OBJECTS_ASM)
+	$(AR) $(AR_FLAGS) $@ $(OBJECTS_C) $(OBJECTS_ASM)
+
+%.o: %.c
+	$(GCC) $(GCC_FLAGS) $(HEADERS) -c $< -o $@
+
+%.o: %.asm
+	$(ASM) $(ASM_FLAGS) $< -o $@
 
 clean:
-	$(foreach LIB, $(LIBS), $(MAKE) -C $(LIB) clean;)
+	rm -f $(LIB) $(OBJECTS_C) $(OBJECTS_ASM)
 
-.PHONY: all shared api clean
+.PHONY: all clean
