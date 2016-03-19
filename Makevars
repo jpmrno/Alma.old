@@ -45,9 +45,9 @@ AR_FLAGS_G = rvs
 
 ###### TOOLCHAIN ######
 TOOLCHAIN_PATH = Toolchain
-MODULE_PACKER_NAME = packer.bin
+MODULE_PACKER_NAME = mp
 MODULE_PACKER = $(TOOLCHAIN_PATH)/$(MODULE_PACKER_NAME)
-SYSTEM_PACKED = system.bin
+SYSTEM_PACKED = $(SO_NAME).bin
 ###### ^^^^^^^^^ ######
 
 ###### BOOTLOADER ######

@@ -4,12 +4,8 @@
 #include <memory.h>
 
 // Module setup
-extern uint8_t shell_text;
-extern uint8_t shell_rodata;
-extern uint8_t shell_data;
-extern uint8_t shell_bss;
-extern uint8_t shell_binary;
-extern uint8_t shell_end;
+extern char shell_bss;
+extern char shell_end;
 
 char buffer[MAX_BUFFER_LENGTH];
 char user[MAX_USER_NAME] = "root";
@@ -99,12 +95,13 @@ int getWord(char * cmd, int max) {
 	return cmdLength;
 }
 
-void shell_printe(int error) {
+void printError(int error) {
 	char * msj;
 
 	switch(error) {
 		case ERROR_CMD_INVALID:
-			msj = "Invalid command.\n\tUse help command to show a list of possible commands";
+			msj = "Invalid command.\n\tUse help command to show a list of "
+														"possible commands";
 			break;
 		case ERROR_ARGUMENTS_MISSING:
 			msj = "Missing arguments";
@@ -116,7 +113,6 @@ void shell_printe(int error) {
 			msj = "Invalid arguments";
 			break;
 		default:
-			msj = "";
 			return;
 	}
 

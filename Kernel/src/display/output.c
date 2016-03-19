@@ -9,7 +9,7 @@
 #define SLEEP_TEXT_DEFAULT " ..|.. "
 
 // Terminal vars
-static terminal_st terminals[_OUTPUT_TERMINAL_MAX] = {{0}, {0}};
+static terminal_st terminals[_OUTPUT_TERMINAL_SIZE] = {{0}, {0}};
 static int terminal_active = _OUTPUT_TERMINAL_DEFAULT; // TODO: A futuro inicializar
 // ^^^ Terminal vars ^^^
 
@@ -22,7 +22,7 @@ static int sleep_loop = TRUE;
 void out_init() {
 	int i;
 
-	for(i = 0; i < _OUTPUT_TERMINAL_MAX; i++) {
+	for(i = _OUTPUT_TERMINAL_MIN; i < _OUTPUT_TERMINAL_SIZE; i++) {
 		terminal_init(&terminals[i]);
 	}
 
@@ -33,7 +33,7 @@ void out_init() {
 }
 
 int out_select(int terminal_desired) {
-	if(terminal_desired >= _OUTPUT_TERMINAL_MAX) {
+	if(terminal_desired < _OUTPUT_TERMINAL_MIN || terminal_desired > _OUTPUT_TERMINAL_MAX) {
 		return _OUTPUT_ERROR_TERMINAL_INVALID;
 	}
 

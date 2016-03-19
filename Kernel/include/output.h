@@ -4,11 +4,6 @@
 #include <stdarg.h>
 #include <sysconsole.h>
 
-#define _OUTPUT_TERMINAL_MAX 2
-#define _OUTPUT_TERMINAL_DEFAULT 0
-
-#define _OUTPUT_SLEEP_TIME_MIN 5
-
 void out_init();
 int out_select(int terminal_desired);
 void out_clear();

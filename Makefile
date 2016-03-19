@@ -1,5 +1,6 @@
 include Makevars
 
+# // TODO: add userland to 'all:'
 all: toolchain bootloader libs kernel image
 
 toolchain:
@@ -26,15 +27,11 @@ clean:
 	$(MAKE) -C $(USERLAND_PATH) clean
 	$(MAKE) -C $(IMAGE_PATH) clean
 
-cleanall:
+cleanall: clean
 	$(MAKE) -C $(TOOLCHAIN_PATH) clean
 	$(MAKE) -C $(BOOTLOADER_PATH) clean
-	$(MAKE) -C $(LIBS_PATH) clean
-	$(MAKE) -C $(KERNEL_PATH) clean
-	$(MAKE) -C $(USERLAND_PATH) clean
-	$(MAKE) -C $(IMAGE_PATH) clean
 
 run: clean all
 	$(QEMU) $(QEMU_DEBUG) $(QEMU_LOG) $(QEMU_SOUND) -hda $(SOURCE_IMAGE) $(QEMU_FLAGS)
 
-.PHONY: all toolchain bootloader libs kernel userland image clean
+.PHONY: all toolchain bootloader libs kernel userland image clean cleanall

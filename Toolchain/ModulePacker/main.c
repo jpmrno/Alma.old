@@ -3,70 +3,119 @@
 #include <stdint.h>
 #include <sys/stat.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <unistd.h>
 
 #define FALSE 0
 #define TRUE !FALSE
 
 #define BUFFER_SIZE 128
 
-#define OUTPUT_FILE "system.bin"
+#define DEFAULT_OUTPUT_FILE "system.bin"
 
 typedef struct {
-	char **array;
+	char **elements;
 	int length;
 } array_t;
 
-int buildImage(array_t fileArray);
-
-void write_size(FILE * target, char * filename);
-int write_file(FILE * target, FILE * source);
-
-int checkFiles(array_t fileArray);
+static int checkFiles(array_t fileArray);
+static int buildImage(array_t fileArray, char * output);
+static void write_size(FILE * target, char * filename);
+static int write_file(FILE * target, FILE * source);
 
 int main(int argc, char *argv[]) {
-	printf("x64BareBones Module Packer (C) v0.1.1\n");
+	char * output = NULL;
+	int i, c;
+	array_t fileArray = {NULL, 0};
 
-	if(argc < 2) {
-		printf("Usage: \n");
-		printf("\t$> mp.bin <kernel_binary> <user_binary_0> ... <user_binary_N>");
+	printf("Alma's MP v0.1\n");
+	printf("Modified version of x64BareBones's Module Packer (C) v0.1.1\n");
 
+	opterr = 0;
+	while((c = getopt(argc, argv, "o:")) != -1) {
+		switch(c) {
+			case 'o':
+				output = optarg;
+				break;
+			case '?':
+				if(optopt == 'o')
+					fprintf(stderr, "Option -%c requires an argument.\n", optopt);
+				else if(isprint (optopt))
+					fprintf(stderr, "Unknown option `-%c'.\n", optopt);
+				else
+					fprintf(stderr, "Unknown option character `\\x%x'.\n", optopt);
+				return 1;
+			default:
+				abort();
+		}
+	}
+
+	if(argc - optind < 1) {
+		fprintf(stderr, "Usage:\n  $> mp <optionals> <kernel_binary> <user_binary_0> ... <user_binary_N>\n");
+		fprintf(stderr, "Optionals:\n  '-o <output_name>': custom output name\n");
 		return 1;
 	}
 
-	array_t fileArray = {&argv[1], argc -1};
+	if(output == NULL) {
+		output = DEFAULT_OUTPUT_FILE;
+	}
+
+	fileArray.elements = &argv[optind];
+	fileArray.length = argc - optind;
+
+	printf("Output: %s\n", output);
+	printf("Binaries:");
+	for (i = 0; i < fileArray.length; i++) {
+		printf(" %s", fileArray.elements[i]);
+	}
+	printf("\n");
 
 	if(!checkFiles(fileArray)) {
 		return 1;
 	}
 
-	return !buildImage(fileArray);
+	return !buildImage(fileArray, output);
 }
 
-int buildImage(array_t fileArray) {
+static int checkFiles(array_t fileArray) {
+	int i;
+
+	for(i = 0; i < fileArray.length ; i++) {
+		if(access(fileArray.elements[i], R_OK)) {
+			fprintf(stderr, "Can't open file: %s\n", fileArray.elements[i]);
+
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
+static int buildImage(array_t fileArray, char * output) {
 	int i, extraBinaries;
 	FILE * target, * source;
 
-	if((target = fopen(OUTPUT_FILE, "w")) == NULL) {
-		printf("Can't create target file\n");
+	if((target = fopen(output, "w")) == NULL) {
+		fprintf(stderr, "Can't create output file: %s\n", output);
 
 		return FALSE;
 	}
 
-	// First, write the kernel
-	source = fopen(fileArray.array[0], "r");
+	// Write kernel binary
+	source = fopen(fileArray.elements[0], "r");
 	write_file(target, source);
 
-	// Write how many extra binaries we got.
+	// Write user binaries
 	extraBinaries = fileArray.length - 1;
 	fwrite(&extraBinaries, sizeof(extraBinaries), 1, target);
 	fclose(source);
 
 	for (i = 1 ; i < fileArray.length ; i++) {
-		source = fopen(fileArray.array[i], "r");
+		source = fopen(fileArray.elements[i], "r");
 
-		// Write the file size;
-		write_size(target, fileArray.array[i]);
-		// Write the binary
+		// Write file size
+		write_size(target, fileArray.elements[i]);
+		// Write file data
 		write_file(target, source);
 
 		fclose(source);
@@ -77,21 +126,7 @@ int buildImage(array_t fileArray) {
 	return TRUE;
 }
 
-
-int checkFiles(array_t fileArray) {
-	int i;
-
-	for(i = 0; i < fileArray.length ; i++) {
-		if(access(fileArray.array[i], R_OK)) {
-			printf("Can't open file: %s\n", fileArray.array[i]);
-			return FALSE;
-		}
-	}
-
-	return TRUE;
-}
-
-void write_size(FILE * target, char * filename) {
+static void write_size(FILE * target, char * filename) {
 	struct stat st;
 	uint32_t size;
 
@@ -100,8 +135,7 @@ void write_size(FILE * target, char * filename) {
 	fwrite(&size, sizeof(uint32_t), 1, target);
 }
 
-
-int write_file(FILE * target, FILE * source) {
+static int write_file(FILE * target, FILE * source) {
 	char buffer[BUFFER_SIZE];
 	int read;
 

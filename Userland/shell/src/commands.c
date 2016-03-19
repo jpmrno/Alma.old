@@ -7,22 +7,19 @@
 #define BACKGROUND 0
 #define TEXT 1
 
-// #define COMMAND(name) {#name, cmd_ ## name, CMD_MSJ_ ## name}
+#define COMMAND(name) {#name, cmd_ ## name, _CMD_HELP_ ## name}
 
-// Remember to change CMDS_SIZE if a command is added
+// REMEMBER to change CMDS_SIZE if a command is added !!
 tCommand commands[CMDS_SIZE] = {
-	{"help", cmd_help, CMD_HELP_MSG},
-	// For future implementation
-	//{"exit", cmd_exit, "Exits shell program.\n\tUsage: \"exit\".\n"},
-	{"user", cmd_user, CMD_USER_MSG},
-	{"clear", cmd_clear, CMD_CLEAR_MSG},
-	{"terminal", cmd_terminal, CMD_TERMINAL_MSG},
-	{"text", cmd_text, CMD_TEXT_MSG},
-	{"background", cmd_background, CMD_BACKGROUND_MSG},
-	{"bg", cmd_background, CMD_BG_MSG},
-	{"screensaver", cmd_screensaver, CMD_SCREENSAVER_MSG},
-	{"ss", cmd_screensaver, CMD_SS_MSG},
-	{"time", cmd_time, CMD_TIME_MSG}
+	COMMAND(help),
+	COMMAND(user),
+	COMMAND(clear),
+	COMMAND(terminal),
+	COMMAND(text),
+	COMMAND(bg),
+	COMMAND(sleep),
+	COMMAND(time)
+	// REMEMBER to change CMDS_SIZE if a command is added !!
 };
 
 // Shell variables
