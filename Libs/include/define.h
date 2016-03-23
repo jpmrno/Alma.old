@@ -28,4 +28,9 @@ typedef uint16_t word_t;
 typedef uint32_t dword_t;
 typedef uint64_t qword_t;
 
+typedef struct {
+	char ** argv;
+	int argc;
+} args_t;
+
 #endif

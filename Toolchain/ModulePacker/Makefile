@@ -1,14 +1,18 @@
 include ../../Makevars
+include Makevars
 
-SOURCES = $(wildcard *.c)
-HEADERS = -I .
+FILE = ../../$(MODULE_PACKER)
 
-all: ../$(MODULE_PACKER_NAME)
+SOURCES_C = $(wildcard $(SRC_C)/*.c & $(SRC_C)/**/*.c)
 
-../$(MODULE_PACKER_NAME): $(SOURCES)
-	$(SYS_GCC) $< $(HEADERS) -o $@
+HEADERS = $(foreach HEADER,$(SRC_HEADERS),-I $(HEADER))
+
+all: $(FILE)
+
+$(FILE): $(SOURCES_C)
+	$(SYS_GCC) $(GCC_FLAGS) $(HEADERS) $< -o $@
 
 clean:
-	rm -f ../$(MODULE_PACKER_NAME)
+	rm -f $(FILE)
 
 .PHONY: all clean

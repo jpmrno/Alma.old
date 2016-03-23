@@ -28,6 +28,6 @@ int getWord(char * cmd, int max);
  * Prints the error msj represented by error number
  * @param error the error number
  */
-void printError(int error);
+void shell_printe(int error);
 
 #endif

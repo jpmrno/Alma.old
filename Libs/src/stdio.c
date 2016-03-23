@@ -10,39 +10,97 @@ static char convert_buffer[CONVERT_BUFFER_SIZE] = {0}; // TODO: Cambiar cuando p
 extern unsigned int sysread(char * buffer, unsigned int length);
 extern unsigned int syswrite(char * string, unsigned int length);
 
+static int matches(char c, const char chars[], int charc);
+
 int scanc() {
 	char c;
 	int ret = sysread(&c, 1);
 
-	if(ret != EOF) {
-		ret = c;
+	return ret != EOF ? c : ret;
+}
+
+int scant(char * buffer, int size, const char end[], int endc) {
+	int i = 0, found, c;
+
+	if(size < 1/* || endc < 1*/) { // TODO: Remove?
+		return -1;
 	}
+
+	while(i < (size - 1) && (c = scanc()) != EOF && !(found = matches(c, end, endc))) {
+		buffer[i++] = c;
+	}
+
+	buffer[i] = found ? c : '\0';
+
+	return i;
+}
+
+int scanw(char * buffer, int size) {
+	static const char end[] = {' ', '\n'};
+	int ret;
+
+	while((ret = scant(buffer, size, end, 2)) != -1 && buffer[0] == ' ');
 
 	return ret;
 }
 
-int scanf(char * buffer, int maxSize) {
-	int length = scanw(buffer, maxSize);
+int scanl(char * buffer, int size) {
+	static const char end[] = {'\n'};
 
-	buffer[length] = 0;
-	
-	return length;
+	return scant(buffer, size, end, 1);
 }
 
-int scanw(char * buffer, int maxSize) {
-	int c;
-	int i = 0; // points to the next position where to insert
+// TODO: Test!
+int scanf(const char * fmt, ...) {
+    va_list arg;
 
-	do {
-		c = scanc();
+    va_start(arg, fmt);
+    vscanf(fmt, arg);
+	va_end(arg);
 
-		if(c != EOF) {
-			buffer[i++] = c;
+	return OK; // TODO: 
+}
+
+// TODO: Test!
+int vscanf(const char * fmt, va_list arg) {
+	char * c;
+	int * n;
+	int ret;
+
+	while(*fmt) {
+		while(isspace(*fmt)) fmt++;
+		if(!(*fmt)) break;
+
+		if(*fmt == '%') {
+			fmt++;
+
+			switch(*fmt) {
+				case 'c':
+					c = va_arg(arg, char *);
+					*c = scanc();
+					break;
+				case 's':
+					c = va_arg(arg, char *);
+					while((ret = scanc()) != EOF && !isspace(ret) /*&& i < size*/) {
+						*c = ret;
+						c++;
+					}
+					*c = 0;
+					break;
+				// case 'd':
+				// 	n = va_arg(arg, int *);;
+				// 	break;
+				default:
+					break;
+			}
 		}
-	} while(c != ' ' && c != '\n' && c != 0 && c != EOF && i < maxSize);
 
-	return i - 1;
+		fmt++;
+	}
+
+	return OK; // TODO: 
 }
+
 
 int printc(char character) {
 	return syswrite(&character, 1);
@@ -116,4 +174,16 @@ int vprintf(char * fmt, va_list arg) { // TODO: How to set styles
 	}
 
 	return printed;
+}
+
+static int matches(char c, const char chars[], int charc) {
+	int i;
+
+	for(i = 0; i < charc; i++) {
+		if(c == chars[i]) {
+			return TRUE;
+		}
+	}
+
+	return FALSE;
 }

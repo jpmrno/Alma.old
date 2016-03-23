@@ -9,7 +9,7 @@ int out_select(int terminal_desired);
 void out_clear();
 
 int out_printf(char * fmt, ...);
-int out_vprintf(char * fmt, va_list arg); // TODO: 
+int out_vprintf(char * fmt, va_list arg);
 
 void out_box_top();
 void out_box_bottom();

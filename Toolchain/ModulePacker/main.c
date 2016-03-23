@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 	int i, c;
 	array_t fileArray = {NULL, 0};
 
-	printf("Alma's MP v0.1\n");
+	printf("~~ Alma's MP v0.1 ~~\n");
 	printf("Modified version of x64BareBones's Module Packer (C) v0.1.1\n");
 
 	opterr = 0;
@@ -63,18 +63,25 @@ int main(int argc, char *argv[]) {
 	fileArray.elements = &argv[optind];
 	fileArray.length = argc - optind;
 
-	printf("Output: %s\n", output);
 	printf("Binaries:");
 	for (i = 0; i < fileArray.length; i++) {
 		printf(" %s", fileArray.elements[i]);
 	}
-	printf("\n");
+	printf("\nOutput: %s\n", output);
 
 	if(!checkFiles(fileArray)) {
 		return 1;
 	}
 
-	return !buildImage(fileArray, output);
+	i = buildImage(fileArray, output);
+
+	if(i) {
+		printf("~~       OK       ~~\n");
+	} else {
+		printf("~~      FAIL      ~~\n");
+	}
+
+	return !i;
 }
 
 static int checkFiles(array_t fileArray) {

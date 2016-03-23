@@ -1,14 +1,18 @@
 include ../../Makevars
 include Makevars
 
-FILESYSTEM_FILE = ../$(FILESYSTEM_NAME)
+FILE = ../../$(FILESYSTEM)
 
-all: $(FILESYSTEM_FILE)
+SOURCES_C = $(wildcard $(SRC_C)/*.c & $(SRC_C)/**/*.c)
 
-$(FILESYSTEM_FILE):
-	$(SYS_GCC) $(GCC_FLAGS) $(SOURCE_FILESYSTEM) -o $@
+HEADERS = $(foreach HEADER,$(SRC_HEADERS),-I $(HEADER))
+
+all: $(FILE)
+
+$(FILE): $(SOURCES_C)
+	$(SYS_GCC) $(GCC_FLAGS) $(HEADERS) $< -o $@
 
 clean:
-	rm -f $(FILESYSTEM_FILE)
+	rm -f $(FILE)
 
 .PHONY: all clean

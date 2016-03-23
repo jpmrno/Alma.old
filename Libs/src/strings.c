@@ -1,6 +1,10 @@
 #include <strings.h>
 #include <stdint.h>
 
+int isspace(char c) {
+	return (c == ' ' || c == '\t' || c == '\n');
+}
+
 unsigned int strlen(char * string) { // TODO: Unsigned?
 	unsigned int i = 0;
 

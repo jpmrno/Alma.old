@@ -84,7 +84,7 @@ int kernel_main() {
 	pic_mask(0xFC); // TODO: 
 	out_printf("[Done]\n");
 	
-	//((EntryPoint) module_addresses[MODULE_SHELL_INDEX])();
+	((EntryPoint) module_addresses[MODULE_SHELL_INDEX])();
 
 	while(1);
 

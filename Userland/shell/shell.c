@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <commands.h>
 #include <memory.h>
+#include <numbers.h>
+#include <strings.h>
 
 // Module setup
 extern uint8_t shell_text;
@@ -10,118 +12,155 @@ extern uint8_t shell_data;
 extern uint8_t shell_bss;
 extern uint8_t shell_binary;
 extern uint8_t shell_end;
+// ^^ Module setup ^^
 
-char buffer[MAX_BUFFER_LENGTH];
 char user[MAX_USER_NAME] = "root";
 char * program = "shell";
-int hasMoreArgs = FALSE;
-int completelyReadWord = FALSE;
-extern tCommand commands[CMDS_SIZE];
 
-static void clearBuffer();
-static int runCmd(const char * cmd);
+static int main();
 static void shell_bss_clear();
+
+static int parseCommand(char * buffer, int size);
+static command_t * getCommand(const char * cmd);
+static args_t * getArgs(char * buffer);
+
+#define COMMAND_MAX_ARGS 10 // TODO: Temporal fix! Needs malloc to remove
+static char * argv[COMMAND_MAX_ARGS] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+static args_t args = {argv, 0};
 
 void init() {
 	shell_bss_clear();
 	main();
 }
 
-int main() {
-	int ret;
+static int main() {
+	args_t * args, noargs = {NULL, 0};
+	command_t * command;
+	int ret, should_clear;
+	char buffer[MAX_BUFFER_LENGTH]; // TODO: Buffer global?
 
 	// Shell cycle
 	while(TRUE) {
 		// Print prompt
 		printf("%s@%s:$> ", user, program);
 
-		// Gets the command string to run
-		getWord(buffer, MAX_BUFFER_LENGTH);
+		ret = parseCommand(buffer, MAX_BUFFER_LENGTH);
+		should_clear = ret;
 
-		// Interprets command and runs it
-		ret = runCmd(buffer);
+		if(ERROR_OCCURRED(ret)) {
+			printf("Uups! There was an error reading the command. Try again!\n");
+		} else if(buffer[0]) {
+			command = getCommand(buffer);
 
-		// If command returned error, print it
-		if(ret != OK) {
-			// Clears buffer so not to read something from previous invalid
-			// or wrong command
-			clearBuffer();
-			printError(ret);
-		} else {
-			// Necessary for future exit implementation.
+			if(command == NULL) {
+				printf("YO! The command '%s' doesn't exist. Don't try to fool me!\n", buffer);
+			} else {
+				args = ret ? getArgs(buffer + ret + 1) : &noargs;
+
+				if(args == NULL) {
+					printf("Uups! There was an error reading the arguments. Try again!\n");
+				} else {
+					should_clear = FALSE;
+
+					ret = command->run(*args);
+					if(ERROR_OCCURRED(ret)) {
+						printf("(%d) Humm... That last command didn't end as espected.\n", ret);
+					}
+				}
+			}
+		}
+
+		if(should_clear) {
+			CLEAR_SCAN_BUFFER;
 		}
  	}
 
 	return OK;
 }
 
-/**
- * Interprets and runs the command
- * @param  cmd  the string of the command to run
- * @return     OK if command runned ok, error code otherwise
- */
-static int runCmd(const char * cmd) {
+static int parseCommand(char * buffer, int size) {
+	int ret, hasMoreArgs;
+
+	ret = scanw(buffer, size);
+	if(ret == -1 || buffer[ret] == '\0') {
+		return -1;
+	}
+
+	if(buffer[ret] == ' ') {
+		hasMoreArgs = TRUE;
+	} else {
+		hasMoreArgs = FALSE;
+	}
+
+	buffer[ret] = '\0';
+
+	return hasMoreArgs ? 1 : 0;
+}
+
+static command_t * getCommand(const char * cmd) {
 	int i = 0;
 
 	if(cmd[0] == 0) {
-		return ERROR_CMD_EMPTY;
+		return NULL;
 	}
 
 	// Search for the command in the list of commands
-	for(i = 0; i < CMDS_SIZE; i++) {
+	for(i = 0; i < _COMMANDS_SIZE; i++) {
 		if(!strcmp(cmd, commands[i].name)) {
-			return commands[i].func();
+			return &commands[i];
 		}
 	}
 
-	return ERROR_CMD_INVALID;
+	return NULL;
 }
 
-/**
- * Advances the buffer to a '\n'
- */
-static void clearBuffer() {
-	if(hasMoreArgs) {
-		uint8_t c;
-		while((c = getchar()) != '\n');
-		hasMoreArgs = FALSE;
-	}
-}
+static args_t * getArgs(char * buffer) {
+	int ret, i = 0, hasMoreArgs = TRUE;
 
-int getWord(char * cmd, int max) {
-	int cmdLength = scanw(cmd, max);
+	args.argc = 0;
+	while(hasMoreArgs) {
+		ret = scanw(buffer, MAX_BUFFER_LENGTH);
 
-	hasMoreArgs = (cmd[cmdLength] != '\n') ? TRUE : FALSE;
-	completelyReadWord = (!hasMoreArgs || cmd[cmdLength] == ' ') ? TRUE:FALSE;
+		if(ret == -1 || buffer[ret] == '\0') {
+			return NULL;
+		}
 
-	cmd[cmdLength] = 0;
+		if(buffer[ret] == '\n') {
+			hasMoreArgs = FALSE;
+		} else {
+			if(i + 1 >= COMMAND_MAX_ARGS) {
+				return NULL;
+			}
+		}
 
-	return cmdLength;
-}
-
-void shell_printe(int error) {
-	char * msj;
-
-	switch(error) {
-		case ERROR_CMD_INVALID:
-			msj = "Invalid command.\n\tUse help command to show a list of possible commands";
-			break;
-		case ERROR_ARGUMENTS_MISSING:
-			msj = "Missing arguments";
-			break;
-		case ERROR_ARGUMENTS_EXCESS:
-			msj = "Too many arguments (check not to have final spaces)";
-			break;
-		case ERROR_ARGUMENTS_INVALID:
-			msj = "Invalid arguments";
-			break;
-		default:
-			msj = "";
-			return;
+		buffer[ret] = '\0';
+		args.argv[i++] = buffer;
+		args.argc++;
+		buffer += ret + 1;
 	}
 
-	printf("\t<ERROR> %s.\n", msj);
+	return &args;
 }
+
+// #define _SHELL_ERRORS 5
+// static const char * error_message[_SHELL_ERRORS] = {
+// 	"Unknown",
+// 	"Invalid command.\nUse help command to show a list of possible commands",
+// 	"Missing arguments",
+// 	"Too many arguments",
+// 	"Invalid arguments"
+// 	// FUTURE ERROR MESSAGE HERE !! REMEMBER TO CHANGE _SHELL_ERRORS !!
+// };
+
+// void shell_printe(int error) {
+// 	error = ABS(error);
+
+// 	if(error >= _SHELL_ERRORS) {
+// 		error = 0;
+// 	}
+
+// 	printf("<ERROR> %s.\n", error_message[error]);
+// }
 
 static void shell_bss_clear() {
 	memset(&shell_bss, 0, &shell_end - &shell_bss);

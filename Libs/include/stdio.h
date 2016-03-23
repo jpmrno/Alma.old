@@ -4,9 +4,14 @@
 #include <sysio.h>
 #include <stdarg.h>
 
+#define CLEAR_SCAN_BUFFER while(scanc() != '\n')
+
 int scanc();
-int scanf(char * buffer, int maxSize);
-int scanw(char * buffer, int maxSize);
+int scant(char * buffer, int size, const char end[], int endc);
+int scanw(char * buffer, int size);
+int scanl(char * buffer, int size);
+int scanf(const char * fmt, ...);
+int vscanf(const char * fmt, va_list arg);
 
 int printc(char character);
 int prints(char * string);

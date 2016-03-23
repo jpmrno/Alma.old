@@ -198,7 +198,7 @@ int out_sleep_step() {
 	return OK;
 }
 
-int out_sleep_stop() { // TODO: Screen Saver
+int out_sleep_stop() {
 	if(!sleep_active) {
 		return _OUTPUT_ERROR_SLEEP_NOT_ACTIVE;
 	}
@@ -217,7 +217,7 @@ int out_sleep_set(char * text, int boolean) { // TODO:
 		return _OUTPUT_ERROR_SLEEP_ACTIVE;
 	}
 
-	strcpy(sleep_text, text); // TODO: Sacar cuando peuda alocar memoria
+	strcpy(sleep_text, text); // TODO: Sacar cuando pueda alocar memoria
 	sleep_loop = boolean ? TRUE : FALSE;
 
 	return OK;
@@ -228,7 +228,7 @@ int out_sleep_reset() {
 		return _OUTPUT_ERROR_SLEEP_ACTIVE;
 	}
 
-	strcpy(sleep_text, SLEEP_TEXT_DEFAULT); // TODO: Sacar cuando peuda alocar memoria
+	strcpy(sleep_text, SLEEP_TEXT_DEFAULT); // TODO: Sacar cuando pueda alocar memoria
 	sleep_loop = TRUE;
 
 	return OK;

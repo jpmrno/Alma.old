@@ -28,7 +28,7 @@ enum keys_pressables {
 };
 
 #define KEYS_ONOFF 3
-enum keys_onoff { // TODO: Espanglish :)
+enum keys_onoff {
 	CAPSLOCK = 0,
 	NUMLOCK,
 	SCROLLLOCK
