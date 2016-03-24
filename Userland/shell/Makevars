@@ -6,5 +6,6 @@ SRC_C = src
 SRC_ASM = asm
 SRC_HEADERS = include
 
-SOURCE_LOADER = $(MODULE_NAME).c
+SOURCE_LOADER = $(SRC_C)/loader.c
+
 LINKER_SCRIPT = $(MODULE_NAME).ld

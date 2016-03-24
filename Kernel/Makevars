@@ -2,7 +2,7 @@ SRC_C = src
 SRC_ASM = asm
 SRC_HEADERS = include
 
-SOURCE_LOADER = asm/loader.asm
+SOURCE_LOADER = $(SRC_ASM)/loader.asm
 
 LINKER_SCRIPT = kernel.ld
 

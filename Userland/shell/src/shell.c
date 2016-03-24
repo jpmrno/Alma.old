@@ -5,19 +5,9 @@
 #include <numbers.h>
 #include <strings.h>
 
-// Module setup
-extern uint8_t shell_text;
-extern uint8_t shell_rodata;
-extern uint8_t shell_data;
-extern uint8_t shell_bss;
-extern uint8_t shell_binary;
-extern uint8_t shell_end;
-// ^^ Module setup ^^
-
 char user[MAX_USER_NAME] = "root";
 char * program = "shell";
 
-static int main();
 static void shell_bss_clear();
 
 static int parseCommand(char * buffer, int size);
@@ -25,15 +15,10 @@ static command_t * getCommand(const char * cmd);
 static args_t * getArgs(char * buffer);
 
 #define COMMAND_MAX_ARGS 10 // TODO: Temporal fix! Needs malloc to remove
-static char * argv[COMMAND_MAX_ARGS] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+static char * argv[COMMAND_MAX_ARGS] = {};
 static args_t args = {argv, 0};
 
-void init() {
-	shell_bss_clear();
-	main();
-}
-
-static int main() {
+int main() {
 	args_t * args, noargs = {NULL, 0};
 	command_t * command;
 	int ret, should_clear;
@@ -44,25 +29,37 @@ static int main() {
 		// Print prompt
 		printf("%s@%s:$> ", user, program);
 
+		// Get command's name
+		// ret = -1: error, 1: more args, 0: no more args
 		ret = parseCommand(buffer, MAX_BUFFER_LENGTH);
-		should_clear = ret;
+		// if ret !=0 -> clear buffer
+		should_clear = ret; 
 
+		// If error, print it
 		if(ERROR_OCCURRED(ret)) {
 			printf("Uups! There was an error reading the command. Try again!\n");
-		} else if(buffer[0]) {
+		} else if(buffer[0]) { // If not empty string, continue
+			// Get command from list
 			command = getCommand(buffer);
 
+			// If command == null -> command invalid, print error
 			if(command == NULL) {
 				printf("YO! The command '%s' doesn't exist. Don't try to fool me!\n", buffer);
 			} else {
+				// Get the arguments if ret == 1 (meaning it has arguments)
+				// If ret == 0 -> doesn't have arguments, send null arguments
 				args = ret ? getArgs(buffer + ret + 1) : &noargs;
 
+				// If error getting the args -> print it
 				if(args == NULL) {
 					printf("Uups! There was an error reading the arguments. Try again!\n");
 				} else {
+					// If args were read, then no need to clear buffer
 					should_clear = FALSE;
 
+					// Run command, get it's return value
 					ret = command->run(*args);
+					// If error occurred -> print it
 					if(ERROR_OCCURRED(ret)) {
 						printf("(%d) Humm... That last command didn't end as espected.\n", ret);
 					}
@@ -70,6 +67,7 @@ static int main() {
 			}
 		}
 
+		// If should_clear -> clear buffer
 		if(should_clear) {
 			CLEAR_SCAN_BUFFER;
 		}
@@ -106,6 +104,7 @@ static command_t * getCommand(const char * cmd) {
 
 	// Search for the command in the list of commands
 	for(i = 0; i < _COMMANDS_SIZE; i++) {
+		// If found, return pointer to it
 		if(!strcmp(cmd, commands[i].name)) {
 			return &commands[i];
 		}
@@ -161,7 +160,3 @@ static args_t * getArgs(char * buffer) {
 
 // 	printf("<ERROR> %s.\n", error_message[error]);
 // }
-
-static void shell_bss_clear() {
-	memset(&shell_bss, 0, &shell_end - &shell_bss);
-}
