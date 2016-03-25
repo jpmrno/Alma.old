@@ -3,6 +3,6 @@
 static char * cmd_asd_help = {"Asd"};
 
 command_t commands[_COMMANDS_SIZE] = {
-	COMMAND(help)
+	COMMAND(echo)
 	// FUTURE COMMAND HERE !! REMEMBER TO CHANGE _COMMANDS_SIZE !!
 };

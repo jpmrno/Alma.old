@@ -17,7 +17,7 @@ kernel: libs
 userland: libs
 	$(MAKE) -C $(USERLAND_PATH) all
 
-image: toolchain bootloader kernel
+image: toolchain bootloader kernel userland
 	$(MAKE) -C $(IMAGE_PATH) all
 
 clean:

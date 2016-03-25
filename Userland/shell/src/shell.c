@@ -1,3 +1,4 @@
+#include <define.h>
 #include <shell.h>
 #include <stdio.h>
 #include <commands.h>
@@ -5,24 +6,24 @@
 #include <numbers.h>
 #include <strings.h>
 
+#define MAX_BUFFER_LENGTH 128
+#define MAX_USER_NAME (10 + 1)
+
 char user[MAX_USER_NAME] = "root";
 char * program = "shell";
-
-static void shell_bss_clear();
 
 static int parseCommand(char * buffer, int size);
 static command_t * getCommand(const char * cmd);
 static args_t * getArgs(char * buffer);
 
 #define COMMAND_MAX_ARGS 10 // TODO: Temporal fix! Needs malloc to remove
-static char * argv[COMMAND_MAX_ARGS] = {};
-static args_t args = {argv, 0};
 
 int main() {
-	args_t * args, noargs = {NULL, 0};
-	command_t * command;
+	static args_t noargs = {NULL, 0};
 	int ret, should_clear;
-	char buffer[MAX_BUFFER_LENGTH]; // TODO: Buffer global?
+	char buffer[MAX_BUFFER_LENGTH];
+	args_t * args;
+	command_t * command;
 
 	// Shell cycle
 	while(TRUE) {
@@ -33,7 +34,7 @@ int main() {
 		// ret = -1: error, 1: more args, 0: no more args
 		ret = parseCommand(buffer, MAX_BUFFER_LENGTH);
 		// if ret !=0 -> clear buffer
-		should_clear = ret; 
+		should_clear = ret;
 
 		// If error, print it
 		if(ERROR_OCCURRED(ret)) {
@@ -52,12 +53,12 @@ int main() {
 
 				// If error getting the args -> print it
 				if(args == NULL) {
-					printf("Uups! There was an error reading the arguments. Try again!\n");
+					printf("Uups! There was an error reading the arguments. Try using less!\n");
 				} else {
 					// If args were read, then no need to clear buffer
 					should_clear = FALSE;
 
-					// Run command, get it's return value
+					// Run command & get it's return value
 					ret = command->run(*args);
 					// If error occurred -> print it
 					if(ERROR_OCCURRED(ret)) {
@@ -115,6 +116,8 @@ static command_t * getCommand(const char * cmd) {
 
 static args_t * getArgs(char * buffer) {
 	int ret, i = 0, hasMoreArgs = TRUE;
+	static char * argv[COMMAND_MAX_ARGS] = {};	// TODO: Temporal fix! Needs malloc to remove
+	static args_t args = {argv, 0};				// TODO: Temporal fix! Needs malloc to remove
 
 	args.argc = 0;
 	while(hasMoreArgs) {
