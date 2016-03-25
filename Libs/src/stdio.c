@@ -176,6 +176,35 @@ int vprintf(char * fmt, va_list arg) { // TODO: How to set styles
 	return printed;
 }
 
+// Usage:
+// do {
+// 	yes = yesno("Seguir?")
+// } while(yes == -1);
+// TODO: Optimize?
+int yesno(const char msg[], ...) {
+	int op, ret;
+	va_list arg;
+		
+	va_start(arg, msg);
+	vprintf(msg, arg);
+	va_end(arg);
+
+	op = scanc();
+	if(strchr("Yy", op) != NULL) {
+		ret = TRUE;
+	} else if(strchr("Nn", op) != NULL) {
+		ret = FALSE;
+	} else {
+		ret = -1;
+	}
+
+	if(op != '\n') {
+		CLEAR_SCAN_BUFFER;
+	}
+
+	return ret;
+}
+
 static int matches(char c, const char chars[], int charc) {
 	int i;
 

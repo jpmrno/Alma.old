@@ -5,7 +5,7 @@ int isspace(char c) {
 	return (c == ' ' || c == '\t' || c == '\n');
 }
 
-unsigned int strlen(char * string) { // TODO: Unsigned?
+size_t strlen(char * string) { // TODO: Unsigned?
 	unsigned int i = 0;
 
 	while(string[i]) {
@@ -31,6 +31,17 @@ void strcpy(char * dest, const char * source) {
     }
 }
 
+// http://www.opensource.apple.com/source/gcc/gcc-937.2/libiberty/strchr.c
+char * strchr(const char * s, int c) {
+	do {
+		if(*s == c) {
+			return (char *) s;
+		}
+	} while (*s++);
+
+	return NULL;
+}
+
 /*
 ** C++ version 0.4 char* style "itoa":
 ** Written by Lukás Chmela
@@ -42,7 +53,7 @@ char * strnum(int value, int base, char * result) {
 	int tmp_value;
 
 	// Check that the base is valid
-	if (base < 2 || base > 36) {
+	if(base < 2 || base > 36) {
 		*result = '\0'; 
 		return result;
 	}
@@ -54,7 +65,7 @@ char * strnum(int value, int base, char * result) {
 	} while(value);
 
 	// Apply negative sign
-	if (tmp_value < 0) {
+	if(tmp_value < 0) {
 		*ptr++ = '-';
 	}
 
@@ -80,5 +91,5 @@ int strfnd(const char * string, char character) {
 		}
 	}
 
-	return _STRINGS_CHAR_NOT_FOUND;
+	return -1;
 }

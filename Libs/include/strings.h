@@ -1,14 +1,15 @@
 #ifndef _LIB_STRINGS_H_
 #define _LIB_STRINGS_H_
 
-#define _STRINGS_CHAR_NOT_FOUND -1
+#include <define.h>
+#include <stdlib.h>
 
 #define _CHAR_ISALPHA(x) (((x) >= 'a' && (x) <= 'z') || ((x) >= 'A' && (x) <= 'Z')) ? TRUE : FALSE
 #define _CHAR_ISNUMBER(x) ((x) >= '0' && (x) <= '9') ? TRUE : FALSE
 
 int isspace(char c);
 
-unsigned int strlen(char * string);
+size_t strlen(char * string);
 
 /**
  * Compares 2 null terminated strings
@@ -24,6 +25,8 @@ int strcmp(const char * s1, const char * s2);
  * @param source a string
  */
 void strcpy(char * dest, const char * source);
+
+char * strchr(const char * s, int c);
 
 char * strnum(int value, int base, char * result);
 

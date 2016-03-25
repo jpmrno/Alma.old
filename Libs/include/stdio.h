@@ -19,4 +19,6 @@ int printn(int number, unsigned int base);
 int printf(char * fmt, ...);
 int vprintf(char * fmt, va_list arg);
 
+int yesno(const char msg[], ...);
+
 #endif
