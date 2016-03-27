@@ -4,8 +4,8 @@
 #include <define.h>
 
 #define COMMAND_FUNCTION(name) int cmd_ ## name(args_t args)
-#define COMMAND_HELP(name) int help_ ## name(args_t args)
 #define SUBCOMMAND_FUNCTION(name) static int scmd_ ## name(args_t args)
+#define COMMAND_HELP(name) int help_ ## name(args_t args)
 
 #define COMMAND(name) {#name, cmd_ ## name, help_ ## name}
 #define SUBCOMMAND(name) {#name, scmd_ ## name, help_ ## name}
@@ -22,11 +22,6 @@ typedef struct {
 	int (*help)(args_t args);
 } command_t;
 
-#define _COMMANDS_SIZE 3
-extern command_t commands[_COMMANDS_SIZE];
-
-COMMAND_DECLARE(help);
-COMMAND_DECLARE(echo);
-COMMAND_DECLARE(time);
+extern command_t commands[];
 
 #endif

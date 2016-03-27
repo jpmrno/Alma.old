@@ -1,4 +1,5 @@
 #include <define.h>
+#include <memory.h>
 
 // Module setup
 extern uint8_t shell_text;

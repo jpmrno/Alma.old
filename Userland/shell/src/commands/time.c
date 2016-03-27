@@ -1,6 +1,7 @@
 #include <commands.h>
 #include <stdio.h>
 #include <strings.h>
+#include <numbers.h>
 #include <time.h>
 
 COMMAND_HELP(time);
@@ -12,7 +13,7 @@ SUBCOMMAND_FUNCTION(get);
 COMMAND_HELP(get);
 
 #define SUBCOMMANDS_SIZE 2
-command_t subcommands[_COMMANDS_SIZE] = {
+command_t subcommands[SUBCOMMANDS_SIZE] = {
 	SUBCOMMAND(set),
 	SUBCOMMAND(get),
 	// FUTURE SUBCOMMAND HERE !! REMEMBER TO CHANGE SUBCOMMANDS_SIZE !!

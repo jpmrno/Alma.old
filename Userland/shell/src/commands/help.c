@@ -1,5 +1,6 @@
 #include <commands.h>
 #include <stdio.h>
+#include <strings.h>
 
 COMMAND_HELP(help);
 
@@ -8,7 +9,7 @@ COMMAND_FUNCTION(help) {
 
 	if(args.argc == 0) {
 		printf("Available commands:\n");
-		for(i = 0; i < _COMMANDS_SIZE - 1; i++) {
+		for(i = 0; commands[i+1].name != NULL; i++) {
 			printf("%s\t", commands[i].name);
 		}
 		printf("%s\n", commands[i].name);
@@ -16,7 +17,7 @@ COMMAND_FUNCTION(help) {
 		return OK;
 	}
 
-	for(i = 0; i < _COMMANDS_SIZE; i++) {
+	for(i = 0; commands[i].name != NULL; i++) {
 		if(!strcmp(args.argv[0], commands[i].name)) {
 			ARGS_FOR_SUBCOMMAND(args);
 			return commands[i].help(args);

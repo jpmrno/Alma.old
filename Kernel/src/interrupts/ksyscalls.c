@@ -18,7 +18,7 @@ const syscall_st * syscalls_table[_SYSCALLS_SIZE] = {
 	syscall_terminal_color, // _SYSCALL_TERMINAL_COLOR
 	syscall_terminal_cursor, // _SYSCALL_TERMINAL_CURSOR
 	// (3) FUTURE SYSCALL HERE !! REMEMBER TO CHANGE _SYSCALLS_SIZE !!
-};
+}; // TODO: NULL terminated
 
 uint64_t syscall_read(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8, uint64_t r9) {
 	int fd = (int) rdi;

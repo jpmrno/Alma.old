@@ -104,7 +104,7 @@ static command_t * getCommand(const char * cmd) {
 	}
 
 	// Search for the command in the list of commands
-	for(i = 0; i < _COMMANDS_SIZE; i++) {
+	for(i = 0; commands[i].name != NULL; i++) {
 		// If found, return pointer to it
 		if(!strcmp(cmd, commands[i].name)) {
 			return &commands[i];
@@ -116,7 +116,7 @@ static command_t * getCommand(const char * cmd) {
 
 static args_t * getArgs(char * buffer) {
 	int ret, i = 0, hasMoreArgs = TRUE;
-	static char * argv[COMMAND_MAX_ARGS] = {};	// TODO: Temporal fix! Needs malloc to remove
+	static char * argv[COMMAND_MAX_ARGS];		// TODO: Temporal fix! Needs malloc to remove
 	static args_t args = {argv, 0};				// TODO: Temporal fix! Needs malloc to remove
 
 	args.argc = 0;
