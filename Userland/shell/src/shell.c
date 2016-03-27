@@ -81,8 +81,8 @@ static int parseCommand(char * buffer, int size) {
 	int ret, hasMoreArgs;
 
 	ret = scanw(buffer, size);
-	if(ret == -1 || buffer[ret] == '\0') {
-		return -1;
+	if(ERROR_OCCURRED(ret) || buffer[ret] == '\0') {
+		return ERROR;
 	}
 
 	if(buffer[ret] == ' ') {
@@ -123,7 +123,7 @@ static args_t * getArgs(char * buffer) {
 	while(hasMoreArgs) {
 		ret = scanw(buffer, MAX_BUFFER_LENGTH);
 
-		if(ret == -1 || buffer[ret] == '\0') {
+		if(ERROR_OCCURRED(ret) || buffer[ret] == '\0') {
 			return NULL;
 		}
 

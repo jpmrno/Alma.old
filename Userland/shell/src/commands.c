@@ -1,8 +1,8 @@
 #include <commands.h>
 
-static char * cmd_asd_help = {"Asd"};
-
 command_t commands[_COMMANDS_SIZE] = {
-	COMMAND(echo)
+	COMMAND(help),
+	COMMAND(echo),
+	COMMAND(time),
 	// FUTURE COMMAND HERE !! REMEMBER TO CHANGE _COMMANDS_SIZE !!
-};
+}; // TODO: NULL terminated?
