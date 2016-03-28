@@ -4,6 +4,7 @@
 #include <pic.h>
 #include <ksyscalls.h>
 #include <log.h>
+#include <output.h>
 
 extern void _interrupt_set();
 extern void _interrupt_clear();
@@ -39,7 +40,7 @@ void interrupt_21(unsigned char scancode) {
 }
 
 syscall_st * interrupt_80(int syscall) {
-	if(syscall < _SYSCALLS_FIRST || syscall >= _SYSCALLS_SIZE) {
+	if(syscall < 0 || syscall >= _SYSCALLS_SIZE) {
 		return NULL;
 	}
 

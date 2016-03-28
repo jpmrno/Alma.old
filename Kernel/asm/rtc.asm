@@ -64,9 +64,6 @@ _cmos_write:
 
 	sti
 
-	pop rcx
-	pop rbx
-
 	popaq
 	ret
 ;--------------------------------------------------------------
@@ -85,13 +82,12 @@ _cmos_read:
 	mov rax, rdi
 
 	cli
+
 	out 0x70, al ; set the address to read
 	call _delay
 	in al, 0x71 ; reads the set address 
 
 	sti 
-
-	pop rbx
 
 	mov rsp, rbp
 	pop rbp
@@ -103,10 +99,7 @@ _cmos_read:
 ; this function.	       									  -
 ;--------------------------------------------------------------
 _delay:
-	push rbp
-	mov rbp, rsp
-	pushf
-	push rcx
+	pushaq
 	mov rcx, WAITING_TIME
 
 .loop:
@@ -116,10 +109,7 @@ _delay:
 	jmp .loop
 
 .end:
-	pop rcx
-	popf
-	mov rsp, rbp
-	pop rbp 
+	popaq
 	ret
 ;--------------------------------------------------------------
 
