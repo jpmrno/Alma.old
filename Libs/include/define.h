@@ -30,7 +30,7 @@ typedef uint64_t qword_t;
 
 typedef struct {
 	char ** argv;
-	int argc;
+	unsigned int argc;
 } args_t;
 
 #endif

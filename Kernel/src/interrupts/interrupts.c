@@ -1,6 +1,5 @@
 #include <interrupts.h>
 #include <define.h>
-#include <pit.h>
 #include <pic.h>
 #include <ksyscalls.h>
 #include <log.h>
@@ -8,6 +7,9 @@
 
 extern void _interrupt_set();
 extern void _interrupt_clear();
+
+extern void pit_trigger();
+extern void keyboard_trigger(unsigned char scancode);
 
 void interrupt_20();
 void interrupt_21(unsigned char scancode);

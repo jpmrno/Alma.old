@@ -4,7 +4,7 @@
 COMMAND_HELP(echo);
 
 COMMAND_FUNCTION(echo) {
-	int i;
+	unsigned int i;
 
 	for(i = 0; i < args.argc; i++) {
 		printf("%s ", args.argv[i]);

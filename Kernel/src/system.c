@@ -1,7 +1,7 @@
 #include <system.h>
 #include <define.h>
 
-static void _halt(); // TODO: Static?
+extern void _halt();
 
 void system_halt() {
 	_halt();

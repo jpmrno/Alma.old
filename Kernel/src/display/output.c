@@ -47,7 +47,7 @@ void out_clear() {
 	terminal_clear(&terminals[terminal_active]);
 }
 
-int out_printf(char * fmt, ...) {
+int out_printf(const char * fmt, ...) {
     int printed = 0;
     va_list arg;
 
@@ -58,7 +58,7 @@ int out_printf(char * fmt, ...) {
 	return printed;
 }
 
-int out_vprintf(char * fmt, va_list arg) { // TODO: How to set styles
+int out_vprintf(const char * fmt, va_list arg) { // TODO: How to set styles
     char symbol;
     int i = 0;
     int printed = 0;
@@ -104,7 +104,7 @@ void out_box_bottom() {
 	out_printf(" ------------------------------------------------------------------------------ ");
 }
 
-void out_box_line(char * format, ...) {
+void out_box_line(const char * format, ...) {
 	static int length;
 	va_list args;
 

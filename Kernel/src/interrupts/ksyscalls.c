@@ -9,7 +9,7 @@ extern unsigned int manage_write(unsigned int fd, const char * string, unsigned 
 extern int manage_rtc(int operation, time_st * time);
 extern int manage_terminal(int operation, int value);
 
-const syscall_st * syscalls_table[_SYSCALLS_SIZE] = {
+syscall_st * syscalls_table[_SYSCALLS_SIZE] = {
 	[_SYSCALL_READ] = syscall_read,
 	[_SYSCALL_WRITE] = syscall_write,
 	[_SYSCALL_TIME] = syscall_time,
@@ -30,7 +30,7 @@ uint64_t syscall_read(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, ui
 
 uint64_t syscall_write(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8, uint64_t r9) {
 	int fd = (unsigned int) rdi;
-	char * string = (const char *) rsi;
+	const char * string = (const char *) rsi;
 	unsigned int count = (unsigned int) rdx;
 
 	return manage_write(fd, string, count);

@@ -1,6 +1,12 @@
 include Makevars
 
-all: toolchain bootloader libs kernel userland image
+help:
+	@echo "Alma's makefile"
+	@echo "Usage: 'make [ all | reset | clean | build | run | help ]'"
+
+all: clean build run
+
+build: toolchain bootloader libs kernel userland image
 
 toolchain:
 	$(MAKE) -C $(TOOLCHAIN_PATH) all
@@ -17,7 +23,7 @@ kernel: libs
 userland: libs
 	$(MAKE) -C $(USERLAND_PATH) all
 
-image: toolchain bootloader kernel userland
+image: toolchain bootloader libs kernel userland
 	$(MAKE) -C $(IMAGE_PATH) all
 
 clean:
@@ -30,8 +36,7 @@ reset: clean
 	$(MAKE) -C $(TOOLCHAIN_PATH) clean
 	$(MAKE) -C $(BOOTLOADER_PATH) clean
 
-# // TODO: remove clean & all
-run: clean all
+run: image
 	$(QEMU) $(QEMU_DEBUG) $(QEMU_LOG) $(QEMU_SOUND) -hda $(SOURCE_IMAGE) $(QEMU_FLAGS)
 
-.PHONY: all toolchain bootloader libs kernel userland image clean reset run
+.PHONY: help all build toolchain bootloader libs kernel userland image clean reset run

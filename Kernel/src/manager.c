@@ -93,7 +93,7 @@ int manage_terminal(int operation, int value) {
 }
 
 static unsigned int manage_read_stdin(char * buffer, unsigned int length) {
-	int i = 0;
+	unsigned int i = 0;
 
 	while(!keyboard_canRead());
 
@@ -105,7 +105,8 @@ static unsigned int manage_read_stdin(char * buffer, unsigned int length) {
 }
 
 static unsigned int manage_write_stdout(const char * string, unsigned int length) {
-	int printed = 0, i = 0;
+	unsigned int i = 0;
+	int printed = 0;
 
 	terminal_isWriting = TRUE;
 

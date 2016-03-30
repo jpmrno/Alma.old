@@ -6,7 +6,7 @@ static void module_loadder(uint8_t ** module, void * targetModuleAddress);
 static uint32_t readUInt32(uint8_t ** address);
 
 void module_load(void * payloadStart, void ** targetModuleAddress) {
-	int i;
+	uint32_t i;
 	uint8_t * currentModule = (uint8_t*)payloadStart;
 	uint32_t moduleCount = readUInt32(&currentModule);
 

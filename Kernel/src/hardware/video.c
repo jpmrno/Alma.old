@@ -182,7 +182,7 @@ void video_style_all(style_st style) {
 }
 
 int video_style_range(unsigned int from, unsigned int to, style_st style) {
-	int i;
+	unsigned int i;
 
 	if(from > to || from >= _VIDEO_SIZE || to >= _VIDEO_SIZE) {
 		return _VIDEO_ERROR_RANGE_INVALID;
@@ -219,7 +219,7 @@ void video_color_all(style_st color) {
 }
 
 int video_color_range(unsigned int from, unsigned int to, style_st color) {
-	int i;
+	unsigned int i;
 
 	if(from > to || from >= _VIDEO_SIZE || to >= _VIDEO_SIZE) {
 		return _VIDEO_ERROR_RANGE_INVALID;
@@ -256,7 +256,7 @@ void video_bg_all(style_st bg) {
 }
 
 int video_bg_range(unsigned int from, unsigned int to, style_st bg) {
-	int i;
+	unsigned int i;
 
 	if(from > to || from >= _VIDEO_SIZE || to >= _VIDEO_SIZE) {
 		return _VIDEO_ERROR_RANGE_INVALID;

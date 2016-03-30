@@ -85,7 +85,9 @@ int kernel_main() {
 	out_printf("[Done]\n");
 	
 	out_clear();
-	((EntryPoint) module_addresses[MODULE_SHELL_INDEX])();
+
+	EntryPoint shell = module_addresses[MODULE_SHELL_INDEX];
+	shell();
 
 	while(1);
 

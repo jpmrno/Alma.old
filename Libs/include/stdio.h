@@ -10,14 +10,15 @@ int scanc();
 int scant(char * buffer, int size, const char end[], int endc);
 int scanw(char * buffer, int size);
 int scanl(char * buffer, int size);
-int scanf(const char * fmt, ...);
-int vscanf(const char * fmt, va_list arg);
+// TODO:
+// int scanf(const char * fmt, ...);
+// int vscanf(const char * fmt, va_list arg);
 
 int printc(char character);
 int prints(char * string);
 int printn(int number, unsigned int base);
-int printf(char * fmt, ...);
-int vprintf(char * fmt, va_list arg);
+int printf(const char * fmt, ...);
+int vprintf(const char * fmt, va_list arg);
 
 int yesno(const char msg[], ...);
 

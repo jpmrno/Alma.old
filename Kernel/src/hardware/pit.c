@@ -1,6 +1,7 @@
 #include <define.h>
 #include <pit.h>
 #include <interrupts.h>
+#include <log.h>
 
 #define SECONDS_TO_PIT_CYCLES(x) (((x) * 1000) / time)
 
@@ -101,6 +102,10 @@ void pit_trigger() {
 void pit_wait(unsigned int seconds) {
 	int * waiting = pit_sleep_asign(seconds);
 
+	if(waiting == NULL) {
+		return;
+	}
+
 	while(*waiting);
 	*waiting = TRUE;
 }
@@ -117,4 +122,6 @@ static int * pit_sleep_asign(unsigned int seconds) {
 			return &booleans[i];
 		}
 	}
+
+	return NULL;
 }

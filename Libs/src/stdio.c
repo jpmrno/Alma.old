@@ -50,56 +50,56 @@ int scanl(char * buffer, int size) {
 	return scant(buffer, size, end, 1);
 }
 
-// TODO: Test!
-int scanf(const char * fmt, ...) {
-    va_list arg;
+// // TODO: Test!
+// int scanf(const char * fmt, ...) {
+//     va_list arg;
 
-    va_start(arg, fmt);
-    vscanf(fmt, arg);
-	va_end(arg);
+//     va_start(arg, fmt);
+//     vscanf(fmt, arg);
+// 	va_end(arg);
 
-	return OK; // TODO: 
-}
+// 	return OK; // TODO: 
+// }
 
-// TODO: Test!
-int vscanf(const char * fmt, va_list arg) {
-	char * c;
-	int * n;
-	int ret;
+// // TODO: Test!
+// int vscanf(const char * fmt, va_list arg) {
+// 	char * c;
+// 	int * n;
+// 	int ret;
 
-	while(*fmt) {
-		while(isspace(*fmt)) fmt++;
-		if(!(*fmt)) break;
+// 	while(*fmt) {
+// 		while(isspace(*fmt)) fmt++;
+// 		if(!(*fmt)) break;
 
-		if(*fmt == '%') {
-			fmt++;
+// 		if(*fmt == '%') {
+// 			fmt++;
 
-			switch(*fmt) {
-				case 'c':
-					c = va_arg(arg, char *);
-					*c = scanc();
-					break;
-				case 's':
-					c = va_arg(arg, char *);
-					while((ret = scanc()) != EOF && !isspace(ret) /*&& i < size*/) {
-						*c = ret;
-						c++;
-					}
-					*c = 0;
-					break;
-				// case 'd':
-				// 	n = va_arg(arg, int *);;
-				// 	break;
-				default:
-					break;
-			}
-		}
+// 			switch(*fmt) {
+// 				case 'c':
+// 					c = va_arg(arg, char *);
+// 					*c = scanc();
+// 					break;
+// 				case 's':
+// 					c = va_arg(arg, char *);
+// 					while((ret = scanc()) != EOF && !isspace(ret) /*&& i < size*/) {
+// 						*c = ret;
+// 						c++;
+// 					}
+// 					*c = 0;
+// 					break;
+// 				// case 'd':
+// 				// 	n = va_arg(arg, int *);;
+// 				// 	break;
+// 				default:
+// 					break;
+// 			}
+// 		}
 
-		fmt++;
-	}
+// 		fmt++;
+// 	}
 
-	return OK; // TODO: 
-}
+// 	return OK; // TODO: 
+// }
 
 
 int printc(char character) {
@@ -127,7 +127,7 @@ int printn(int number, unsigned int base) {
 	return printed;
 }
 
-int printf(char * fmt, ...) {
+int printf(const char * fmt, ...) {
     int printed = 0;
     va_list arg;
 
@@ -138,7 +138,7 @@ int printf(char * fmt, ...) {
 	return printed;
 }
 
-int vprintf(char * fmt, va_list arg) { // TODO: How to set styles
+int vprintf(const char * fmt, va_list arg) { // TODO: How to set styles
     char symbol;
     int i = 0;
     int printed = 0;

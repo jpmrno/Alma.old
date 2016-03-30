@@ -14,4 +14,4 @@ matrix:
       sudo: required
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./Scripts/install-osx.sh; fi
-script: make all
+script: make build

@@ -52,7 +52,6 @@ align 16
 _cmos_write:
 	pushaq
 
-	xor rax, rax
 	mov rax, rdi
 
 	cli
@@ -78,14 +77,14 @@ _cmos_read:
 	push rbp
 	mov rbp, rsp
 
-	xor rax, rax
 	mov rax, rdi
 
 	cli
 
-	out 0x70, al ; set the address to read
+	out 0x70, al 		; set the address to read
 	call _delay
-	in al, 0x71 ; reads the set address 
+	xor rax, rax
+	in al, 0x71 		; reads the set address 
 
 	sti 
 

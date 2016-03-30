@@ -47,16 +47,15 @@ void * memcpy(void * destination, const void * source, uint64_t length) {
 	return destination;
 }
 
-// TODO: Check
+// TODO: Test!
 int memcmp(const void * s1,	const void * s2, size_t n) {
-    unsigned char u1, u2;
+    uint8_t * u1 = (uint8_t *) s1;
+    uint8_t * u2 = (uint8_t *) s2;
+    int dif = 0;
 
-    for(; n--; s1++, s2++) {
-		u1 = * (unsigned char *) s1;
-		u2 = * (unsigned char *) s2;
-		if(u1 != u2) {
-		    return (u1 - u2);
-		}
+    while(n-- && dif == 0) {
+		dif = *(u1++) - *(u2++);
     }
-    return 0;
+
+    return dif;
 }

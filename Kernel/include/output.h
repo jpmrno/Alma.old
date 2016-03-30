@@ -8,12 +8,12 @@ void out_init();
 int out_select(int terminal_desired);
 void out_clear();
 
-int out_printf(char * fmt, ...);
-int out_vprintf(char * fmt, va_list arg);
+int out_printf(const char * fmt, ...);
+int out_vprintf(const char * fmt, va_list arg);
 
 void out_box_top();
 void out_box_bottom();
-void out_box_line(char * fmt, ...);
+void out_box_line(const char * fmt, ...);
 
 void out_color_text(style_st color);
 void out_color_bg(style_st color);

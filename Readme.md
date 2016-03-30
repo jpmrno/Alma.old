@@ -49,9 +49,9 @@ Or simply run the installation script: `./Scripts/install-osx.sh`.
 
 From the project's directory, simply run:
 
-	make run
+	make all
 
-If you want to just compile the project, run `make all`, then use this script to run: `./Scripts/run.sh` (not yet supported).
+If you want to just build the project, run `make build` then use `make run` to run.
 
 ## Credits
 
