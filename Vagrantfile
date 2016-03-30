@@ -68,9 +68,6 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get update
   #   sudo apt-get install -y apache2
   # SHELL
-  config.vm.provision "shell", inline: <<-SHELL
-    sudo apt-get update -qq
-    sudo apt-get install nasm make build-essential qemu -y
-  SHELL
+  config.vm.provision :shell, path: "./Scripts/install-linux.sh"
 
 end

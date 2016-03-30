@@ -11,18 +11,16 @@ This project was made for our Computer Architecture subject at ITBA University (
 
 ## Requisites
 
-This project needs the following packages: `nasm qemu gcc binutils make`.
+This project needs the following packages: `nasm gcc binutils make qemu`.
 
 ### Linux
 
-*Assuming you already have `gcc binutils make` installed...*
-
-This will install `nasm` and `qemu` into your system.
+This will install `make`, `build-essential`, `nasm` and `qemu` into your system.
 
 From the project's directory, run:
 
 	sudo apt-get update
-	sudo apt-get install nasm qemu
+	sudo apt-get install make build-essential nasm qemu
 
 Or simply run the installation script: `./Scripts/install-linux.sh`.
 
