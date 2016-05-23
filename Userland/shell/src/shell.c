@@ -7,10 +7,6 @@
 #include <strings.h>
 
 #define MAX_BUFFER_LENGTH 128
-#define MAX_USER_NAME (10 + 1)
-
-char user[MAX_USER_NAME] = "root";
-char * program = "shell";
 
 static int parseCommand(char * buffer, int size);
 static command_t * getCommand(const char * cmd);
@@ -28,7 +24,7 @@ int main() {
 	// Shell cycle
 	while(TRUE) {
 		// Print prompt
-		printf("%s@%s:$> ", user, program);
+		printf("$> ");
 
 		// Get command's name
 		// ret = -1: error, 1: more args, 0: no more args

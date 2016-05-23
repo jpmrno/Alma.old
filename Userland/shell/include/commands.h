@@ -3,6 +3,7 @@
 
 #include <define.h>
 
+// Addapted from https://github.com/sebikul/UnicOS
 #define COMMAND_FUNCTION(name) int cmd_ ## name(args_t args)
 #define SUBCOMMAND_FUNCTION(name) static int scmd_ ## name(args_t args)
 #define COMMAND_HELP(name) int help_ ## name(args_t args)

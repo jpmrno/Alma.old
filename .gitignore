@@ -20,3 +20,6 @@ fs
 # Logs
 log*.md
 *.log
+
+# Vagrant
+.vagrant

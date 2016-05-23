@@ -1,13 +1,11 @@
 # ![λlma](http://imgh.us/alma_2.svg)
 [![λlma's build status](https://travis-ci.com/jpmrno/Alma.svg?token=rrzVPFKtpAUUPF2Pp1UE&branch=master)](https://travis-ci.com/jpmrno/Alma)
 
-λlma is based on x64BareBones which is a basic setup to develop operating systems for the Intel 64 bits architecture.
+> This project was made for our Computer Architecture subject at ITBA University (Buenos Aires, Argentina).
 
-The final goal of x64BareBones's project is to provide an entry point for a kernel and the possibility to load extra binary modules separated from the main kernel.
+λlma is based on [x64BareBones](https://bitbucket.org/RowDaBoat/x64barebones/) which is a basic setup to develop operating systems for the Intel 64 bits architecture and a provider of an entry point for a C kernel and the possibility to load extra binary modules separated from the main kernel.
 
-Please read "Manual de Usuario.pdf" for the usage manual and "Informe.pdf" for more information about λlma.
-
-This project was made for our Computer Architecture subject at ITBA University (Buenos Aires, Argentina).
+It uses a [modification](https://github.com/jpmrno/Alma/wiki/Pure64:-Modifications) of the [Pure64](https://github.com/ReturnInfinity/Pure64) boot loader to boot up the basic system. The modification enables to load a greater payload than the restrictive 26k that the original allows.
 
 ## Requisites
 
@@ -60,6 +58,6 @@ If you want to just build the project, run `make build` then use `make run` to r
 	- Author: [Matías Comercio](https://github.com/MatiasComercioITBA)
 	- Author: Juan Moreno
 
-- [x64BareBones](https://bitbucket.org/RowDaBoat/x64barebones/) (base project): 
+- x64BareBones (base project): 
 	- Author: Rodrigo Rearden
 	- Collaborator: Augusto Nizzo McIntosh
